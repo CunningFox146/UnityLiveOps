@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveOpsServer", "LiveOpsServer\LiveOpsServer.csproj", "{97C06FA1-3B17-4D03-A18B-80A92F7DF099}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveOpsModels", "LiveOpsModels\LiveOpsModels.csproj", "{09BBDD3F-59F7-4D6D-9D4C-0A8236F29D30}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{97C06FA1-3B17-4D03-A18B-80A92F7DF099}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97C06FA1-3B17-4D03-A18B-80A92F7DF099}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97C06FA1-3B17-4D03-A18B-80A92F7DF099}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97C06FA1-3B17-4D03-A18B-80A92F7DF099}.Release|Any CPU.Build.0 = Release|Any CPU
+		{09BBDD3F-59F7-4D6D-9D4C-0A8236F29D30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{09BBDD3F-59F7-4D6D-9D4C-0A8236F29D30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{09BBDD3F-59F7-4D6D-9D4C-0A8236F29D30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{09BBDD3F-59F7-4D6D-9D4C-0A8236F29D30}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

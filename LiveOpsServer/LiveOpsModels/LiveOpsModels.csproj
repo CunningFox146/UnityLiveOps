@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <RootNamespace>CunningFox</RootNamespace>
+    </PropertyGroup>
+    <Target Name="PublishToUnity" AfterTargets="Build">
+        <PropertyGroup>
+            <UnityPluginPath>../../LiveopsClient/Assets/Plugins/LiveOpsShared/</UnityPluginPath>
+        </PropertyGroup>
+
+        <ItemGroup>
+            <FilesToCopy Include="$(OutputPath)$(AssemblyName).dll" />
+        </ItemGroup>
+
+        <Message Text="Publishing Shared Assembly to Unity: $(UnityPluginPath)" Importance="high" />
+
+        <MakeDir Directories="$(UnityPluginPath)" />
+
+        <Copy SourceFiles="@(FilesToCopy)"
+              DestinationFolder="$(UnityPluginPath)"
+              OverwriteReadOnlyFiles="true"
+              SkipUnchangedFiles="true" />
+    </Target>
+</Project>
