@@ -10,7 +10,7 @@ namespace Editor
         private const string BootScenePath = "Assets/Scenes/Boot.unity";
         private const string EnabledPrefKey = "BootSceneLoader_Enabled";
 
-        public static bool IsEnabled
+        private static bool IsEnabled
         {
             get => EditorPrefs.GetBool(EnabledPrefKey, true);
             set
@@ -36,20 +36,18 @@ namespace Editor
             var bootScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(BootScenePath);
             EditorSceneManager.playModeStartScene = bootScene;
         }
-
-        [MenuItem("Tools/Boot Scene Loader/Enable", true)]
-        private static bool EnableValidate() => !IsEnabled;
-
+        
         [MenuItem("Tools/Boot Scene Loader/Enable")]
         private static void Enable() => IsEnabled = true;
-
-        [MenuItem("Tools/Boot Scene Loader/Disable", true)]
-        private static bool DisableValidate() => IsEnabled;
-
         [MenuItem("Tools/Boot Scene Loader/Disable")]
         private static void Disable() => IsEnabled = false;
 
-        [MenuItem("Tools/Boot Scene Loader/Ping Boot Scene")]
+        [MenuItem("Tools/Boot Scene Loader/Enable", true)]
+        private static bool EnableValidate() => !IsEnabled;
+        [MenuItem("Tools/Boot Scene Loader/Disable", true)]
+        private static bool DisableValidate() => IsEnabled;
+        
+        [MenuItem("Tools/Boot Scene Loader/Show Boot Scene")]
         private static void PingBootScene()
         {
             var bootScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(BootScenePath);
