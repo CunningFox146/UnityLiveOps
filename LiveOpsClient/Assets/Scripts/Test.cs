@@ -1,21 +1,59 @@
 using System;
-using CunningFox.Models;
+using System.Net.Http;
+using CunningFox.LiveOps.Models;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.Networking;
+using Cysharp.Threading.Tasks;
+using VContainer;
+using VContainer.Unity;
 
 namespace CunningFox
 {
-    public class Test : MonoBehaviour
+    public class Test : LifetimeScope
     {
-        private async void OnEnable()
+        protected override void Configure(IContainerBuilder builder)
         {
-            var request = UnityWebRequest.Get("https://localhost:7158/active-liveops");
-            await request.SendWebRequest();
-            var calendar = JsonConvert.DeserializeObject<LiveOpCalendarDto>(request.downloadHandler.text);
-            var timeDifference = calendar.ServerTime - DateTime.UtcNow.Ticks;
-            var timeDifferenceString = TimeSpan.FromTicks(timeDifference);
-            Debug.Log(calendar);
+            builder.RegisterEntryPoint<TestEntryPoint>();
         }
+
+        private void LateUpdate()
+        {
+            Container.Resolve<Cool>();
+        }
+    }
+
+    public class TestEntryPoint : IStartable, IDisposable
+    {
+        private readonly LifetimeScope _rootScope;
+        private LifetimeScope _child;
+
+        public TestEntryPoint(LifetimeScope rootScope)
+        {
+            _rootScope = rootScope;
+        }
+        
+        public void Start()
+        {
+            _child = _rootScope.CreateChild(new TestInstaller());
+        }
+
+        public void Dispose()
+        {
+            _child?.Dispose();
+        }
+    }
+
+    public class TestInstaller : IInstaller
+    {
+        public void Install(IContainerBuilder builder)
+        {
+            builder.Register<Cool>(Lifetime.Scoped);
+        }
+    }
+
+    public class Cool
+    {
+        
     }
 }

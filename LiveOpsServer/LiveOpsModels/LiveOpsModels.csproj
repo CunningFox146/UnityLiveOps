@@ -4,7 +4,7 @@
         <TargetFramework>netstandard2.1</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
-        <RootNamespace>CunningFox</RootNamespace>
+        <RootNamespace>CunningFox.LiveOps</RootNamespace>
     </PropertyGroup>
     <Target Name="PublishToUnity" AfterTargets="Build">
         <PropertyGroup>
