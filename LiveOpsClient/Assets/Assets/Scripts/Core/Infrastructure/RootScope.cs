@@ -1,3 +1,4 @@
+using System;
 using Common;
 using Common.Api;
 using Common.Input;
@@ -16,10 +17,12 @@ using ILogger = Common.Logger.ILogger;
 
 namespace Core.Infrastructure
 {
-    public class ProjectScope : LifetimeScope
+    public class RootScope : LifetimeScope
     {
         private void OnEnable()
-            => DontDestroyOnLoad(this);
+        {
+            name = $"DI {nameof(RootScope)}";
+        }
 
         protected override void Configure(IContainerBuilder builder)
         {
