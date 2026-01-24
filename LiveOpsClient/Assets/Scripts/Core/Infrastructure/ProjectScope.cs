@@ -4,6 +4,7 @@ using Core.Infrastructure.Logger;
 using Core.Infrastructure.SceneLoader;
 using Core.Input;
 using Core.Lobby.Views;
+using Core.Services.Api;
 using CunningFox.AssetProvider;
 using CunningFox.Monitoring;
 using VContainer;
@@ -22,10 +23,17 @@ namespace CunningFox
             builder.Register<ISceneLoaderService, SceneLoaderService>(Lifetime.Singleton);
             builder.Register<IAssetProvider, ResourcesAssetProvider>(Lifetime.Singleton);
             
+            #if UNITY_WEBGL
+            builder.RegisterInstance<IHttpClient>(new UnityHttpClient("https://localhost:7158"));
+            #else
+            builder.RegisterInstance<IHttpClient>(new SystemHttpClient("https://localhost:7158"));
+            #endif
+            builder.Register<LiveOpsApiService>(Lifetime.Singleton);
+            
             builder.Register<IViewStack, ViewStack>(Lifetime.Singleton);
             builder.Register<IViewControllerFactory, ViewControllerFactory>(Lifetime.Singleton);
             builder.Register<IViewService, ViewService>(Lifetime.Singleton);
-            builder.Register<LobbyViewController>(Lifetime.Singleton);
+            builder.Register<LobbyViewController>(Lifetime.Transient);
             
             builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<UnhandledExceptionMonitoringService>(Lifetime.Singleton).AsImplementedInterfaces();

@@ -3,6 +3,7 @@ using System.Threading;
 using Core.Core.Services.Views;
 using Core.Infrastructure.SceneLoader;
 using Core.Lobby.Views;
+using Core.Services.Api;
 using CunningFox.AssetProvider;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -14,20 +15,19 @@ namespace Core.Lobby
     public class LobbyEntryPoint : IAsyncStartable, IDisposable
     {
         private readonly IViewService _viewService;
-        private readonly ISceneLoaderService _sceneLoaderService;
+        private readonly LiveOpsApiService _api;
 
-        public LobbyEntryPoint(IViewService viewService, ISceneLoaderService sceneLoaderService)
+        public LobbyEntryPoint(IViewService viewService, LiveOpsApiService api)
         {
             _viewService = viewService;
-            _sceneLoaderService = sceneLoaderService;
+            _api = api;
         }
-
-
+        
         public async UniTask StartAsync(CancellationToken token = default)
         {
             _viewService.ShowView<LobbyViewController>(token).Forget();
-            await UniTask.Delay(TimeSpan.FromSeconds(3), cancellationToken: token);
-            _sceneLoaderService.LoadSceneAsync("Test", cancellationToken: token).Forget();
+            var result = await _api.GetCalendar(token);
+            Debug.Log(result);
         }
         
         public void Dispose()
