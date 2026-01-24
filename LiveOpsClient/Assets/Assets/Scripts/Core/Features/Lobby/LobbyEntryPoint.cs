@@ -1,18 +1,14 @@
 using System;
 using System.Threading;
-using Common.Assets.Scripts.Common.Api;
-using Common.Assets.Scripts.Common.SceneLoader;
-using Core.Core.Services.Views;
-using Core.Infrastructure.SceneLoader;
-using Core.Lobby.Views;
-using Core.Services.Api;
-using CunningFox.AssetProvider;
+using Common.Api;
+using Common.Mvc.Service;
+using Common.SceneLoader;
+using Core.Features.Lobby.Views;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VContainer.Unity;
-using Object = UnityEngine.Object;
 
-namespace Core.Lobby
+namespace Core.Features.Lobby
 {
     public class LobbyEntryPoint : IAsyncStartable, IDisposable
     {

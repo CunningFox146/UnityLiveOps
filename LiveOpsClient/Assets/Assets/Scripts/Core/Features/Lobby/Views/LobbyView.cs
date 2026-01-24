@@ -1,12 +1,12 @@
 using System;
 using System.Threading;
-using Core.Core.Services.Views;
-using CunningFox.AssetProvider;
+using Common.Mvc;
+using Core.Services.AssetProvider;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Core.Lobby.Views
+namespace Core.Features.Lobby.Views
 {
     public class LobbyView : MonoBehaviour, ILobbyView
     {

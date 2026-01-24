@@ -1,7 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace CunningFox.Repository
+namespace Common.Repository
 {
     public interface IReadOnlyRepository<TDto>
     {

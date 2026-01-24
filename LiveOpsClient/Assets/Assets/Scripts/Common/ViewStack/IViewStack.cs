@@ -1,4 +1,4 @@
-namespace Core.Services.Views
+namespace Common
 {
     public interface IViewStack
     {

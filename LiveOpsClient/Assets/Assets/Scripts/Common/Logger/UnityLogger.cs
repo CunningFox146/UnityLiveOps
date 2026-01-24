@@ -2,7 +2,7 @@ using System;
 using Cysharp.Text;
 using UnityEngine;
 
-namespace Core.Infrastructure.Logger
+namespace Common.Logger
 {
     public class UnityLogger : ILogger
     {

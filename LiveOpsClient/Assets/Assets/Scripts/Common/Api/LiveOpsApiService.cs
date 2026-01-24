@@ -2,7 +2,7 @@ using System.Threading;
 using CunningFox.LiveOps.Models;
 using Cysharp.Threading.Tasks;
 
-namespace Core.Services.Api
+namespace Common.Api
 {
     public class LiveOpsApiService : ApiServiceBase
     {

@@ -1,7 +1,7 @@
 using VContainer;
 using VContainer.Unity;
 
-namespace Core.Lobby
+namespace Core.Features.Lobby
 {
     public class LobbyScope : LifetimeScope
     {

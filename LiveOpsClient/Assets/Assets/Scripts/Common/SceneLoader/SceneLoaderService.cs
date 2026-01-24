@@ -3,7 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
 
-namespace Core.Infrastructure.SceneLoader
+namespace Common.SceneLoader
 {
     public class SceneLoaderService : ISceneLoaderService
     {

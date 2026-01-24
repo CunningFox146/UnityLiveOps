@@ -1,25 +1,20 @@
-using Common.Assets.Scripts.Common.Api;
-using Common.Assets.Scripts.Common.Input;
-using Common.Assets.Scripts.Common.Logger;
-using Common.Assets.Scripts.Common.Monitoring;
-using Common.Assets.Scripts.Common.SceneLoader;
-using Common.Assets.Scripts.Common.Storage;
-using Core.Core.Services.Views;
-using Core.Infrastructure.Logger;
-using Core.Infrastructure.SceneLoader;
-using Core.Infrastructure.Storage;
-using Core.Input;
-using Core.Lobby.Views;
-using Core.Services.Api;
-using Core.Services.Views;
-using CunningFox.AssetProvider;
-using CunningFox.Monitoring;
+using Common;
+using Common.Api;
+using Common.Input;
+using Common.Logger;
+using Common.Monitoring;
+using Common.Mvc.Factory;
+using Common.Mvc.Service;
+using Common.SceneLoader;
+using Common.Storage;
+using Core.Features.Lobby.Views;
+using Core.Services.AssetProvider;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
-using ILogger = Common.Assets.Scripts.Common.Logger.ILogger;
+using ILogger = Common.Logger.ILogger;
 
-namespace CunningFox
+namespace Core.Infrastructure
 {
     public class ProjectScope : LifetimeScope
     {

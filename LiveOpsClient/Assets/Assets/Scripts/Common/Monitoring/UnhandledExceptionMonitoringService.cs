@@ -1,12 +1,12 @@
 using System;
 using System.Threading.Tasks;
-using CunningFox.Utils;
+using Common.Utils;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VContainer.Unity;
-using ILogger = Core.Infrastructure.Logger.ILogger;
+using ILogger = Common.Logger.ILogger;
 
-namespace CunningFox.Monitoring
+namespace Common.Monitoring
 {
     public class UnhandledExceptionMonitoringService : IInitializable, IDisposable
     {

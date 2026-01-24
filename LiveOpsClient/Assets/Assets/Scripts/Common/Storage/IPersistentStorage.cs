@@ -1,7 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace Core.Infrastructure.Storage
+namespace Common.Storage
 {
     public interface IPersistentStorage
     {

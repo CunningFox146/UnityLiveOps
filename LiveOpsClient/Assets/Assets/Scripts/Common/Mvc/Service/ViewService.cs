@@ -1,9 +1,10 @@
 using System;
 using System.Threading;
-using Common.Assets.Scripts.Common.Utils;
+using Common.Mvc.Factory;
+using Common.Utils;
 using Cysharp.Threading.Tasks;
 
-namespace Core.Core.Services.Views
+namespace Common.Mvc.Service
 {
     public class ViewService : IViewService
     {

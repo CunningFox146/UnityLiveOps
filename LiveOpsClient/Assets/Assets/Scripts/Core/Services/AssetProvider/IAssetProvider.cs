@@ -2,7 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace CunningFox.AssetProvider
+namespace Core.Services.AssetProvider
 {
     public interface IAssetProvider
     {

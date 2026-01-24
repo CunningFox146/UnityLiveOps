@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace Core.Core.Services.Views
+namespace Common.Mvc
 {
     /// <summary>
     /// Unified view controller interface with input and result types.

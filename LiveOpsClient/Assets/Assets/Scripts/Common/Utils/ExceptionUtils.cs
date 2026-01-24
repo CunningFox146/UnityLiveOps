@@ -1,7 +1,7 @@
 using System;
 using Cysharp.Text;
 
-namespace CunningFox.Utils
+namespace Common.Utils
 {
     public static class ExceptionUtils
     {

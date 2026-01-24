@@ -1,4 +1,4 @@
-namespace Core.Infrastructure.Logger
+namespace Common.Logger
 {
     public enum LoggerTag
     {

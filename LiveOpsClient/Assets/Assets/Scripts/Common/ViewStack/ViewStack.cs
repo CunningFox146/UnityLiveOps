@@ -1,10 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Common.Assets.Scripts.Common.Input;
-using Core.Input;
+using Common.Input;
 using VContainer.Unity;
 
-namespace Core.Services.Views
+namespace Common
 {
     public class ViewStack : IViewStack, IInitializable, IDisposable
     {

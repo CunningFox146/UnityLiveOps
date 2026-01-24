@@ -1,14 +1,11 @@
 using System;
 using System.Threading;
-using Common.Assets.Scripts.Common.Logger;
-using Common.Assets.Scripts.Common.SceneLoader;
-using Core.Infrastructure.Logger;
-using Core.Infrastructure.SceneLoader;
-using CunningFox.LiveOps.Models;
+using Common.Logger;
+using Common.SceneLoader;
 using Cysharp.Threading.Tasks;
 using VContainer.Unity;
 
-namespace CunningFox
+namespace Core.Infrastructure
 {
     public class BootEntryPoint : IAsyncStartable
     {

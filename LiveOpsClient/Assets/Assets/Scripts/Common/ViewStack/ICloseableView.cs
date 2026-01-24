@@ -1,6 +1,6 @@
 using System;
 
-namespace Core.Services.Views
+namespace Common
 {
     public interface ICloseableView
     {

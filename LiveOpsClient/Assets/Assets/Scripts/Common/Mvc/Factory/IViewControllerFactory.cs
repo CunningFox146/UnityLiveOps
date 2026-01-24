@@ -1,4 +1,4 @@
-namespace Core.Core.Services.Views
+namespace Common.Mvc.Factory
 {
     public interface IViewControllerFactory
     {

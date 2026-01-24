@@ -1,4 +1,4 @@
-namespace Core.Services.Api
+namespace Common.Api
 {
     public static class ApiConstants
     {

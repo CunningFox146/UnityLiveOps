@@ -1,6 +1,5 @@
 using System;
 using System.Buffers;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Text;
 using System.Threading;
@@ -8,7 +7,7 @@ using Cysharp.Text;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Core.Infrastructure.Storage
+namespace Common.Storage
 {
     public sealed class PersistentStorage : IPersistentStorage
     {

@@ -1,10 +1,10 @@
 using System;
 using System.Threading;
-using Core.Infrastructure.Logger;
-using Core.Infrastructure.Storage;
+using Common.Logger;
+using Common.Storage;
 using Cysharp.Threading.Tasks;
 
-namespace CunningFox.Repository
+namespace Common.Repository
 {
     public abstract class FeatureRepository<T> : IRepository<T> where T : class, new()
     {

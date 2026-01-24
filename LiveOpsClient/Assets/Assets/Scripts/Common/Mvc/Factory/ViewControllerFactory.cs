@@ -1,6 +1,6 @@
 using VContainer;
 
-namespace Core.Core.Services.Views
+namespace Common.Mvc.Factory
 {
     public class ViewControllerFactory : IViewControllerFactory
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Core.Infrastructure.Logger
+namespace Common.Logger
 {
     public interface ILogger
     {

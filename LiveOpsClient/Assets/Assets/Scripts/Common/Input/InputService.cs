@@ -1,8 +1,9 @@
 using System;
+using Core.Input;
 using UnityEngine.InputSystem;
 using VContainer.Unity;
 
-namespace Core.Input
+namespace Common.Input
 {
     public class InputService : IInputService, IInitializable, IDisposable
     {

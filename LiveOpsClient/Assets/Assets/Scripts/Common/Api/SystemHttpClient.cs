@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace Core.Services.Api
+namespace Common.Api
 {
     public class SystemHttpClient : IHttpClient
     {

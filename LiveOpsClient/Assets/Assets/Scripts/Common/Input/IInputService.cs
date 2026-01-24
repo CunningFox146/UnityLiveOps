@@ -1,6 +1,6 @@
 using System;
 
-namespace Core.Input
+namespace Common.Input
 {
     public interface IInputService
     {

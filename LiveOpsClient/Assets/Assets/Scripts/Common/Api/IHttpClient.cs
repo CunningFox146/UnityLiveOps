@@ -1,7 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace Core.Services.Api
+namespace Common.Api
 {
     public interface IHttpClient
     {

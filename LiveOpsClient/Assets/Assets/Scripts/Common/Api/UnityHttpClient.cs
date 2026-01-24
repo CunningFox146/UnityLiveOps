@@ -5,7 +5,7 @@ using Cysharp.Text;
 using Cysharp.Threading.Tasks;
 using UnityEngine.Networking;
 
-namespace Core.Services.Api
+namespace Common.Api
 {
     public class UnityHttpClient : IHttpClient
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Core.Core.Services.Views
+namespace Common.Utils
 {
     /// <summary>
     /// Represents no value. Use instead of void for generic type parameters.

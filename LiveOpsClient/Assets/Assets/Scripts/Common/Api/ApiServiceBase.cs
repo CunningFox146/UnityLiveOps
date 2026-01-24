@@ -2,7 +2,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
 
-namespace Core.Services.Api
+namespace Common.Api
 {
     public abstract class ApiServiceBase
     {

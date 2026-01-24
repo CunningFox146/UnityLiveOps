@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace CunningFox.Utils
+namespace Common.Utils
 {
     /// <summary>
     /// Disposable Token for keeping action to be executed on dispose.
