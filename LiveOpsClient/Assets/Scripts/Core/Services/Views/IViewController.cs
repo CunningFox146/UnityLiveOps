@@ -8,7 +8,7 @@ namespace Core.Core.Services.Views
     /// Unified view controller interface with input and result types.
     /// Use Empty for TResult or TInput when not needed.
     /// </summary>
-    public interface IViewController<TResult, in TInput> : IDisposable
+    public interface IViewController<in TInput, TResult> : IDisposable
     {
         UniTask<TResult> Start(TInput input, CancellationToken token);
     }

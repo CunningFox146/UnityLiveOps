@@ -25,7 +25,7 @@ namespace Core.Core.Services.Views
     /// View controller with input but no result.
     /// Override OnStart(TInput) and OnStop().
     /// </summary>
-    public abstract class ViewControllerBase<TInput> : IViewController<Empty, TInput>
+    public abstract class ViewControllerBase<TInput> : IViewController<TInput, Empty>
     {
         public async UniTask<Empty> Start(TInput input, CancellationToken token)
         {
@@ -43,7 +43,7 @@ namespace Core.Core.Services.Views
     /// View controller with input and result.
     /// Override OnStart(TInput) and OnStop().
     /// </summary>
-    public abstract class ViewControllerWithResult<TResult, TInput> : IViewController<TResult, TInput>
+    public abstract class ViewControllerWithResult<TResult, TInput> : IViewController<TInput, TResult>
     {
         public UniTask<TResult> Start(TInput input, CancellationToken token) => OnStart(input, token);
 
@@ -58,7 +58,7 @@ namespace Core.Core.Services.Views
     /// View controller with result but no input.
     /// Override OnStart() and OnStop().
     /// </summary>
-    public abstract class ViewControllerWithResult<TResult> : IViewController<TResult, Empty>
+    public abstract class ViewControllerWithResult<TResult> : IViewController<Empty, TResult>
     {
         public UniTask<TResult> Start(Empty input, CancellationToken token) => OnStart(token);
 

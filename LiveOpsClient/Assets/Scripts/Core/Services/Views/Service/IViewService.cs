@@ -15,18 +15,18 @@ namespace Core.Core.Services.Views
         /// Shows a view with input but no result.
         /// </summary>
         UniTask ShowView<T, TInput>(TInput input, CancellationToken token = default) 
-            where T : class, IViewController<Empty, TInput>;
+            where T : class, IViewController<TInput, Empty>;
 
         /// <summary>
         /// Shows a view and returns a result (no input).
         /// </summary>
         UniTask<TResult> ShowViewWithResult<T, TResult>(CancellationToken token = default) 
-            where T : class, IViewController<TResult, Empty>;
+            where T : class, IViewController<Empty, TResult>;
 
         /// <summary>
         /// Shows a view with input and returns a result.
         /// </summary>
         UniTask<TResult> ShowViewWithResult<T, TResult, TInput>(TInput input, CancellationToken token = default) 
-            where T : class, IViewController<TResult, TInput>;
+            where T : class, IViewController<TInput, TResult>;
     }
 }

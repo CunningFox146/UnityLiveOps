@@ -11,7 +11,7 @@ namespace Core.Core.Services.Views
             _container = container;
         }
 
-        public T Create<T, TResult, TInput>() where T : class, IViewController<TResult, TInput>
+        public T Create<T>() where T : class
         {
             return _container.Resolve<T>();
         }
