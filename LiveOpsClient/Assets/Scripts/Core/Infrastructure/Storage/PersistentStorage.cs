@@ -10,7 +10,7 @@ using Newtonsoft.Json;
 
 namespace Core.Infrastructure.Storage
 {
-    public sealed class PersistentStorage : IPersistentStorage, IDisposable
+    public sealed class PersistentStorage : IPersistentStorage
     {
         private const int BufferSize = 4096;
         private const string FileExtension = ".dat";
@@ -18,7 +18,6 @@ namespace Core.Infrastructure.Storage
 
         private readonly string _basePath;
         private readonly JsonSerializerSettings _serializerSettings;
-        private readonly ConcurrentDictionary<string, SemaphoreSlim> _fileLocks = new();
 
         public PersistentStorage(string basePath)
         {
@@ -41,9 +40,6 @@ namespace Core.Infrastructure.Storage
 
             var filePath = GetFilePath(key);
             var tempPath = ZString.Concat(filePath, TempFileExtension);
-            var fileLock = GetFileSemaphore(filePath);
-
-            await fileLock.WaitAsync(cancellationToken);
 
             try
             {
@@ -54,7 +50,6 @@ namespace Core.Infrastructure.Storage
             finally
             {
                 DeleteFileIfExists(tempPath);
-                fileLock.Release();
             }
         }
 
@@ -64,49 +59,16 @@ namespace Core.Infrastructure.Storage
             cancellationToken.ThrowIfCancellationRequested();
 
             var filePath = GetFilePath(key);
-            var fileLock = GetFileSemaphore(filePath);
+            if (!File.Exists(filePath))
+                return default;
 
-            await fileLock.WaitAsync(cancellationToken);
-
-            try
-            {
-                if (!File.Exists(filePath))
-                    return default;
-
-                return await ReadFromFileAsync<T>(filePath, cancellationToken);
-            }
-            finally
-            {
-                fileLock.Release();
-            }
+            return await ReadFromFileAsync<T>(filePath, cancellationToken);
         }
 
-        public async UniTask DeleteAsync(string key, CancellationToken cancellationToken = default)
+        public void Delete(string key)
         {
-            await UniTask.SwitchToThreadPool();
-            cancellationToken.ThrowIfCancellationRequested();
-
             var filePath = GetFilePath(key);
-            var fileLock = GetFileSemaphore(filePath);
-
-            await fileLock.WaitAsync(cancellationToken);
-
-            try
-            {
-                DeleteFileIfExists(filePath);
-            }
-            finally
-            {
-                fileLock.Release();
-            }
-        }
-
-        public void Dispose()
-        {
-            foreach (var semaphore in _fileLocks.Values)
-                semaphore.Dispose();
-
-            _fileLocks.Clear();
+            DeleteFileIfExists(filePath);
         }
 
         private async UniTask WriteToTempFileAsync<T>(string tempPath, T data, CancellationToken cancellationToken)
@@ -182,11 +144,6 @@ namespace Core.Infrastructure.Storage
                 throw new ArgumentException("Invalid key", nameof(key));
 
             return Path.Combine(_basePath, ZString.Concat(key, FileExtension));
-        }
-
-        private SemaphoreSlim GetFileSemaphore(string filePath)
-        {
-            return _fileLocks.GetOrAdd(filePath, _ => new SemaphoreSlim(1, 1));
         }
     }
 }

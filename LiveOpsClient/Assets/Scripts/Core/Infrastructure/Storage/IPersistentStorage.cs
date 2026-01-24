@@ -7,6 +7,6 @@ namespace Core.Infrastructure.Storage
     {
         UniTask SaveAsync<T>(string key, T data, CancellationToken cancellationToken = default);
         UniTask<T> LoadAsync<T>(string key, CancellationToken cancellationToken = default);
-        UniTask DeleteAsync(string key, CancellationToken cancellationToken = default);
+        void Delete(string key);
     }
 }
