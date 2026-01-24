@@ -1,10 +1,10 @@
-using BestFiends.Features.Album;
 using Core.Core.Services.Views;
 using Core.Infrastructure.Logger;
 using Core.Infrastructure.SceneLoader;
 using Core.Input;
 using Core.Lobby.Views;
 using Core.Services.Api;
+using Core.Services.Views;
 using CunningFox.AssetProvider;
 using CunningFox.Monitoring;
 using VContainer;

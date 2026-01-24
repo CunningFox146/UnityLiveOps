@@ -6,26 +6,27 @@ namespace Core.Core.Services.Views
     public interface IViewService
     {
         /// <summary>
-        /// Shows a view with no input and no result (ViewControllerBase)
+        /// Shows a view with no input and no result.
         /// </summary>
-        UniTask ShowView<T>(CancellationToken token = default) where T : class, IViewController;
+        UniTask ShowView<T>(CancellationToken token = default) 
+            where T : class, IViewController<Empty, Empty>;
 
         /// <summary>
-        /// Shows a view with input but no result (ViewControllerWithResult&lt;TInput&gt;)
+        /// Shows a view with input but no result.
         /// </summary>
         UniTask ShowView<T, TInput>(TInput input, CancellationToken token = default) 
-            where T : class, IViewControllerWithResult<EmptyControllerArg, TInput>;
-        
+            where T : class, IViewController<Empty, TInput>;
+
         /// <summary>
-        /// Shows a view with no input but returns a result (ViewControllerBase&lt;TResult&gt;)
+        /// Shows a view and returns a result (no input).
         /// </summary>
-        UniTask<TResult> ShowView<T, TResult>(CancellationToken token = default) 
-            where T : class, IViewControllerWithResult<TResult, EmptyControllerArg>;
-        
+        UniTask<TResult> ShowViewWithResult<T, TResult>(CancellationToken token = default) 
+            where T : class, IViewController<TResult, Empty>;
+
         /// <summary>
-        /// Shows a view with input and returns a result (ViewControllerWithResult&lt;TResult, TInput&gt;)
+        /// Shows a view with input and returns a result.
         /// </summary>
-        UniTask<TResult> ShowView<T, TResult, TInput>(TInput input, CancellationToken token = default) 
-            where T : class, IViewControllerWithResult<TResult, TInput>;
+        UniTask<TResult> ShowViewWithResult<T, TResult, TInput>(TInput input, CancellationToken token = default) 
+            where T : class, IViewController<TResult, TInput>;
     }
 }

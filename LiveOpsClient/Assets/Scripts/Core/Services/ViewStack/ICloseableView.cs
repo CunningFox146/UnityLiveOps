@@ -1,6 +1,6 @@
 using System;
 
-namespace BestFiends.Features.Album
+namespace Core.Services.Views
 {
     public interface ICloseableView
     {

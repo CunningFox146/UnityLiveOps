@@ -16,18 +16,19 @@ namespace Core.Lobby
     {
         private readonly IViewService _viewService;
         private readonly LiveOpsApiService _api;
+        private readonly ISceneLoaderService _sceneLoader;
 
-        public LobbyEntryPoint(IViewService viewService, LiveOpsApiService api)
+        public LobbyEntryPoint(IViewService viewService, LiveOpsApiService api, ISceneLoaderService sceneLoader)
         {
             _viewService = viewService;
             _api = api;
+            _sceneLoader = sceneLoader;
         }
         
         public async UniTask StartAsync(CancellationToken token = default)
         {
-            _viewService.ShowView<LobbyViewController>(token).Forget();
-            var result = await _api.GetCalendar(token);
-            Debug.Log(result);
+            await _viewService.ShowView<LobbyViewController>(token);
+            Debug.Log("Shown");
         }
         
         public void Dispose()

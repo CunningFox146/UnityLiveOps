@@ -3,19 +3,69 @@ using Cysharp.Threading.Tasks;
 
 namespace Core.Core.Services.Views
 {
-    public class ViewControllerBase : IViewController
+    /// <summary>
+    /// View controller with no input and no result.
+    /// Override OnStart() and OnStop().
+    /// </summary>
+    public abstract class ViewControllerBase : IViewController<Empty, Empty>
     {
-        public UniTask Start(CancellationToken token) => StartFlow(token);
-        public void Dispose() => StopFlow();
-        protected virtual UniTask StartFlow(CancellationToken token) => UniTask.CompletedTask;
-        protected virtual void StopFlow() { }
+        public async UniTask<Empty> Start(Empty input, CancellationToken token)
+        {
+            await OnStart(token);
+            return Empty.Default;
+        }
+
+        public void Dispose() => OnStop();
+
+        protected virtual UniTask OnStart(CancellationToken token) => UniTask.CompletedTask;
+        protected virtual void OnStop() { }
     }
 
-    public class ViewControllerBase<TResult> : IViewControllerWithResult<TResult, EmptyControllerArg>
+    /// <summary>
+    /// View controller with input but no result.
+    /// Override OnStart(TInput) and OnStop().
+    /// </summary>
+    public abstract class ViewControllerBase<TInput> : IViewController<Empty, TInput>
     {
-        public UniTask<TResult> Start(EmptyControllerArg input, CancellationToken token) => StartFlow(token);
-        public void Dispose() => StopFlow();
-        protected virtual UniTask<TResult> StartFlow(CancellationToken token) => UniTask.FromResult(default(TResult));
-        protected virtual void StopFlow() { }
+        public async UniTask<Empty> Start(TInput input, CancellationToken token)
+        {
+            await OnStart(input, token);
+            return Empty.Default;
+        }
+
+        public void Dispose() => OnStop();
+
+        protected virtual UniTask OnStart(TInput input, CancellationToken token) => UniTask.CompletedTask;
+        protected virtual void OnStop() { }
+    }
+
+    /// <summary>
+    /// View controller with input and result.
+    /// Override OnStart(TInput) and OnStop().
+    /// </summary>
+    public abstract class ViewControllerWithResult<TResult, TInput> : IViewController<TResult, TInput>
+    {
+        public UniTask<TResult> Start(TInput input, CancellationToken token) => OnStart(input, token);
+
+        public void Dispose() => OnStop();
+
+        protected virtual UniTask<TResult> OnStart(TInput input, CancellationToken token) 
+            => UniTask.FromResult(default(TResult));
+        protected virtual void OnStop() { }
+    }
+
+    /// <summary>
+    /// View controller with result but no input.
+    /// Override OnStart() and OnStop().
+    /// </summary>
+    public abstract class ViewControllerWithResult<TResult> : IViewController<TResult, Empty>
+    {
+        public UniTask<TResult> Start(Empty input, CancellationToken token) => OnStart(token);
+
+        public void Dispose() => OnStop();
+
+        protected virtual UniTask<TResult> OnStart(CancellationToken token) 
+            => UniTask.FromResult(default(TResult));
+        protected virtual void OnStop() { }
     }
 }

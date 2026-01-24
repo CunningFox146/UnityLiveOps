@@ -10,13 +10,8 @@ namespace Core.Core.Services.Views
         {
             _container = container;
         }
-        
-        public T Create<T>() where T : class, IViewController
-        {
-            return _container.Resolve<T>();
-        }
-        
-        public T Create<T, TResult, TInput>() where T : class, IViewControllerWithResult<TResult, TInput>
+
+        public T Create<T, TResult, TInput>() where T : class, IViewController<TResult, TInput>
         {
             return _container.Resolve<T>();
         }

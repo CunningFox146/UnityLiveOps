@@ -13,6 +13,8 @@ namespace Core.Lobby.Views
         public void Dispose()
         {
             Debug.Log("Disposed");
+            if (this != null)
+                Destroy(gameObject);
         }
     }
 
@@ -29,18 +31,16 @@ namespace Core.Lobby.Views
         {
             _assetProvider = assetProvider;
         }
-        
-        protected override async UniTask StartFlow(CancellationToken token)
+
+        protected override async UniTask OnStart(CancellationToken token)
         {
             var prefab = await _assetProvider.LoadPrefab<LobbyView>("Views/BaseView", token);
-            var view = Object.Instantiate(prefab);
-            
-            _view = view;
+            _view = Object.Instantiate(prefab);
         }
 
-        protected override void StopFlow()
+        protected override void OnStop()
         {
-            _view.Dispose();
+            _view?.Dispose();
         }
     }
 }
