@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Core.Input;
 using VContainer.Unity;
 
-namespace BestFiends.Features.Album
+namespace Core.Services.Views
 {
     public class ViewStack : IViewStack, IInitializable, IDisposable
     {
