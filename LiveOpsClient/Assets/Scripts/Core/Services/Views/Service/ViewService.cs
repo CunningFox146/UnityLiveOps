@@ -1,4 +1,6 @@
+using System;
 using System.Threading;
+using Core.Infrastructure.Logger;
 using Cysharp.Threading.Tasks;
 
 namespace Core.Core.Services.Views
@@ -6,18 +8,19 @@ namespace Core.Core.Services.Views
     public class ViewService : IViewService
     {
         private readonly IViewControllerFactory _controllerFactory;
+        private readonly ILogger _logger;
 
-        public ViewService(IViewControllerFactory controllerFactory)
+        public ViewService(IViewControllerFactory controllerFactory, ILogger logger)
         {
             _controllerFactory = controllerFactory;
+            _logger = logger;
         }
         
         public async UniTask ShowView<T>(CancellationToken token = default) where T : class, IViewController
         {
             var viewController = _controllerFactory.Create<T>();
             await viewController.Start(token);
-            await token.WaitUntilCanceled();
-            viewController.Dispose();
+            DisposeControllerOnCancellation(token, viewController).Forget();
         }
 
         public async UniTask ShowView<T, TInput>(TInput input, CancellationToken token = default) 
@@ -25,8 +28,7 @@ namespace Core.Core.Services.Views
         {
             var viewController = _controllerFactory.Create<T, EmptyControllerArg, TInput>();
             await viewController.Start(input, token);
-            await token.WaitUntilCanceled();
-            viewController.Dispose();
+            DisposeControllerOnCancellation(token, viewController).Forget();
         }
         
         public async UniTask<TResult> ShowView<T, TResult>(CancellationToken token = default) 
@@ -41,6 +43,13 @@ namespace Core.Core.Services.Views
         {
             using var viewController = _controllerFactory.Create<T, TResult, TInput>();
             return await viewController.Start(input, token);
+        }
+        
+        private static async UniTask DisposeControllerOnCancellation<T>(CancellationToken token, T viewController)
+            where T : IDisposable
+        {
+            await token.WaitUntilCanceled();
+            viewController?.Dispose();
         }
     }
 }
