@@ -1,14 +1,17 @@
 using Core.Core.Services.Views;
 using Core.Infrastructure.Logger;
 using Core.Infrastructure.SceneLoader;
+using Core.Infrastructure.Storage;
 using Core.Input;
 using Core.Lobby.Views;
 using Core.Services.Api;
 using Core.Services.Views;
 using CunningFox.AssetProvider;
 using CunningFox.Monitoring;
+using UnityEngine;
 using VContainer;
 using VContainer.Unity;
+using ILogger = Core.Infrastructure.Logger.ILogger;
 
 namespace CunningFox
 {
@@ -34,6 +37,10 @@ namespace CunningFox
             builder.Register<IViewControllerFactory, ViewControllerFactory>(Lifetime.Singleton);
             builder.Register<IViewService, ViewService>(Lifetime.Singleton);
             builder.Register<LobbyViewController>(Lifetime.Transient);
+            
+            builder.Register<PersistentStorage>(Lifetime.Singleton)
+                .WithParameter(Application.persistentDataPath)
+                .AsImplementedInterfaces();
             
             builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<UnhandledExceptionMonitoringService>(Lifetime.Singleton).AsImplementedInterfaces();
