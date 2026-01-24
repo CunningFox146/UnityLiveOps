@@ -1,6 +1,6 @@
 {
     "name": "Editor",
-    "rootNamespace": "",
+    "rootNamespace": "Editor",
     "references": [],
     "includePlatforms": [
         "Editor"

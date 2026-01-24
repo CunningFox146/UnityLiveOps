@@ -1,3 +1,9 @@
+using Common.Assets.Scripts.Common.Api;
+using Common.Assets.Scripts.Common.Input;
+using Common.Assets.Scripts.Common.Logger;
+using Common.Assets.Scripts.Common.Monitoring;
+using Common.Assets.Scripts.Common.SceneLoader;
+using Common.Assets.Scripts.Common.Storage;
 using Core.Core.Services.Views;
 using Core.Infrastructure.Logger;
 using Core.Infrastructure.SceneLoader;
@@ -11,7 +17,7 @@ using CunningFox.Monitoring;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
-using ILogger = Core.Infrastructure.Logger.ILogger;
+using ILogger = Common.Assets.Scripts.Common.Logger.ILogger;
 
 namespace CunningFox
 {

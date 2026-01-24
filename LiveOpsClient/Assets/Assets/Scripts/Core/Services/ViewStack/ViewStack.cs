@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Common.Assets.Scripts.Common.Input;
 using Core.Input;
 using VContainer.Unity;
 
