@@ -87,6 +87,7 @@ GameObject:
   - component: {fileID: 2238673588840267650}
   - component: {fileID: 5505536000483622984}
   - component: {fileID: 3718027359947807921}
+  - component: {fileID: 8501718735348316759}
   m_Layer: 5
   m_Name: BaseView
   m_TagString: Untagged
@@ -177,3 +178,15 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8501718735348316759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4341718974014766794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b4fa8f0f97e491b8242b2cc1e79aa95, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Core::Core.Lobby.Views.LobbyView
