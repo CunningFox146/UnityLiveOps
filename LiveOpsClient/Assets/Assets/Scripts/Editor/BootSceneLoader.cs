@@ -7,7 +7,7 @@ namespace Editor
     [InitializeOnLoad]
     public static class BootSceneLoader
     {
-        private const string BootScenePath = "Assets/Scenes/Boot.unity";
+        private const string BootScenePath = "Assets/Assets/Scenes/Boot.unity";
         private const string EnabledPrefKey = "BootSceneLoader_Enabled";
 
         private static bool IsEnabled
