@@ -3,26 +3,13 @@ using System.Threading;
 using Assets.Assets.Scripts.AssetManagement.Provider;
 using Assets.Assets.Scripts.AssetManagement.Scope;
 using Common.Mvc;
+using Core.Features.Lobby.Views;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-namespace Core.Features.Lobby.Views
+namespace Core.Features.Lobby.Controllers
 {
-    public class LobbyView : MonoBehaviour, ILobbyView
-    {
-        public void Dispose()
-        {
-            Debug.Log("Disposed");
-            if (this != null)
-                Destroy(gameObject);
-        }
-    }
-
-    public interface ILobbyView : IDisposable
-    {
-    }
-
     public class LobbyViewController : ViewControllerBase
     {
         private readonly IAssetProvider _assetProvider;

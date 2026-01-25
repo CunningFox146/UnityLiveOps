@@ -8,6 +8,7 @@ using Common.Mvc.Factory;
 using Common.Mvc.Service;
 using Common.SceneLoader;
 using Common.Storage;
+using Core.Features.Lobby.Controllers;
 using Core.Features.Lobby.Views;
 using UnityEngine;
 using VContainer;
