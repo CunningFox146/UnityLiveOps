@@ -1,13 +1,11 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
 
-namespace Editor
+namespace Editor.Boot
 {
-    [InitializeOnLoad]
     public static class BootSceneLoader
     {
-        private const string BootScenePath = "Assets/Assets/Scenes/Boot.unity";
+        private const string MenuPath = EditorConstants.BootSceneToolsPath + "Enter Playmode from Boot scene";
         private const string EnabledPrefKey = "BootSceneLoader_Enabled";
 
         private static bool IsEnabled
@@ -19,7 +17,7 @@ namespace Editor
                 UpdatePlayModeStartScene();
             }
         }
-
+        
         static BootSceneLoader()
         {
             EditorApplication.delayCall += UpdatePlayModeStartScene;
@@ -33,24 +31,24 @@ namespace Editor
                 return;
             }
 
-            var bootScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(BootScenePath);
+            var bootScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(EditorConstants.BootScenePath);
             EditorSceneManager.playModeStartScene = bootScene;
         }
         
-        [MenuItem("Tools/Boot Scene Loader/Enable")]
-        private static void Enable() => IsEnabled = true;
-        [MenuItem("Tools/Boot Scene Loader/Disable")]
-        private static void Disable() => IsEnabled = false;
+        [MenuItem(MenuPath, false, 100)]
+        private static void Toggle() => IsEnabled = !IsEnabled;
 
-        [MenuItem("Tools/Boot Scene Loader/Enable", true)]
-        private static bool EnableValidate() => !IsEnabled;
-        [MenuItem("Tools/Boot Scene Loader/Disable", true)]
-        private static bool DisableValidate() => IsEnabled;
+        [MenuItem(MenuPath, true)]
+        private static bool ToggleValidate()
+        {
+            Menu.SetChecked(MenuPath, IsEnabled);
+            return true;
+        }
         
-        [MenuItem("Tools/Boot Scene Loader/Show Boot Scene")]
+        [MenuItem(EditorConstants.BootSceneToolsPath + "Show Boot Scene")]
         private static void PingBootScene()
         {
-            var bootScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(BootScenePath);
+            var bootScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(EditorConstants.BootScenePath);
             EditorGUIUtility.PingObject(bootScene);
             Selection.activeObject = bootScene;
         }

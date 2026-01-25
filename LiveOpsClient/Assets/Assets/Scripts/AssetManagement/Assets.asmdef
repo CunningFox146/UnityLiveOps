@@ -1,12 +1,11 @@
 {
-    "name": "Core",
-    "rootNamespace": "Core",
+    "name": "Assets",
+    "rootNamespace": "Assets",
     "references": [
         "GUID:f51ebe6a0ceec4240a699833d6309b23",
-        "GUID:b0214a6008ed146ff8f122a6a9c2f6cc",
-        "GUID:33661e06c33d31b4c9223810bf503247",
-        "GUID:1d75d14f0e244745b400e57b5e21eb8b",
-        "GUID:e9fd89947d534329944182b9eab66292"
+        "GUID:593a5b492d29ac6448b1ebf7f035ef33",
+        "GUID:9e24947de15b9834991c9d8411ea37cf",
+        "GUID:84651a3751eca9349aac36a66bba901b"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

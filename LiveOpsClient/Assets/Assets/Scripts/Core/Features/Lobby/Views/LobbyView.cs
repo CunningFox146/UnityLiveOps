@@ -26,6 +26,7 @@ namespace Core.Features.Lobby.Views
     {
         private readonly IAssetProvider _assetProvider;
         private ILobbyView _view;
+        private IAssetScope _assetScope;
 
         public LobbyViewController(IAssetProvider assetProvider)
         {
@@ -34,12 +35,21 @@ namespace Core.Features.Lobby.Views
 
         protected override async UniTask OnStart(CancellationToken token)
         {
-            var prefab = await _assetProvider.LoadPrefab<LobbyView>("Views/BaseView", token);
-            _view = Object.Instantiate(prefab);
+            _assetScope = new AssetScope(_assetProvider);
+            var prefab = await _assetScope.LoadAssetAsync<GameObject>("Views/BaseView.prefab", token);
+            var inst = Object.Instantiate(prefab);
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: token);
+            Object.Destroy(inst);
+            _assetScope.Dispose();
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: token);
+            Object.Instantiate(prefab);
         }
 
         protected override void OnStop()
         {
+            _assetScope?.Dispose();
             _view?.Dispose();
         }
     }
