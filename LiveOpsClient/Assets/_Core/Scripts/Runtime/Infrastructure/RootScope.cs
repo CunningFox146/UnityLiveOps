@@ -34,7 +34,6 @@ namespace App.Runtime.Infrastructure
             #else
             builder.RegisterInstance<IHttpClient>(new SystemHttpClient("https://localhost:7158"));
             #endif
-            builder.Register<LiveOpsApiService>(Lifetime.Singleton);
             
             builder.Register<IAssetProvider, AddressableAssetProvider>(Lifetime.Singleton);
             
