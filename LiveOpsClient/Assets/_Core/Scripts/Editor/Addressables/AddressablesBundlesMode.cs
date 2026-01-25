@@ -6,7 +6,7 @@ using UnityEditor.AddressableAssets.Build.DataBuilders;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
-namespace Editor.Addressables
+namespace App.Editor.Addressables
 {
     [InitializeOnLoad]
     public static class AddressablesBundlesMode

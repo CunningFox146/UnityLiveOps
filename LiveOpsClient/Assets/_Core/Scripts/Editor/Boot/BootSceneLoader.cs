@@ -1,7 +1,7 @@
 using UnityEditor;
 using UnityEditor.SceneManagement;
 
-namespace Editor.Boot
+namespace App.Editor.Boot
 {
     public static class BootSceneLoader
     {
