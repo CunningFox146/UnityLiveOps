@@ -2,18 +2,19 @@ using System.IO;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
 using UnityEditor.AddressableAssets.Build;
+using UnityEditor.AddressableAssets.Build.DataBuilders;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
 namespace Editor.Addressables
 {
     [InitializeOnLoad]
-    public static class AddressablesPlayModeBuild
+    public static class AddressablesBundlesMode
     {
-        private const string MenuPath = EditorConstants.AddressablesPath + "Auto Build On Play";
-        private const string PrefKey = "Addressables_AutoBuildOnPlay";
+        private const string MenuPath = EditorConstants.AddressablesPath + "Use Bundles Mode";
+        private const string PrefKey = "Addressables_UseBundleMode";
 
-        static AddressablesPlayModeBuild()
+        static AddressablesBundlesMode()
         {
             EditorApplication.playModeStateChanged += OnPlayModeStateChanged;
         }
@@ -25,7 +26,11 @@ namespace Editor.Addressables
         }
 
         [MenuItem(MenuPath, false, 100)]
-        private static void Toggle() => IsEnabled = !IsEnabled;
+        private static void Toggle()
+        {
+            IsEnabled = !IsEnabled;
+            TogglePlayMode();
+        }
 
         [MenuItem(MenuPath, true)]
         private static bool ToggleValidate()
@@ -52,7 +57,7 @@ namespace Editor.Addressables
 
             if (string.IsNullOrEmpty(result.Error))
                 return;
-            
+
             Debug.LogError($"[Addressables] Build failed: {result.Error}");
             EditorApplication.isPlaying = false;
         }
@@ -63,7 +68,7 @@ namespace Editor.Addressables
             var contentStatePath = ContentUpdateScript.GetContentStateDataPath(false);
             if (string.IsNullOrEmpty(contentStatePath) || !File.Exists(contentStatePath))
                 return builderInput;
-            
+
             var previousState = ContentUpdateScript.LoadContentState(contentStatePath);
             if (previousState != null)
             {
@@ -71,6 +76,36 @@ namespace Editor.Addressables
             }
 
             return builderInput;
+        }
+        
+        private static void TogglePlayMode()
+        {
+            var settings = AddressableAssetSettingsDefaultObject.Settings;
+            if (settings == null)
+            {
+                Debug.LogWarning("[Addressables] No settings found.");
+                return;
+            }
+
+            if (IsEnabled)
+                SetPlayMode<BuildScriptPackedPlayMode>(settings);
+            else
+                SetPlayMode<BuildScriptFastMode>(settings);
+        }
+        
+        private static void SetPlayMode<T>(AddressableAssetSettings settings) where T : IDataBuilder
+        {
+            for (var i = 0; i < settings.DataBuilders.Count; i++)
+            {
+                if (settings.DataBuilders[i] is not T)
+                    continue;
+                
+                settings.ActivePlayModeDataBuilderIndex = i;
+                EditorUtility.SetDirty(settings);
+                return;
+            }
+
+            Debug.LogWarning($"[Addressables] Could not find {typeof(T).Name} in DataBuilders.");
         }
     }
 }

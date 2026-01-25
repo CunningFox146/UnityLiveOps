@@ -37,14 +37,10 @@ namespace Core.Features.Lobby.Views
         {
             _assetScope = new AssetScope(_assetProvider);
             var prefab = await _assetScope.LoadAssetAsync<GameObject>("Views/BaseView.prefab", token);
-            var inst = Object.Instantiate(prefab);
-            
-            await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: token);
-            Object.Destroy(inst);
-            _assetScope.Dispose();
-            
-            await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: token);
             Object.Instantiate(prefab);
+            
+            await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: token);
+            _assetScope.Dispose();
         }
 
         protected override void OnStop()
