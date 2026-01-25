@@ -3,7 +3,7 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using Object = UnityEngine.Object;
 
-namespace Core.Services.AssetProvider
+namespace Assets.Assets.Scripts.AssetManagement.Scope
 {
     /// <summary>
     /// Scoped asset loading that tracks assets loaded within a feature.

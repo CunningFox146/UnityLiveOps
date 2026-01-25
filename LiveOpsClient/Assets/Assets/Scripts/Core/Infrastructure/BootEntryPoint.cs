@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
+using Assets.Assets.Scripts.AssetManagement.Provider;
 using Common.Logger;
 using Common.SceneLoader;
-using Core.Services.AssetProvider;
 using Cysharp.Threading.Tasks;
 using VContainer.Unity;
 

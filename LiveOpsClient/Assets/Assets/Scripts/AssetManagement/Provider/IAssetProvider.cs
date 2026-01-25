@@ -1,9 +1,8 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
-namespace Core.Services.AssetProvider
+namespace Assets.Assets.Scripts.AssetManagement.Provider
 {
     public interface IAssetProvider
     {

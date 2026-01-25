@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using Assets.Assets.Scripts.AssetManagement.Provider;
 using Cysharp.Threading.Tasks;
 using Object = UnityEngine.Object;
 
-namespace Core.Services.AssetProvider
+namespace Assets.Assets.Scripts.AssetManagement.Scope
 {
     /// <summary>
     /// Tracks assets loaded within a specific feature/context.

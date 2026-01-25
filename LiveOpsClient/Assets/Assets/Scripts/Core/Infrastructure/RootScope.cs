@@ -1,3 +1,4 @@
+using Assets.Assets.Scripts.AssetManagement.Provider;
 using Common;
 using Common.Api;
 using Common.Input;
@@ -8,7 +9,6 @@ using Common.Mvc.Service;
 using Common.SceneLoader;
 using Common.Storage;
 using Core.Features.Lobby.Views;
-using Core.Services.AssetProvider;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;

@@ -1,7 +1,8 @@
 using System;
 using System.Threading;
+using Assets.Assets.Scripts.AssetManagement.Provider;
+using Assets.Assets.Scripts.AssetManagement.Scope;
 using Common.Mvc;
-using Core.Services.AssetProvider;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using Object = UnityEngine.Object;
