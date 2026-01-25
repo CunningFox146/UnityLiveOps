@@ -1,14 +1,12 @@
+using System.IO;
 using UnityEditor;
 using UnityEditor.AddressableAssets;
+using UnityEditor.AddressableAssets.Build;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
-namespace Editor
+namespace Editor.Addressables
 {
-    /// <summary>
-    /// Automatically builds Addressables before entering Play Mode.
-    /// Toggle via: Tools → Addressables → Auto Build On Play
-    /// </summary>
     [InitializeOnLoad]
     public static class AddressablesPlayModeBuild
     {
@@ -42,23 +40,37 @@ namespace Editor
                 return;
 
             var settings = AddressableAssetSettingsDefaultObject.Settings;
-            if (settings == null)
+            if (settings == null || settings.ActivePlayerDataBuilder == null)
             {
-                Debug.LogWarning("[Addressables] No settings found, skipping build.");
+                Debug.LogWarning("[Addressables] Invalid settings, skipping build.");
                 return;
             }
 
-            Debug.Log("[Addressables] Building...");
-            AddressableAssetSettings.BuildPlayerContent(out var result);
+            var builder = settings.ActivePlayerDataBuilder;
+            var builderInput = CreateBuilderInput(settings);
+            var result = builder.BuildData<AddressablesPlayerBuildResult>(builderInput);
 
-            if (!string.IsNullOrEmpty(result.Error))
-            {
-                Debug.LogError($"[Addressables] Build failed: {result.Error}");
-                EditorApplication.isPlaying = false;
+            if (string.IsNullOrEmpty(result.Error))
                 return;
+            
+            Debug.LogError($"[Addressables] Build failed: {result.Error}");
+            EditorApplication.isPlaying = false;
+        }
+
+        private static AddressablesDataBuilderInput CreateBuilderInput(AddressableAssetSettings settings)
+        {
+            var builderInput = new AddressablesDataBuilderInput(settings);
+            var contentStatePath = ContentUpdateScript.GetContentStateDataPath(false);
+            if (string.IsNullOrEmpty(contentStatePath) || !File.Exists(contentStatePath))
+                return builderInput;
+            
+            var previousState = ContentUpdateScript.LoadContentState(contentStatePath);
+            if (previousState != null)
+            {
+                builderInput.PreviousContentState = previousState;
             }
 
-            Debug.Log($"[Addressables] Build complete ({result.Duration:F1}s)");
+            return builderInput;
         }
     }
 }
