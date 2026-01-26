@@ -8,13 +8,15 @@ namespace App.Shared.Repository
 {
     public abstract class FeatureRepository<T> : IRepository<T> where T : class, new()
     {
+        public event Action RepositoryUpdated;
+        
         private readonly IPersistentStorage _persistentStorage;
         private readonly ILogger _logger;
         private readonly string _key;
         private readonly SemaphoreSlim _semaphore;
         private readonly T _defaultValue;
-        private T _lastValue;
-        public event Action RepositoryUpdated;
+        
+        public virtual T Value { get; private set; }
 
         protected FeatureRepository(
             IPersistentStorage persistentStorage,
@@ -28,26 +30,20 @@ namespace App.Shared.Repository
             _defaultValue = defaultValue ?? new T();
             _semaphore = new SemaphoreSlim(1, 1);
         }
-
-        public virtual async UniTask<T> Get(CancellationToken cancellationToken = default)
-        {
-            _lastValue ??= await RestoreFeatureData(cancellationToken);
-            return _lastValue;
-        }
-
-        private async UniTask<T> RestoreFeatureData(CancellationToken cancellationToken = default)
+        
+        public async UniTask RestoreFeatureData(CancellationToken cancellationToken = default)
         {
             try
             {
-                var data = await _persistentStorage.LoadAsync<T>(_key, cancellationToken);
-                return data;
+                Value = await _persistentStorage.LoadAsync<T>(_key, cancellationToken) ?? _defaultValue;
+                return;
             }
             catch (Exception exception)
             {
                 _logger.Error("Failed to restore persistent data", exception);
             }
 
-            return _defaultValue;
+            Value = _defaultValue;
         }
 
         public void Update(T data)
@@ -61,8 +57,8 @@ namespace App.Shared.Repository
 
             try
             {
-                _lastValue = data;
-                await _persistentStorage.SaveAsync(_key, _lastValue);
+                Value = data;
+                await _persistentStorage.SaveAsync(_key, Value);
                 RepositoryUpdated?.Invoke();
             }
             catch (Exception exception)

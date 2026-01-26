@@ -3,8 +3,9 @@ using Cysharp.Threading.Tasks;
 
 namespace App.Shared.Repository
 {
-    public interface IReadOnlyRepository<TDto>
+    public interface IReadOnlyRepository<out TDto>
     {
-        UniTask<TDto> Get(CancellationToken cancellationToken = default);
+        TDto Value { get; }
+        UniTask RestoreFeatureData(CancellationToken cancellationToken = default);
     }
 }

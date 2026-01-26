@@ -1,14 +1,17 @@
 using App.Runtime.Features;
 using App.Runtime.Features.Lobby.Controllers;
+using App.Runtime.Features.UserState.Service;
 using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.Input;
 using App.Runtime.Services.SceneLoader;
+using App.Runtime.Services.UserState;
 using App.Runtime.Services.ViewStack;
 using App.Shared.Api;
 using App.Shared.Logger;
 using App.Shared.Monitoring;
 using App.Shared.Mvc.Factory;
 using App.Shared.Mvc.Service;
+using App.Shared.Repository;
 using App.Shared.Storage;
 using UnityEngine;
 using VContainer;
@@ -34,6 +37,9 @@ namespace App.Runtime.Infrastructure
             #else
             builder.RegisterInstance<IHttpClient>(new SystemHttpClient("https://localhost:7158"));
             #endif
+            
+            builder.Register<IRepository<ActiveUserState>, UserStateRepository>(Lifetime.Singleton);
+            builder.Register<IUserStateService, UserStateService>(Lifetime.Singleton);
             
             builder.Register<IAssetProvider, AddressableAssetProvider>(Lifetime.Singleton);
             
