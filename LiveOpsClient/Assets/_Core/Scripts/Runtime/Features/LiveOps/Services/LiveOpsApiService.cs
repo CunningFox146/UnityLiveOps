@@ -3,7 +3,7 @@ using App.Shared.Api;
 using CunningFox.LiveOps.Models;
 using Cysharp.Threading.Tasks;
 
-namespace App.Runtime.Features
+namespace App.Runtime.Features.LiveOps.Services
 {
     public class LiveOpsApiService : ApiServiceBase
     {
