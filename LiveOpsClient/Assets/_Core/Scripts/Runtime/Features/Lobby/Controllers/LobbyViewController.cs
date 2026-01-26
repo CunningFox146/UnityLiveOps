@@ -1,16 +1,13 @@
-using System;
 using System.Threading;
 using App.Runtime.Features.Lobby.Views;
 using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.AssetManagement.Scope;
 using App.Shared.Mvc;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
-using Object = UnityEngine.Object;
 
 namespace App.Runtime.Features.Lobby.Controllers
 {
-    public class LobbyViewController : ViewControllerBase
+    public class LobbyViewController : ViewControllerBase<LobbyViewControllerArgs>
     {
         private readonly IAssetProvider _assetProvider;
         private ILobbyView _view;
@@ -21,12 +18,11 @@ namespace App.Runtime.Features.Lobby.Controllers
             _assetProvider = assetProvider;
         }
 
-        protected override async UniTask OnStart(CancellationToken token)
+        protected override async UniTask OnStart(LobbyViewControllerArgs args, CancellationToken token)
         {
             _assetScope = new AssetScope(_assetProvider);
-            var prefab = await _assetScope.LoadAssetAsync<GameObject>("LobbyView", token);
-            Object.Instantiate(prefab);
-            
+            _view = await _assetScope.InstantiateAsync<LobbyView>("LobbyView", token);
+            _view.SetLevel(args.PlayerLevel);
         }
 
         protected override void OnStop()

@@ -42,6 +42,10 @@ namespace App.Shared.Repository
             {
                 _logger.Error("Failed to restore persistent data", exception);
             }
+            finally
+            {
+                await UniTask.SwitchToMainThread(cancellationToken);
+            }
 
             Value = _defaultValue;
         }

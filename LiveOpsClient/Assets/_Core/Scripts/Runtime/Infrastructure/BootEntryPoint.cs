@@ -33,8 +33,7 @@ namespace App.Runtime.Infrastructure
                     _assetProvider.InitializeAsync(cancellation),
                     _userStateService.RestoreUserState(cancellation)
                 );
-                Debug.Log(_userStateService.CurrentLevel);
-                _userStateService.SetCurrentLevel(5);
+                
                 await _sceneLoader.LoadSceneAsync("Lobby", cancellationToken: cancellation);
             }
             catch (OperationCanceledException) { }

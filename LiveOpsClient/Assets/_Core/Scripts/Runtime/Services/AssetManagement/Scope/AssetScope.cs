@@ -2,7 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using App.Runtime.Services.AssetManagement.Provider;
+using App.Runtime.Services.UserState;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace App.Runtime.Services.AssetManagement.Scope
@@ -22,25 +24,34 @@ namespace App.Runtime.Services.AssetManagement.Scope
             _provider = provider;
         }
 
-        public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default) where T : Object
+        public async UniTask<TComponent> InstantiateAsync<TComponent>(string key,
+            CancellationToken cancellationToken = default)
+            where TComponent : Behaviour
+        {
+            var asset = await LoadAssetAsync<GameObject>(key, cancellationToken);
+            return Object.Instantiate(asset).GetComponent<TComponent>();
+        }
+
+        public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default)
+            where T : Object
         {
             ThrowIfDisposed();
-            
+
             var asset = await _provider.LoadAssetAsync<T>(key, cancellationToken);
             _loadedAssets.Add(asset);
             return asset;
         }
-        
+
         public void Dispose()
         {
             if (_disposed)
                 return;
             _disposed = true;
-            
+
             foreach (var asset in _loadedAssets)
                 if (asset != null)
                     _provider.Release(asset);
-            
+
             _loadedAssets.Clear();
         }
 

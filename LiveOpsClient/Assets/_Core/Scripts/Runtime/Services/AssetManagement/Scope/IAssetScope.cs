@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace App.Runtime.Services.AssetManagement.Scope
@@ -11,6 +12,9 @@ namespace App.Runtime.Services.AssetManagement.Scope
     /// </summary>
     public interface IAssetScope : IDisposable
     {
+        UniTask<TComponent> InstantiateAsync<TComponent>(string key, CancellationToken cancellationToken = default)
+            where TComponent : Behaviour;
+
         UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default) where T : Object;
     }
 }
