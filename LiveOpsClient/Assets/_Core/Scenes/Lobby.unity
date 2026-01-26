@@ -164,7 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Core::Core.Core.Lobby.LobbyScope
   parentReference:
-    TypeName: CunningFox.ProjectScope
+    TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
 --- !u!1 &1612338494

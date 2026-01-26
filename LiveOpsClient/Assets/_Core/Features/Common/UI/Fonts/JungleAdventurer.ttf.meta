@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 82d4797e5fac247f4ab4ebd868476b5c
+guid: e4b62ff93d25044039898c58f4dbb947
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -9,7 +9,7 @@ TrueTypeFontImporter:
   characterPadding: 1
   includeFontData: 1
   fontNames:
-  - Kenney Future
+  - Jungle Adventurer
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0

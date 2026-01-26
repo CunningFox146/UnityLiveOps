@@ -24,11 +24,9 @@ namespace App.Runtime.Features.Lobby.Controllers
         protected override async UniTask OnStart(CancellationToken token)
         {
             _assetScope = new AssetScope(_assetProvider);
-            var prefab = await _assetScope.LoadAssetAsync<GameObject>("Views/BaseView.prefab", token);
+            var prefab = await _assetScope.LoadAssetAsync<GameObject>("LobbyView", token);
             Object.Instantiate(prefab);
             
-            await UniTask.Delay(TimeSpan.FromSeconds(1f), cancellationToken: token);
-            _assetScope.Dispose();
         }
 
         protected override void OnStop()

@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Test
+  m_Name: Lobby
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Test
-  m_GUID: 18271613594c1426b9cf84bbbda97569
+  m_GroupName: Lobby
+  m_GUID: 09ead0961122b4d939ac34fe452ffb5e
   m_SerializeEntries:
-  - m_GUID: 2d04eb337e2b2412b9ce5d70c87f6568
-    m_Address: Views/BaseView.prefab
+  - m_GUID: 9498231423f734771a2a30f28b676c7e
+    m_Address: LobbyView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -24,5 +24,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 50c27f7fc0d4643c1b95532358316cbe, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 61382a53b6cba46cf8aec49581e9fb8e, type: 2}
-    - {fileID: 11400000, guid: 9cc0b8b51056944febf26d5eefdea900, type: 2}
+    - {fileID: 11400000, guid: 53eba2d12daec4a11b93c093dd8ce4fa, type: 2}
+    - {fileID: 11400000, guid: 369abc8a3c2474d3bb0f62d05ed39cdb, type: 2}
