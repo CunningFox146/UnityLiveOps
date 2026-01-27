@@ -4,5 +4,5 @@ namespace CunningFox.LiveOpsServer.Services;
 
 public interface ILiveOpService
 {
-    LiveOpCalendarDto GetCalendar();
+    LiveOpsCalendarDto GetCalendar();
 }

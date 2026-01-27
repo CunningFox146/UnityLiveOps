@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using App.Runtime.Features.LiveOps.Service;
 using App.Runtime.Features.UserState.Service;
 using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.SceneLoader;
@@ -16,15 +17,18 @@ namespace App.Runtime.Infrastructure
         private readonly ISceneLoaderService _sceneLoader;
         private readonly IAssetProvider _assetProvider;
         private readonly IUserStateService _userStateService;
+        private readonly LiveOpsService _liveOpsService;
 
-        public BootEntryPoint(ILogger logger, ISceneLoaderService sceneLoader, IAssetProvider assetProvider, IUserStateService userStateService)
+        public BootEntryPoint(ILogger logger, ISceneLoaderService sceneLoader, IAssetProvider assetProvider,
+            IUserStateService userStateService, LiveOpsService liveOpsService)
         {
             _logger = logger;
             _sceneLoader = sceneLoader;
             _assetProvider = assetProvider;
             _userStateService = userStateService;
+            _liveOpsService = liveOpsService;
         }
-        
+
         public async UniTask StartAsync(CancellationToken cancellation = default)
         {
             try
@@ -33,7 +37,7 @@ namespace App.Runtime.Infrastructure
                     _assetProvider.InitializeAsync(cancellation),
                     _userStateService.RestoreUserState(cancellation)
                 );
-                
+                await _liveOpsService.Initialize(cancellation);
                 await _sceneLoader.LoadSceneAsync("Lobby", cancellationToken: cancellation);
             }
             catch (OperationCanceledException) { }

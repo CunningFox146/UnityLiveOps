@@ -7,10 +7,10 @@ public class LiveOpService : ILiveOpService
     private static readonly TimeSpan CacheInterval = TimeSpan.FromMinutes(10);
     
     private readonly Lock _lock = new();
-    private LiveOpCalendarDto? _cachedCalendar;
+    private LiveOpsCalendarDto? _cachedCalendar;
     private DateTime _lastGeneratedAt = DateTime.MinValue;
 
-    public LiveOpCalendarDto GetCalendar()
+    public LiveOpsCalendarDto GetCalendar()
     {
         lock (_lock)
         {
@@ -24,7 +24,7 @@ public class LiveOpService : ILiveOpService
         }
     }
 
-    private static LiveOpCalendarDto GenerateCalendar()
+    private static LiveOpsCalendarDto GenerateCalendar()
     {
         var now = DateTime.UtcNow;
         var events = new List<LiveOpDto>
@@ -35,6 +35,6 @@ public class LiveOpService : ILiveOpService
             new(Guid.NewGuid(), now.AddHours(-2), now.AddMinutes(1), "Test", 7),
         };
 
-        return new LiveOpCalendarDto(Guid.NewGuid(), now.Ticks, events);
+        return new LiveOpsCalendarDto(Guid.NewGuid(), now.Ticks, events);
     }
 }

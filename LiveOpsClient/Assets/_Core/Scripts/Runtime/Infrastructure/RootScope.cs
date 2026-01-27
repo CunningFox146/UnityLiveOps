@@ -1,4 +1,7 @@
 using App.Runtime.Features;
+using App.Runtime.Features.LiveOps.Model;
+using App.Runtime.Features.LiveOps.Service;
+using App.Runtime.Features.LiveOps.Services;
 using App.Runtime.Features.Lobby.Controllers;
 using App.Runtime.Features.UserState.Service;
 using App.Runtime.Services.AssetManagement.Provider;
@@ -13,6 +16,7 @@ using App.Shared.Mvc.Factory;
 using App.Shared.Mvc.Service;
 using App.Shared.Repository;
 using App.Shared.Storage;
+using App.Shared.Time;
 using UnityEngine;
 using VContainer;
 using VContainer.Unity;
@@ -38,6 +42,7 @@ namespace App.Runtime.Infrastructure
             builder.RegisterInstance<IHttpClient>(new SystemHttpClient("https://localhost:7158"));
             #endif
             
+            builder.Register<IRepository<LiveOpsCalendar>, LiveOpsRepository>(Lifetime.Singleton);
             builder.Register<IRepository<ActiveUserState>, UserStateRepository>(Lifetime.Singleton);
             builder.Register<IUserStateService, UserStateService>(Lifetime.Singleton);
             
@@ -54,6 +59,10 @@ namespace App.Runtime.Infrastructure
             
             builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<UnhandledExceptionMonitoringService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<TimeService>(Lifetime.Singleton).AsImplementedInterfaces();
+            
+            builder.Register<LiveOpsService>(Lifetime.Singleton);
+            builder.Register<ILiveOpsApiService, LiveOpsApiService>(Lifetime.Singleton);
             
             builder.RegisterEntryPoint<BootEntryPoint>();
         }

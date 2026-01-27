@@ -4,7 +4,6 @@ using App.Runtime.Features.Lobby.Controllers;
 using App.Runtime.Features.UserState.Service;
 using App.Shared.Mvc.Service;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using VContainer.Unity;
 
 namespace App.Runtime.Features.Lobby
@@ -24,7 +23,6 @@ namespace App.Runtime.Features.Lobby
         {
             var args = new LobbyViewControllerArgs(_userStateService.CurrentLevel);
             await _viewService.ShowView<LobbyViewController, LobbyViewControllerArgs>(args, token);
-            Debug.Log("Shown");
         }
         
         public void Dispose()

@@ -25,7 +25,7 @@ namespace App.Editor.Addressables
             set => EditorPrefs.SetBool(PrefKey, value);
         }
 
-        [MenuItem(MenuPath, false, 100)]
+        [MenuItem(MenuPath, false)]
         private static void Toggle()
         {
             IsEnabled = !IsEnabled;
