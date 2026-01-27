@@ -1,6 +1,6 @@
 using VContainer;
 
-namespace App.Shared.Mvc.Factory
+namespace App.Shared.Mvc.Factories
 {
     public class ControllerFactory : IControllerFactory
     {

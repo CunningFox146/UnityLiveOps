@@ -1,8 +1,8 @@
 using System;
 using System.Threading;
 using App.Runtime.Features.Lobby.Controllers;
-using App.Runtime.Features.UserState.Service;
-using App.Shared.Mvc.Service;
+using App.Runtime.Features.UserState.Services;
+using App.Shared.Mvc.Services;
 using Cysharp.Threading.Tasks;
 using VContainer.Unity;
 

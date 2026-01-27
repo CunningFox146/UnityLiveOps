@@ -2,7 +2,7 @@ using System;
 using CunningFox.LiveOps.Models;
 using NCrontab;
 
-namespace App.Runtime.Features.LiveOps.Model
+namespace App.Runtime.Features.LiveOps.Models
 {
     public class LiveOpEvent
     {

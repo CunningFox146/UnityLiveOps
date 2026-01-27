@@ -2,7 +2,7 @@ using App.Shared.Logger;
 using App.Shared.Repository;
 using App.Shared.Storage;
 
-namespace App.Runtime.Services.UserState
+namespace App.Runtime.Features.UserState.Models
 {
     public class UserStateRepository : FeatureRepository<ActiveUserState>
     {

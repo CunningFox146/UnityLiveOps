@@ -4,7 +4,7 @@ using App.Shared.Time;
 using CunningFox.LiveOps.Models;
 using ZLinq;
 
-namespace App.Runtime.Features.LiveOps.Model
+namespace App.Runtime.Features.LiveOps.Models
 {
     public class LiveOpsCalendar
     {

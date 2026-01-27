@@ -1,7 +1,7 @@
 using System.Threading;
 using Cysharp.Threading.Tasks;
 
-namespace App.Runtime.Features.UserState.Service
+namespace App.Runtime.Features.UserState.Services
 {
     public interface IUserStateService
     {

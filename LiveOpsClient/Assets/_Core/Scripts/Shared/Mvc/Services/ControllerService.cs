@@ -1,10 +1,10 @@
 using System;
 using System.Threading;
-using App.Shared.Mvc.Factory;
+using App.Shared.Mvc.Factories;
 using App.Shared.Utils;
 using Cysharp.Threading.Tasks;
 
-namespace App.Shared.Mvc.Service
+namespace App.Shared.Mvc.Services
 {
     public class ControllerService : IControllerService
     {

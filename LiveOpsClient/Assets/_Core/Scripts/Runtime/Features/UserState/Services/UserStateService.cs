@@ -1,9 +1,9 @@
 using System.Threading;
-using App.Runtime.Services.UserState;
+using App.Runtime.Features.UserState.Models;
 using App.Shared.Repository;
 using Cysharp.Threading.Tasks;
 
-namespace App.Runtime.Features.UserState.Service
+namespace App.Runtime.Features.UserState.Services
 {
     public class UserStateService : IUserStateService
     {

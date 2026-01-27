@@ -5,7 +5,7 @@ using App.Shared.Logger;
 using CunningFox.LiveOps.Models;
 using Cysharp.Threading.Tasks;
 
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Api
 {
     public class LiveOpsApiService : ApiServiceBase, ILiveOpsApiService
     {

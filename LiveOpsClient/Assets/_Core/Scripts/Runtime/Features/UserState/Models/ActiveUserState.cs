@@ -1,4 +1,4 @@
-namespace App.Runtime.Services.UserState
+namespace App.Runtime.Features.UserState.Models
 {
     public class ActiveUserState
     {

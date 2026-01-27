@@ -1,13 +1,13 @@
 using System;
 using System.Threading;
 using App.Runtime.Features.Common;
-using App.Runtime.Features.LiveOps.Model;
-using App.Runtime.Features.LiveOps.Services;
+using App.Runtime.Features.LiveOps.Api;
+using App.Runtime.Features.LiveOps.Models;
 using App.Shared.Repository;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
 
-namespace App.Runtime.Features.LiveOps.Service
+namespace App.Runtime.Features.LiveOps.Services
 {
     public class LiveOpsService
     {

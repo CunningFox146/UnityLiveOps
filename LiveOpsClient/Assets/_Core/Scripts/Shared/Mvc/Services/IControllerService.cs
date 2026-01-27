@@ -2,7 +2,7 @@ using System.Threading;
 using App.Shared.Utils;
 using Cysharp.Threading.Tasks;
 
-namespace App.Shared.Mvc.Service
+namespace App.Shared.Mvc.Services
 {
     public interface IControllerService
     {
