@@ -7,13 +7,13 @@ using Cysharp.Threading.Tasks;
 
 namespace App.Runtime.Features.Lobby.Controllers
 {
-    public class LobbyViewController : ViewControllerBase<LobbyViewControllerArgs>
+    public class LobbyController : ControllerBase<LobbyViewControllerArgs>
     {
         private readonly IAssetProvider _assetProvider;
         private ILobbyView _view;
         private IAssetScope _assetScope;
 
-        public LobbyViewController(IAssetProvider assetProvider)
+        public LobbyController(IAssetProvider assetProvider)
         {
             _assetProvider = assetProvider;
         }

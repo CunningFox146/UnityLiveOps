@@ -1,4 +1,5 @@
 using App.Runtime.Features;
+using App.Runtime.Features.Common;
 using App.Runtime.Features.LiveOps.Model;
 using App.Runtime.Features.LiveOps.Service;
 using App.Runtime.Features.LiveOps.Services;
@@ -49,9 +50,9 @@ namespace App.Runtime.Infrastructure
             builder.Register<IAssetProvider, AddressableAssetProvider>(Lifetime.Singleton);
             
             builder.Register<IViewStack, ViewStack>(Lifetime.Singleton);
-            builder.Register<IViewControllerFactory, ViewControllerFactory>(Lifetime.Singleton);
-            builder.Register<IViewService, ViewService>(Lifetime.Singleton);
-            builder.Register<LobbyViewController>(Lifetime.Transient);
+            builder.Register<IControllerFactory, ControllerFactory>(Lifetime.Singleton);
+            builder.Register<IControllerService, ControllerService>(Lifetime.Singleton);
+            builder.Register<LobbyController>(Lifetime.Transient);
             
             builder.Register<PersistentStorage>(Lifetime.Singleton)
                 .WithParameter(Application.persistentDataPath)
@@ -63,6 +64,8 @@ namespace App.Runtime.Infrastructure
             
             builder.Register<LiveOpsService>(Lifetime.Singleton);
             builder.Register<ILiveOpsApiService, LiveOpsApiService>(Lifetime.Singleton);
+            
+            builder.Register<IFeatureService, FeatureService>(Lifetime.Singleton);
             
             builder.RegisterEntryPoint<BootEntryPoint>();
         }

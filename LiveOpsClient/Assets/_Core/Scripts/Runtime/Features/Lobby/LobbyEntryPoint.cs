@@ -10,19 +10,19 @@ namespace App.Runtime.Features.Lobby
 {
     public class LobbyEntryPoint : IAsyncStartable, IDisposable
     {
-        private readonly IViewService _viewService;
+        private readonly IControllerService _controllerService;
         private readonly IUserStateService _userStateService;
 
-        public LobbyEntryPoint(IViewService viewService, IUserStateService userStateService)
+        public LobbyEntryPoint(IControllerService controllerService, IUserStateService userStateService)
         {
-            _viewService = viewService;
+            _controllerService = controllerService;
             _userStateService = userStateService;
         }
         
         public async UniTask StartAsync(CancellationToken token = default)
         {
             var args = new LobbyViewControllerArgs(_userStateService.CurrentLevel);
-            await _viewService.ShowView<LobbyViewController, LobbyViewControllerArgs>(args, token);
+            await _controllerService.StartController<LobbyController, LobbyViewControllerArgs>(args, token);
         }
         
         public void Dispose()

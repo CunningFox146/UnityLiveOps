@@ -8,7 +8,7 @@ namespace App.Shared.Mvc
     /// View controller with input but no result.
     /// Override OnStart(TInput) and OnStop().
     /// </summary>
-    public abstract class ViewControllerBase<TInput> : IViewController<TInput, Empty>
+    public abstract class ControllerBase<TInput> : IController<TInput, Empty>
     {
         public async UniTask<Empty> Start(TInput input, CancellationToken token)
         {

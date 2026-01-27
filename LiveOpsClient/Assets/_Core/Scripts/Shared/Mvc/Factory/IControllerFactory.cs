@@ -1,6 +1,6 @@
 namespace App.Shared.Mvc.Factory
 {
-    public interface IViewControllerFactory
+    public interface IControllerFactory
     {
         T Create<T>() where T : class;
     }

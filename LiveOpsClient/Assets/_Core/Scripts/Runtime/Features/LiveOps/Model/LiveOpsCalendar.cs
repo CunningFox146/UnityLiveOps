@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using App.Shared.Time;
 using CunningFox.LiveOps.Models;
-using NCrontab;
 using ZLinq;
 
 namespace App.Runtime.Features.LiveOps.Model
@@ -12,7 +10,7 @@ namespace App.Runtime.Features.LiveOps.Model
     {
         public Guid Id { get; private set; }
         public List<LiveOpEvent> Events { get; private set; }
-        public List<Guid> SeenEvents { get; private set; }
+        public List<int> SeenEvents { get; private set; }
         public TimeSpan TimeDifference { get; private set; }
 
         public static LiveOpsCalendar CreateFromDto(LiveOpsCalendarDto dto, ITimeService timeService)
@@ -20,7 +18,7 @@ namespace App.Runtime.Features.LiveOps.Model
             {
                 Id = dto.Id,
                 Events = GetEventsFromDto(dto),
-                SeenEvents = new List<Guid>(),
+                SeenEvents = new List<int>(),
                 TimeDifference = TimeSpan.FromTicks(timeService.Now.Ticks - dto.ServerTime)
             };
 

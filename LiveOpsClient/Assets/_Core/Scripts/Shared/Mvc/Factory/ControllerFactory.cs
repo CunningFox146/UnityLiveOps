@@ -2,11 +2,11 @@ using VContainer;
 
 namespace App.Shared.Mvc.Factory
 {
-    public class ViewControllerFactory : IViewControllerFactory
+    public class ControllerFactory : IControllerFactory
     {
         private readonly IObjectResolver _container;
 
-        public ViewControllerFactory(IObjectResolver container)
+        public ControllerFactory(IObjectResolver container)
         {
             _container = container;
         }
