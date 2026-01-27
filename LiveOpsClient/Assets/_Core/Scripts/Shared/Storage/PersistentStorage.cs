@@ -34,9 +34,6 @@ namespace App.Shared.Storage
 
         public async UniTask SaveAsync<T>(string key, T data, CancellationToken cancellationToken = default)
         {
-            await UniTask.SwitchToThreadPool();
-            cancellationToken.ThrowIfCancellationRequested();
-
             var filePath = GetFilePath(key);
             var tempPath = ZString.Concat(filePath, TempFileExtension);
 
@@ -54,9 +51,6 @@ namespace App.Shared.Storage
 
         public async UniTask<T> LoadAsync<T>(string key, CancellationToken cancellationToken = default)
         {
-            await UniTask.SwitchToThreadPool();
-            cancellationToken.ThrowIfCancellationRequested();
-
             var filePath = GetFilePath(key);
             if (!File.Exists(filePath))
                 return default;

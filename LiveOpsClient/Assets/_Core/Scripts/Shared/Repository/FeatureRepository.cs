@@ -42,10 +42,6 @@ namespace App.Shared.Repository
             {
                 _logger.Error("Failed to restore persistent data", exception);
             }
-            finally
-            {
-                await UniTask.SwitchToMainThread(token);
-            }
 
             Value = _defaultValue;
         }
@@ -72,7 +68,6 @@ namespace App.Shared.Repository
             finally
             {
                 _semaphore.Release();
-                await UniTask.SwitchToMainThread(token);
             }
         }
     }

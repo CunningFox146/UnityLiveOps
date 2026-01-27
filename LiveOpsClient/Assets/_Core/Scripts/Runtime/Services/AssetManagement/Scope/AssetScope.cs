@@ -23,20 +23,29 @@ namespace App.Runtime.Services.AssetManagement.Scope
             _provider = provider;
         }
 
-        public async UniTask<TComponent> InstantiateAsync<TComponent>(string key,
-            CancellationToken cancellationToken = default)
-            where TComponent : Behaviour
+        public async UniTask<GameObject> InstantiateAsync(string key,
+            Transform parent = null,
+            CancellationToken token = default)
         {
-            var asset = await LoadAssetAsync<GameObject>(key, cancellationToken);
-            return Object.Instantiate(asset).GetComponent<TComponent>();
+            var asset = await LoadAssetAsync<GameObject>(key, token);
+            return Object.Instantiate(asset, parent);
         }
 
-        public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default)
+        public async UniTask<TComponent> InstantiateAsync<TComponent>(string key,
+            Transform parent = null,
+            CancellationToken token = default)
+            where TComponent : Component
+        {
+            var obj = await InstantiateAsync(key, parent, token);
+            return obj.TryGetComponent(out TComponent component) ? component : null;
+        }
+
+        public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken token = default)
             where T : Object
         {
             ThrowIfDisposed();
 
-            var asset = await _provider.LoadAssetAsync<T>(key, cancellationToken);
+            var asset = await _provider.LoadAssetAsync<T>(key, token);
             _loadedAssets.Add(asset);
             return asset;
         }

@@ -1,11 +1,12 @@
 using System;
 using System.Threading;
+using App.Runtime.Features.ClickerLiveOp;
+using App.Runtime.Features.Common;
 using App.Runtime.Features.LiveOps.Services;
 using App.Runtime.Features.UserState.Services;
 using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.SceneLoader;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using VContainer.Unity;
 using ILogger = App.Shared.Logger.ILogger;
 
@@ -18,15 +19,17 @@ namespace App.Runtime.Infrastructure
         private readonly IAssetProvider _assetProvider;
         private readonly IUserStateService _userStateService;
         private readonly LiveOpsService _liveOpsService;
+        private readonly IFeatureService _featureService;
 
         public BootEntryPoint(ILogger logger, ISceneLoaderService sceneLoader, IAssetProvider assetProvider,
-            IUserStateService userStateService, LiveOpsService liveOpsService)
+            IUserStateService userStateService, LiveOpsService liveOpsService, IFeatureService featureService)
         {
             _logger = logger;
             _sceneLoader = sceneLoader;
             _assetProvider = assetProvider;
             _userStateService = userStateService;
             _liveOpsService = liveOpsService;
+            _featureService = featureService;
         }
 
         public async UniTask StartAsync(CancellationToken cancellation = default)
@@ -38,6 +41,9 @@ namespace App.Runtime.Infrastructure
                     _userStateService.RestoreUserState(cancellation)
                 );
                 await _liveOpsService.Initialize(cancellation);
+
+                await _featureService.StartFeature(FeatureType.LiveOpClicker, new ClickerLiveOpInstaller(), cancellation);
+                
                 await _sceneLoader.LoadSceneAsync("Lobby", cancellationToken: cancellation);
             }
             catch (OperationCanceledException) { }

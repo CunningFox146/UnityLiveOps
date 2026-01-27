@@ -12,9 +12,12 @@ namespace App.Runtime.Services.AssetManagement.Scope
     /// </summary>
     public interface IAssetScope : IDisposable
     {
-        UniTask<TComponent> InstantiateAsync<TComponent>(string key, CancellationToken cancellationToken = default)
-            where TComponent : Behaviour;
+        UniTask<GameObject> InstantiateAsync(string key, Transform parent = null,
+            CancellationToken cancellationToken = default);
+        
+        UniTask<TComponent> InstantiateAsync<TComponent>(string key, Transform parent = null, CancellationToken cancellationToken = default)
+            where TComponent : Component;
 
-        UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default) where T : Object;
+        UniTask<T> LoadAssetAsync<T>(string key, CancellationToken token = default) where T : Object;
     }
 }

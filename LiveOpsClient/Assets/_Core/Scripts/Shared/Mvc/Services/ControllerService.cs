@@ -31,14 +31,14 @@ namespace App.Shared.Mvc.Services
             DisposeOnCancellation(controller, token).Forget();
         }
 
-        public async UniTask<TResult> ShowViewWithResult<T, TResult>(CancellationToken token = default) 
+        public async UniTask<TResult> StartControllerWithResult<T, TResult>(CancellationToken token = default) 
             where T : class, IController<Empty, TResult>
         {
             using var controller = _controllerFactory.Create<T>();
             return await controller.Start(Empty.Default, token);
         }
 
-        public async UniTask<TResult> ShowViewWithResult<T, TResult, TInput>(TInput input, CancellationToken token = default) 
+        public async UniTask<TResult> StartControllerWithResult<T, TResult, TInput>(TInput input, CancellationToken token = default) 
             where T : class, IController<TInput, TResult>
         {
             using var controller = _controllerFactory.Create<T>();

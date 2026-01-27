@@ -3,6 +3,7 @@ using App.Runtime.Features.LiveOps.Api;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.LiveOps.Services;
 using App.Runtime.Features.Lobby.Controllers;
+using App.Runtime.Features.Lobby.Models;
 using App.Runtime.Features.UserState.Models;
 using App.Runtime.Features.UserState.Services;
 using App.Runtime.Services.AssetManagement.Provider;
@@ -65,6 +66,7 @@ namespace App.Runtime.Infrastructure
             builder.Register<ILiveOpsApiService, LiveOpsApiService>(Lifetime.Singleton);
             
             builder.Register<IFeatureService, FeatureService>(Lifetime.Singleton);
+            builder.Register<IEventIconsHandler, EventIconsHandler>(Lifetime.Singleton);
             
             builder.RegisterEntryPoint<BootEntryPoint>();
         }

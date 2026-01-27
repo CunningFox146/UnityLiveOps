@@ -755,5 +755,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b4fa8f0f97e491b8242b2cc1e79aa95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: App.Runtime::App.Runtime.Features.Lobby.Views.LobbyView
-  _eventsContainer: {fileID: 0}
+  _eventsContainer: {fileID: 6985272054659617359}
   _levelText: {fileID: 7064226991344586914}

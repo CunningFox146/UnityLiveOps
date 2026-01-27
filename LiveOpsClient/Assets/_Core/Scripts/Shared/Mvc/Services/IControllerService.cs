@@ -21,13 +21,13 @@ namespace App.Shared.Mvc.Services
         /// <summary>
         /// Shows a view and returns a result (no input).
         /// </summary>
-        UniTask<TResult> ShowViewWithResult<T, TResult>(CancellationToken token = default) 
+        UniTask<TResult> StartControllerWithResult<T, TResult>(CancellationToken token = default) 
             where T : class, IController<Empty, TResult>;
 
         /// <summary>
         /// Shows a view with input and returns a result.
         /// </summary>
-        UniTask<TResult> ShowViewWithResult<T, TResult, TInput>(TInput input, CancellationToken token = default) 
+        UniTask<TResult> StartControllerWithResult<T, TResult, TInput>(TInput input, CancellationToken token = default) 
             where T : class, IController<TInput, TResult>;
     }
 }

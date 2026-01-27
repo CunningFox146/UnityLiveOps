@@ -4,11 +4,12 @@ using App.Runtime.Features.Lobby.Controllers;
 using App.Runtime.Features.UserState.Services;
 using App.Shared.Mvc.Services;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using VContainer.Unity;
 
 namespace App.Runtime.Features.Lobby
 {
-    public class LobbyEntryPoint : IAsyncStartable, IDisposable
+    public class LobbyEntryPoint : IAsyncStartable
     {
         private readonly IControllerService _controllerService;
         private readonly IUserStateService _userStateService;
@@ -23,11 +24,6 @@ namespace App.Runtime.Features.Lobby
         {
             var args = new LobbyViewControllerArgs(_userStateService.CurrentLevel);
             await _controllerService.StartController<LobbyController, LobbyViewControllerArgs>(args, token);
-        }
-        
-        public void Dispose()
-        {
-            
         }
     }
 }
