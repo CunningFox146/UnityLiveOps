@@ -6,6 +6,10 @@
         <LangVersion>latest</LangVersion>
         <RootNamespace>CunningFox.LiveOps</RootNamespace>
     </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="NCrontab" Version="3.4.0" />
+    </ItemGroup>
     <Target Name="PublishToUnity" AfterTargets="Build">
         <PropertyGroup>
             <UnityPluginPath>../../LiveopsClient/Assets/Plugins/LiveOpsShared/</UnityPluginPath>

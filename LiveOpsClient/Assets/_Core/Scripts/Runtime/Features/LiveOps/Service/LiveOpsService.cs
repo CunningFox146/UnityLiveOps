@@ -31,8 +31,28 @@ namespace App.Runtime.Features.LiveOps.Service
             {
                 var calendarDto = await _apiService.GetCalendar(token);
                 var calendar = LiveOpsCalendar.CreateFromDto(calendarDto, _timeService);
-                _repository.Update(calendar);
+                await _repository.UpdateAsync(calendar, token);
             }
-        } 
+        }
+
+        public async UniTask ScheduleLiveOps(CancellationToken token)
+        {
+            foreach (var liveOp in Data.Events)
+            {
+                var currentTime = _timeService.Now - Data.TimeDifference;
+                var nextOccurrence = liveOp.Schedule.GetNextOccurrence(currentTime);
+                var endTime = nextOccurrence - currentTime;
+
+                if (endTime > TimeSpan.Zero)
+                {
+                    ScheduleEvent(liveOp, endTime, token);
+                }
+            }
+        }
+
+        private void ScheduleEvent(LiveOpEvent liveOp, TimeSpan delay, CancellationToken token)
+        {
+            // TODO: Implement actual scheduling logic
+        }
     }
 }

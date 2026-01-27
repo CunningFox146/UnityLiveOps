@@ -1,0 +1,166 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NCrontab</name>
+    </assembly>
+    <members>
+        <member name="T:NCrontab.CrontabField">
+            <summary>
+            Represents a single crontab field.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Parse(NCrontab.CrontabFieldKind,System.String)">
+            <summary>
+            Parses a crontab field expression given its kind.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Seconds(System.String)">
+            <summary>
+            Parses a crontab field expression representing seconds.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Minutes(System.String)">
+            <summary>
+            Parses a crontab field expression representing minutes.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Hours(System.String)">
+            <summary>
+            Parses a crontab field expression representing hours.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Days(System.String)">
+            <summary>
+            Parses a crontab field expression representing days in any given month.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Months(System.String)">
+            <summary>
+            Parses a crontab field expression representing months.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.DaysOfWeek(System.String)">
+            <summary>
+            Parses a crontab field expression representing days of a week.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.GetFirst">
+            <summary>
+            Gets the first value of the field or -1.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Next(System.Int32)">
+            <summary>
+            Gets the next value of the field that occurs after the given start value or -1 if there is
+            no next value available.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Contains(System.Int32)">
+            <summary>
+            Determines if the given value occurs in the field.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabField.Accumulate``1(System.Int32,System.Int32,System.Int32,``0,System.Func{NCrontab.ExceptionProvider,``0})">
+            <summary>
+            Accumulates the given range (start to end) and interval of values into the current set of
+            the field.
+            </summary>
+            <remarks>
+            To set the entire range of values representable by the field, set <param name="start" /> and
+            <param name="end" /> to -1 and <param name="interval" /> to 1.
+            </remarks>
+        </member>
+        <member name="T:NCrontab.CrontabSchedule">
+            <summary>
+            Represents a schedule initialized from the crontab expression.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabSchedule.GetNextOccurrences(System.DateTime,System.DateTime)">
+            <summary>
+            Enumerates all the occurrences of this schedule starting with a base time and up to an end
+            time limit. This method uses deferred execution such that the occurrences are only
+            calculated as they are enumerated.
+            </summary>
+            <remarks>
+            This method does not return the value of <paramref name="baseTime"/> itself if it falls on
+            the schedule. For example, if <paramref name="baseTime" /> is midnight and the schedule was
+            created from the expression <c>* * * * *</c> (meaning every minute) then the next occurrence
+            of the schedule will be at one minute past midnight and not midnight itself. The method
+            returns the <em>next</em> occurrence <em>after</em> <paramref name="baseTime"/>. Also,
+            <param name="endTime" /> is exclusive.
+            </remarks>
+        </member>
+        <member name="M:NCrontab.CrontabSchedule.GetNextOccurrence(System.DateTime)">
+            <summary>
+            Gets the next occurrence of this schedule starting with a base time.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabSchedule.GetNextOccurrence(System.DateTime,System.DateTime)">
+            <summary>
+            Gets the next occurrence of this schedule starting with a base time and up to an end time
+            limit.
+            </summary>
+            <remarks>
+            This method does not return the value of <paramref name="baseTime"/> itself if it falls on
+            the schedule. For example, if <paramref name="baseTime" /> is midnight and the schedule was
+            created from the expression <c>* * * * *</c> (meaning every minute) then the next occurrence
+            of the schedule will be at one minute past midnight and not midnight itself. The method
+            returns the <em>next</em> occurrence <em>after</em> <paramref name="baseTime"/>. Also,
+            <param name="endTime" /> is exclusive.
+            </remarks>
+        </member>
+        <member name="M:NCrontab.CrontabSchedule.ToString">
+            <summary>
+            Returns a string in crontab expression (expanded) that represents this schedule.
+            </summary>
+        </member>
+        <member name="M:NCrontab.CrontabScheduleExtensions.GetNextOccurrences(System.Collections.Generic.IEnumerable{NCrontab.CrontabSchedule},System.DateTime,System.DateTime)">
+            <summary>
+            Generates a sequence of unique next occurrences (in order) between two dates based on one or
+            more schedules.
+            </summary>
+            <remarks>
+            The <paramref name="baseTime"/> and <paramref name="endTime"/> arguments are exclusive.
+            </remarks>
+        </member>
+        <member name="M:NCrontab.CrontabScheduleExtensions.GetNextOccurrences``1(System.Collections.Generic.IEnumerable{NCrontab.CrontabSchedule},System.DateTime,System.DateTime,System.Func{NCrontab.CrontabSchedule,System.DateTime,``0})">
+            <summary>
+            Generates a sequence of next occurrences (in order) between two dates and based on one or
+            more schedules. An additional parameter specifies a function that projects the items of the
+            resulting sequence where each invocation of the function is given the schedule that produced
+            the occurrence and the occurrence itself.
+            </summary>
+            <remarks>
+            <para>
+            The <paramref name="baseTime"/> and <paramref name="endTime"/> arguments are
+            exclusive.</para>
+            <para>
+            The resulting sequence can contain duplicate occurrences if multiple schedules produce the
+            same occurrence.</para>
+            </remarks>
+        </member>
+        <member name="T:NCrontab.ExceptionProvider">
+            <summary>
+            Represents the method that will generate an <see cref="T:System.Exception"/> object.
+            </summary>
+        </member>
+        <member name="M:NCrontab.Extensions.DistinctUntilChanged``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.IEqualityComparer{``0})">
+            <summary>
+            Iterates over the given sequence and yields the first occurrence of each consecutively
+            repeating element, e.g. <c>[1, 2, 2, 3, 3, 3, 2, 4]</c> &#x2192; <c>[1, 2, 3, 2, 4]</c>.
+            </summary>
+        </member>
+        <member name="M:NCrontab.Schedule.GetOccurrences``2(System.Collections.Generic.IEnumerable{``0},System.Func{``0,System.Collections.Generic.IEnumerable{System.DateTime}},System.Func{``0,System.DateTime,``1})">
+            <summary>
+            Generates a sequence of occurrences based on one or more schedules.
+            </summary>
+        </member>
+        <member name="M:NCrontab.Schedule.Merge``1(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,System.DateTime}},System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{``0,System.DateTime}})">
+            <remarks>
+            The schedules, <paramref name="schedule1"/> and <paramref name="schedule2"/>, are expected
+            to produce a timeline of unique occurrences in order of earliest to latest time. The
+            behaviour is otherwise undefined.
+            </remarks>
+        </member>
+    </members>
+</doc>

@@ -31,11 +31,11 @@ namespace App.Shared.Repository
             _semaphore = new SemaphoreSlim(1, 1);
         }
         
-        public async UniTask RestoreFeatureData(CancellationToken cancellationToken = default)
+        public async UniTask RestoreFeatureData(CancellationToken token = default)
         {
             try
             {
-                Value = await _persistentStorage.LoadAsync<T>(_key, cancellationToken) ?? _defaultValue;
+                Value = await _persistentStorage.LoadAsync<T>(_key, token) ?? _defaultValue;
                 return;
             }
             catch (Exception exception)
@@ -44,7 +44,7 @@ namespace App.Shared.Repository
             }
             finally
             {
-                await UniTask.SwitchToMainThread(cancellationToken);
+                await UniTask.SwitchToMainThread(token);
             }
 
             Value = _defaultValue;
@@ -52,17 +52,17 @@ namespace App.Shared.Repository
 
         public void Update(T data)
         {
-            UpdateInternal(data).Forget();
+            UpdateAsync(data).Forget();
         }
 
-        private async UniTask UpdateInternal(T data)
+        public async UniTask UpdateAsync(T data, CancellationToken token = default)
         {
-            await _semaphore.WaitAsync().AsUniTask();
+            await _semaphore.WaitAsync(token);
 
             try
             {
                 Value = data;
-                await _persistentStorage.SaveAsync(_key, Value);
+                await _persistentStorage.SaveAsync(_key, Value, token);
                 RepositoryUpdated?.Invoke();
             }
             catch (Exception exception)
@@ -72,6 +72,7 @@ namespace App.Shared.Repository
             finally
             {
                 _semaphore.Release();
+                await UniTask.SwitchToMainThread(token);
             }
         }
     }
