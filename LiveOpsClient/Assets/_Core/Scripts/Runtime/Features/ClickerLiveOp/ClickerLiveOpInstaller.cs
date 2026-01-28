@@ -1,5 +1,6 @@
 using App.Runtime.Features.ClickerLiveOp.Controllers;
 using App.Runtime.Features.ClickerLiveOp.Model;
+using App.Runtime.Features.ClickerLiveOp.Services;
 using App.Runtime.Features.LiveOps;
 using App.Shared.Mvc.Utils;
 using App.Shared.Repository;
@@ -19,6 +20,7 @@ namespace App.Runtime.Features.ClickerLiveOp
             base.Install(builder);
             
             builder.Register<IRepository<ClickerLiveOpData>, ClickerLiveOpRepository>(Lifetime.Scoped);
+            builder.Register<IClickerLiveOpService, ClickerLiveOpService>(Lifetime.Scoped);
             builder.RegisterController<ClickerLiveOpPopupController>();
             builder.RegisterEntryPoint<ClickerLiveOpEntryPoint>();
         }

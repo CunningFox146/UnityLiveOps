@@ -19,9 +19,7 @@ namespace App.Runtime.Features.ClickerLiveOp
 {
     public class ClickerLiveOpEntryPoint : LiveOpEntryPointBase
     {
-        public ClickerLiveOpEntryPoint(IEventIconsHandler iconsHandler, IAssetProvider assetProvider,
-            IControllerService controllerService, ITimeService timeService, LiveOpState state, ILogger logger) : base(
-            iconsHandler, assetProvider, controllerService, timeService, state, logger)
+        public ClickerLiveOpEntryPoint(IEventIconsHandler iconsHandler, IAssetProvider assetProvider, IControllerService controllerService, ITimeService timeService, LiveOpState state, IFeatureService featureService, ILogger logger) : base(iconsHandler, assetProvider, controllerService, timeService, state, featureService, logger)
         {
         }
     }

@@ -27,19 +27,21 @@ namespace App.Runtime.Features.LiveOps
         private readonly IControllerService _controllerService;
         private readonly ITimeService _timeService;
         private readonly LiveOpState _state;
+        private readonly IFeatureService _featureService;
         private readonly ILogger _logger;
         private AssetScope _assetScope;
         private CancellationToken _token;
         private ILiveOpConfig _config;
 
         protected LiveOpEntryPointBase(IEventIconsHandler iconsHandler, IAssetProvider assetProvider,
-            IControllerService controllerService, ITimeService timeService, LiveOpState state, ILogger logger)
+            IControllerService controllerService, ITimeService timeService, LiveOpState state, IFeatureService featureService, ILogger logger)
         {
             _iconsHandler = iconsHandler;
             _assetProvider = assetProvider;
             _controllerService = controllerService;
             _timeService = timeService;
             _state = state;
+            _featureService = featureService;
             _logger = logger;
         }
 
@@ -94,6 +96,9 @@ namespace App.Runtime.Features.LiveOps
                 await _controllerService
                     .StartControllerWithResult<ClickerLiveOpPopupController, ClickerLiveOpPopup, Empty>(popupPrefab,
                         token);
+                
+                if (_state.IsExpired(_timeService))
+                    _featureService.StopFeature(_state.Type);
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)
