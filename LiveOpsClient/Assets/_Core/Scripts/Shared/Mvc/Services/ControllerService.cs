@@ -38,7 +38,7 @@ namespace App.Shared.Mvc.Services
             return await controller.Start(Empty.Default, token);
         }
 
-        public async UniTask<TResult> StartControllerWithResult<T, TResult, TInput>(TInput input, CancellationToken token = default) 
+        public async UniTask<TResult> StartControllerWithResult<T, TInput, TResult>(TInput input, CancellationToken token = default) 
             where T : class, IController<TInput, TResult>
         {
             using var controller = _controllerFactory.Create<T>();

@@ -4,7 +4,6 @@ using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.Common.Views;
 using App.Runtime.Features.Lobby.Models;
 using App.Shared.Mvc;
-using App.Shared.Mvc.Services;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -15,16 +14,14 @@ namespace App.Runtime.Features.ClickerLiveOp
 {
     public class EventIconController : ControllerBase<EventIconControllerArgs>
     {
-        private readonly IControllerService _controllerService;
         private readonly ITimeService _timeService;
         private readonly LiveOpState _state;
         private readonly ILogger _logger;
         private IEventIconView _view;
-        private CancellationToken _token;
+        private Action _onClick;
 
-        public EventIconController(IControllerService controllerService, ITimeService timeService, LiveOpState state, ILogger logger)
+        public EventIconController(ITimeService timeService, LiveOpState state, ILogger logger)
         {
-            _controllerService = controllerService;
             _timeService = timeService;
             _state = state;
             _logger = logger;
@@ -34,7 +31,7 @@ namespace App.Runtime.Features.ClickerLiveOp
         {
             try
             {
-                _token = token;
+                _onClick = args.IconClicked;
                 _view = Object.Instantiate(args.IconPrefab, args.IconParent);
                 _view.Clicked += OnViewClicked;
                 InitializeState();
@@ -47,6 +44,13 @@ namespace App.Runtime.Features.ClickerLiveOp
             return UniTask.CompletedTask;
         }
 
+        protected override void OnStop()
+        {
+            _timeService.TimeChanged -= OnTimeChanged;
+            _view.Clicked -= OnViewClicked;
+            _view?.Dispose();   
+        }
+        
         private void InitializeState()
         {
             OnTimeChanged(_timeService.Now);
@@ -66,17 +70,6 @@ namespace App.Runtime.Features.ClickerLiveOp
         }
 
         private void OnViewClicked()
-        {
-            Debug.Log("OnViewClicked");
-            //_controllerService.StartController<EventPopupController>(_token);
-        }
-
-        protected override void OnStop()
-        {
-            Debug.Log("OnStop");
-            _timeService.TimeChanged -= OnTimeChanged;
-            _view.Clicked -= OnViewClicked;
-            _view?.Dispose();   
-        }
+            => _onClick?.Invoke();
     }
 }

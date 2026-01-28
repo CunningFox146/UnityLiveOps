@@ -59,8 +59,11 @@ namespace App.Runtime.Features.LiveOps.Services
                 }
 
                 var calendarDto = await _apiService.GetCalendar(token);
-                Data.UpdateFromDto(calendarDto, _timeService);
-                await _repository.UpdateAsync(Data, token);
+                if (calendarDto != null)
+                {
+                    Data.UpdateFromDto(calendarDto, _timeService);
+                    await _repository.UpdateAsync(Data, token);
+                }
             }
             catch (OperationCanceledException)
             {

@@ -7,7 +7,7 @@ namespace App.Shared.Mvc
     /// View controller with input and result.
     /// Override OnStart(TInput) and OnStop().
     /// </summary>
-    public abstract class ControllerWithResult<TResult, TInput> : IController<TInput, TResult>
+    public abstract class ControllerWithResult<TInput, TResult> : IController<TInput, TResult>
     {
         public UniTask<TResult> Start(TInput input, CancellationToken token) => OnStart(input, token);
 

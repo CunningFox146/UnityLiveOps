@@ -1,5 +1,5 @@
+using System;
 using App.Runtime.Features.Common.Views;
-using App.Runtime.Services.AssetManagement.Scope;
 using UnityEngine;
 
 namespace App.Runtime.Features.Lobby.Models
@@ -8,11 +8,13 @@ namespace App.Runtime.Features.Lobby.Models
     {
         public Transform IconParent { get; }
         public EventIconView IconPrefab { get; }
+        public Action IconClicked { get; } 
         
-        public EventIconControllerArgs(Transform iconParent, EventIconView iconPrefab)
+        public EventIconControllerArgs(Transform iconParent, EventIconView iconPrefab, Action iconClicked)
         {
             IconParent = iconParent;
             IconPrefab = iconPrefab;
+            IconClicked = iconClicked;
         }
     }
 }

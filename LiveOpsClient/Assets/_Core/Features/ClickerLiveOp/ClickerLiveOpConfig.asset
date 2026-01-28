@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: ClickerLiveOpConfig
   m_EditorClassIdentifier: App.Runtime::App.Runtime.Features.LiveOps.Models.LiveOpConfig
   <IconPrefab>k__BackingField: {fileID: 3111812072820689278, guid: b6925ad7430d744fe9e1243729443d44, type: 3}
+  <PopupPrefab>k__BackingField: {fileID: 8863739147796023732, guid: e199d30e39cfc4998bfb4622abd2c024, type: 3}
