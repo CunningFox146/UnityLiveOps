@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using App.Runtime.Features.ClickerLiveOp.Model;
+using App.Runtime.Features.ClickerLiveOp.Services;
 using App.Runtime.Features.Common;
 using App.Runtime.Features.LiveOps;
 using App.Runtime.Features.LiveOps.Models;
@@ -19,7 +20,7 @@ namespace App.Runtime.Features.ClickerLiveOp
 {
     public class ClickerLiveOpEntryPoint : LiveOpEntryPointBase
     {
-        public ClickerLiveOpEntryPoint(IEventIconsHandler iconsHandler, IAssetProvider assetProvider, IControllerService controllerService, ITimeService timeService, LiveOpState state, IFeatureService featureService, ILogger logger) : base(iconsHandler, assetProvider, controllerService, timeService, state, featureService, logger)
+        public ClickerLiveOpEntryPoint(IEventIconsHandler iconsHandler, IAssetProvider assetProvider, IControllerService controllerService, ITimeService timeService, LiveOpState state, IFeatureService featureService, IClickerLiveOpService clickerService, ILogger logger) : base(iconsHandler, assetProvider, controllerService, timeService, state, featureService, clickerService, logger)
         {
         }
     }

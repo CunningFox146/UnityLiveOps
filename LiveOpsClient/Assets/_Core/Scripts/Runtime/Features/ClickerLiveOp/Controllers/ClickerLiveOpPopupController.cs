@@ -1,8 +1,10 @@
 using System;
 using System.Threading;
 using App.Runtime.Features.ClickerLiveOp.Model;
+using App.Runtime.Features.ClickerLiveOp.Services;
 using App.Runtime.Features.ClickerLiveOp.Views;
 using App.Runtime.Features.Common.Views;
+using App.Runtime.Services.Camera;
 using App.Runtime.Services.ViewStack;
 using App.Shared.Mvc;
 using App.Shared.Time;
@@ -17,14 +19,17 @@ namespace App.Runtime.Features.ClickerLiveOp.Controllers
     {
         private readonly ITimeService _timeService;
         private readonly IViewStack _viewStack;
+        private readonly IClickerLiveOpService _liveOpService;
+        private readonly ICameraProvider _cameraProvider;
         private readonly LiveOpState _state;
         private readonly ILogger _logger;
         private ClickerLiveOpPopup _view;
 
-        public ClickerLiveOpPopupController(ITimeService timeService, IViewStack viewStack, LiveOpState state, ILogger logger)
+        public ClickerLiveOpPopupController(ITimeService timeService, IViewStack viewStack, IClickerLiveOpService liveOpService, LiveOpState state, ILogger logger)
         {
             _timeService = timeService;
             _viewStack = viewStack;
+            _liveOpService = liveOpService;
             _state = state;
             _logger = logger;
         }
@@ -34,6 +39,8 @@ namespace App.Runtime.Features.ClickerLiveOp.Controllers
             try
             {
                 _view = Object.Instantiate(prefab);
+                // _view.SetCamera(_cameraProvider.Camera);
+                _view.SetProgress(_liveOpService.Progress);
                 _viewStack.Push(_view);
                 await _view.WaitForCtaClick(token);
             }

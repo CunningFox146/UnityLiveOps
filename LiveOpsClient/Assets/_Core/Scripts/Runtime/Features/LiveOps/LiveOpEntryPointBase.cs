@@ -3,6 +3,7 @@ using System.Threading;
 using App.Runtime.Features.ClickerLiveOp;
 using App.Runtime.Features.ClickerLiveOp.Controllers;
 using App.Runtime.Features.ClickerLiveOp.Model;
+using App.Runtime.Features.ClickerLiveOp.Services;
 using App.Runtime.Features.ClickerLiveOp.Views;
 using App.Runtime.Features.Common;
 using App.Runtime.Features.LiveOps.Models;
@@ -28,13 +29,14 @@ namespace App.Runtime.Features.LiveOps
         private readonly ITimeService _timeService;
         private readonly LiveOpState _state;
         private readonly IFeatureService _featureService;
+        private readonly IClickerLiveOpService _clickerService;
         private readonly ILogger _logger;
         private AssetScope _assetScope;
         private CancellationToken _token;
         private ILiveOpConfig _config;
 
         protected LiveOpEntryPointBase(IEventIconsHandler iconsHandler, IAssetProvider assetProvider,
-            IControllerService controllerService, ITimeService timeService, LiveOpState state, IFeatureService featureService, ILogger logger)
+            IControllerService controllerService, ITimeService timeService, LiveOpState state, IFeatureService featureService, IClickerLiveOpService clickerService, ILogger logger)
         {
             _iconsHandler = iconsHandler;
             _assetProvider = assetProvider;
@@ -42,6 +44,7 @@ namespace App.Runtime.Features.LiveOps
             _timeService = timeService;
             _state = state;
             _featureService = featureService;
+            _clickerService = clickerService;
             _logger = logger;
         }
 
@@ -49,6 +52,7 @@ namespace App.Runtime.Features.LiveOps
         {
             _token = token;
             _assetScope = new AssetScope(_assetProvider);
+            await _clickerService.Initialize(token);
             _config = await _assetScope.LoadAssetAsync<ILiveOpConfig>(_state.Type + "/Config", token);
             RegisterLobbyIcon();
         }
@@ -85,6 +89,7 @@ namespace App.Runtime.Features.LiveOps
 
         private void OnIconClicked()
         {
+            _clickerService.IncrementProgress();
             ShowPopup(_token).Forget();
         }
 
