@@ -31,11 +31,11 @@ namespace App.Runtime.Features.LiveOps.Api
             return null;
         }
 
-        public async UniTask<Guid> GetCalendarId(CancellationToken token = default)
+        public async UniTask<string> GetCalendarId(CancellationToken token = default)
         {
             try
             {
-                return await GetAsync<Guid>("LiveOps/ActiveId", token);
+                return await GetStringAsync("LiveOps/ActiveId", token);
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)
@@ -43,7 +43,7 @@ namespace App.Runtime.Features.LiveOps.Api
                 _logger.Error("Failed to fetch active calendar id", exception, LoggerTag.LiveOps);
             }
 
-            return Guid.Empty;
+            return null;
         }
     }
 }

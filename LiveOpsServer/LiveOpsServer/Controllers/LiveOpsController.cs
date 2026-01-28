@@ -9,7 +9,7 @@ namespace CunningFox.LiveOpsServer.Controllers;
 public class LiveOpsController(ILiveOpService liveOpService) : ControllerBase
 {
     [HttpGet("ActiveId")]
-    public Guid GetActiveLiveOpsId()
+    public string GetActiveLiveOpsId()
     {
         return liveOpService.GetCalendar().Id;
     }

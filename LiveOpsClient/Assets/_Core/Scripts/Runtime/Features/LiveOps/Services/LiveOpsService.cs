@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using App.Runtime.Features.ClickerLiveOp;
 using App.Runtime.Features.ClickerLiveOp.Model;
@@ -10,8 +11,8 @@ using App.Shared.Logger;
 using App.Shared.Repository;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
-using UnityEngine.LightTransport;
-using VContainer;
+using UnityEngine.Pool;
+using ZLinq;
 
 namespace App.Runtime.Features.LiveOps.Services
 {
@@ -51,15 +52,15 @@ namespace App.Runtime.Features.LiveOps.Services
                 await _repository.RestoreFeatureData(token);
                 var activeCalendarId = await _apiService.GetCalendarId(token);
 
-                if (activeCalendarId == Guid.Empty || Data.Id == activeCalendarId)
+                if (Data.Id == activeCalendarId)
                 {
-                    _logger.Info("Using cached calendar id: " + activeCalendarId, LoggerTag.LiveOps);
+                    _logger.Info($"Using cached calendar id: {activeCalendarId}", LoggerTag.LiveOps);
                     return;
                 }
 
                 var calendarDto = await _apiService.GetCalendar(token);
-                var calendar = LiveOpsCalendar.CreateFromDto(calendarDto, _timeService);
-                await _repository.UpdateAsync(calendar, token);
+                Data.UpdateFromDto(calendarDto, _timeService);
+                await _repository.UpdateAsync(Data, token);
             }
             catch (OperationCanceledException)
             {
@@ -72,62 +73,75 @@ namespace App.Runtime.Features.LiveOps.Services
 
         public void ScheduleLiveOps(CancellationToken token)
         {
-            foreach (var liveOp in Data.Events)
-                try
+            var activeEvents = HashSetPool<FeatureType>.Get();
+            try
+            {
+                foreach (var liveOp in Data.Events)
                 {
                     if (_userStateService.CurrentLevel < liveOp.EntryLevel)
                         return;
-                    
+
                     var lookBackTime = CurrentTime - liveOp.Duration;
                     var occurrenceStart = liveOp.Schedule.GetNextOccurrence(lookBackTime);
                     var occurrenceEnd = occurrenceStart + liveOp.Duration;
                     var isRunning = occurrenceEnd > CurrentTime && occurrenceStart < CurrentTime;
 
+                    var state = new LiveOpState(liveOp.Type, occurrenceStart, occurrenceEnd);
                     if (isRunning)
-                        StartEvent(liveOp, occurrenceStart, occurrenceEnd);
+                    {
+                        activeEvents.Add(liveOp.Type);
+                        StartEvent(state);
+                    }
                     else
-                        ScheduleEvent(liveOp, occurrenceStart, occurrenceEnd, token).Forget();
+                        ScheduleEvent(state, token).Forget();
                 }
-                catch (Exception exception)
-                {
-                    _logger.Error($"Failed to schedule event {liveOp.Id}", exception, LoggerTag.LiveOps);
-                }
+
+                _repository.Update(Data);
+            }
+            catch (Exception exception)
+            {
+                _logger.Error("Failed to schedule events", exception, LoggerTag.LiveOps);
+            }
+            finally
+            {
+                StartExpiredEvents(activeEvents);
+                HashSetPool<FeatureType>.Release(activeEvents);
+            }
         }
 
-        private async UniTaskVoid ScheduleEvent(LiveOpEvent liveOp, DateTime occurrenceStart, DateTime occurrenceEnd,
-            CancellationToken token)
+        private void StartExpiredEvents(HashSet<FeatureType> activeEvents)
+        {
+            var expired = Data.SeenEvents.AsValueEnumerable()
+                .Where(e => !activeEvents.Contains(e.Type) && e.EndTime < CurrentTime);
+
+            foreach (var expiredEvent in expired)
+            {
+                StartEvent(expiredEvent);
+            }
+        }
+
+        private async UniTaskVoid ScheduleEvent(LiveOpState state, CancellationToken token)
         {
             try
             {
-                await UniTask.Delay(occurrenceStart - CurrentTime, cancellationToken: token);
-                StartEvent(liveOp, occurrenceStart, occurrenceEnd);
+                await UniTask.Delay(state.StartTime - CurrentTime, cancellationToken: token);
+                _featureService.StopFeature(state.Type);
+                StartEvent(state);
             }
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                _logger.Error($"Failed to schedule event {liveOp.Type}", ex, LoggerTag.LiveOps);
+                _logger.Error($"Failed to schedule event {state.Type}", ex, LoggerTag.LiveOps);
             }
         }
 
-        private void StartEvent(LiveOpEvent liveOp, DateTime startsAt, DateTime endsAt)
+        private void StartEvent(LiveOpState state)
         {
-            // Will be saved to seen events to be shown as expired
-            var initialState = new LiveOpState
+            Data.RecordEvent(state);
+            _featureService.StartFeature(state.Type, builder =>
             {
-                FeatureType = liveOp.Type,
-                StartTime = startsAt,
-                EndTime = endsAt,
-            };
-            
-            _featureService.StartFeature(liveOp.Type, builder =>
-            {
-                new ClickerLiveOpInstaller(initialState).Install(builder);
+                new ClickerLiveOpInstaller(state).Install(builder);
             });
-        }
-
-        private static int GetOccurrenceId(Guid eventId, DateTime occurrenceTime)
-        {
-            return HashCode.Combine(eventId, occurrenceTime.Ticks);
         }
     }
 }

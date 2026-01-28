@@ -4,15 +4,43 @@ using App.Shared.Time;
 
 namespace App.Runtime.Features.ClickerLiveOp.Model
 {
-    public class LiveOpState
+    public class LiveOpState : IEquatable<LiveOpState>
     {
-        public FeatureType FeatureType { get; set; } 
-        public DateTime StartTime { get; set; }
-        public DateTime EndTime { get; set; }
 
+        public FeatureType Type { get; }
+        public DateTime StartTime { get; }
+        public DateTime EndTime { get; }
+
+        public LiveOpState(FeatureType type, DateTime startTime, DateTime endTime)
+        {
+            Type = type;
+            StartTime = startTime;
+            EndTime = endTime;
+        }
+        
         public TimeSpan ExpiresIn(ITimeService timeService)
             => EndTime - timeService.Now;
         public bool IsExpired(ITimeService timeService)
             => timeService.Now > EndTime;
+
+        public bool Equals(LiveOpState other)
+        {
+            if (other is null) return false;
+            if (ReferenceEquals(this, other)) return true;
+            return Type == other.Type && StartTime.Equals(other.StartTime) && EndTime.Equals(other.EndTime);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is null) return false;
+            if (ReferenceEquals(this, obj)) return true;
+            if (obj.GetType() != GetType()) return false;
+            return Equals((LiveOpState)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine((int)Type, StartTime, EndTime);
+        }
     }
 }

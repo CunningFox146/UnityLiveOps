@@ -3,6 +3,7 @@ using System.Buffers;
 using System.IO;
 using System.Text;
 using System.Threading;
+using App.Shared.Serialization;
 using Cysharp.Text;
 using Cysharp.Threading.Tasks;
 using Newtonsoft.Json;
@@ -24,6 +25,8 @@ namespace App.Shared.Storage
 
             _serializerSettings = new JsonSerializerSettings
             {
+                ContractResolver = new PrivateSetterContractResolver(),
+                Converters = { new CrontabScheduleJsonConverter() },
                 NullValueHandling = NullValueHandling.Ignore,
                 DefaultValueHandling = DefaultValueHandling.Ignore,
                 Formatting = Formatting.None,
@@ -138,5 +141,7 @@ namespace App.Shared.Storage
 
             return Path.Combine(_basePath, ZString.Concat(key, FileExtension));
         }
+
+        
     }
 }

@@ -2,4 +2,4 @@
 
 namespace CunningFox.LiveOps.Models;
 
-public record LiveOpDto(Guid Id, string Schedule, TimeSpan Duration, string EventName, int EntryLevel);
+public record LiveOpDto(string Id, string Schedule, TimeSpan Duration, string EventName, int EntryLevel);

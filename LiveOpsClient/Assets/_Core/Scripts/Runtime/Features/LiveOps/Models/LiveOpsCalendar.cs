@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Shared.Time;
 using CunningFox.LiveOps.Models;
 using ZLinq;
@@ -8,25 +9,27 @@ namespace App.Runtime.Features.LiveOps.Models
 {
     public class LiveOpsCalendar
     {
-        public Guid Id { get; private set; }
+        public string Id { get; private set; }
         public List<LiveOpEvent> Events { get; private set; }
-        public List<int> SeenEvents { get; private set; }
+        public List<LiveOpState> SeenEvents { get; private set; }
         public TimeSpan TimeDifference { get; private set; }
 
         public static LiveOpsCalendar Empty => new()
         {
             Events = new List<LiveOpEvent>(),
-            SeenEvents = new List<int>(),
+            SeenEvents = new List<LiveOpState>(),
         };
         
-        public static LiveOpsCalendar CreateFromDto(LiveOpsCalendarDto dto, ITimeService timeService)
-            => new()
-            {
-                Id = dto.Id,
-                Events = GetEventsFromDto(dto),
-                SeenEvents = new List<int>(),
-                TimeDifference = TimeSpan.FromTicks(timeService.Now.Ticks - dto.ServerTime)
-            };
+        public void UpdateFromDto(LiveOpsCalendarDto dto, ITimeService timeService)
+        {
+            Id = dto.Id;
+            Events = GetEventsFromDto(dto);
+            TimeDifference = TimeSpan.FromTicks(timeService.Now.Ticks - dto.ServerTime);
+            SeenEvents ??= new List<LiveOpState>();
+        }
+
+        public void RecordEvent(LiveOpState liveOpEvent)
+            => SeenEvents.Add(liveOpEvent);
 
         private static List<LiveOpEvent> GetEventsFromDto(LiveOpsCalendarDto dto)
         {

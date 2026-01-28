@@ -1,18 +1,20 @@
 using System;
 using App.Runtime.Features.Common;
+using App.Shared.Serialization;
 using App.Shared.Time;
 using CunningFox.LiveOps.Models;
 using NCrontab;
+using Newtonsoft.Json;
 
 namespace App.Runtime.Features.LiveOps.Models
 {
     public class LiveOpEvent
     {
-        public Guid Id { get; set; }
-        public TimeSpan Duration { get; set; }
-        public CrontabSchedule Schedule { get; set; }
-        public FeatureType Type { get; set; }
-        public int EntryLevel { get; set; }
+        public string Id { get; private set; }
+        public TimeSpan Duration { get; private set; }
+        public CrontabSchedule Schedule { get; private set; }
+        public FeatureType Type { get; private set; }
+        public int EntryLevel { get; private set; }
 
         public static LiveOpEvent FromDto(LiveOpDto dto)
             => new()

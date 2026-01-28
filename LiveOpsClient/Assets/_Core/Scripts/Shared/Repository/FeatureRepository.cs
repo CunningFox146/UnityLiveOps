@@ -35,7 +35,8 @@ namespace App.Shared.Repository
         {
             try
             {
-                Value = await _persistentStorage.LoadAsync<T>(_key, token) ?? _defaultValue;
+                var result = await _persistentStorage.LoadAsync<T>(_key, token);
+                Value = result ?? _defaultValue;
                 return;
             }
             catch (Exception exception)

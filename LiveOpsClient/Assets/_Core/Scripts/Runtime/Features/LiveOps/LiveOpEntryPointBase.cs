@@ -51,7 +51,7 @@ namespace App.Runtime.Features.LiveOps
 
         private void RegisterLobbyIcon()
         {
-            var info = new EventIconRegistration(_state.FeatureType, CreateLobbyIcon);
+            var info = new EventIconRegistration(_state.Type, CreateLobbyIcon);
             _iconsHandler.RegisterIcon(info);
         }
 
@@ -64,7 +64,7 @@ namespace App.Runtime.Features.LiveOps
         {
             try
             {
-                var settings = await _assetScope.LoadAssetAsync<ILiveOpConfig>(_state.FeatureType + "/Config", token);
+                var settings = await _assetScope.LoadAssetAsync<ILiveOpConfig>(_state.Type + "/Config", token);
                 var args = new EventIconControllerArgs(parent, settings.IconPrefab);
                 await _controllerService.StartController<EventIconController, EventIconControllerArgs>(args, token);
             }
