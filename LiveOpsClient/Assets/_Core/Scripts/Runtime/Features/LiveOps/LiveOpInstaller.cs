@@ -1,16 +1,26 @@
 using App.Runtime.Features.ClickerLiveOp;
+using App.Runtime.Features.LiveOps.Models;
 using App.Shared.Mvc.Utils;
 using VContainer;
 using VContainer.Unity;
 
 namespace App.Runtime.Features.LiveOps
 {
-    public class LiveOpInstaller : IInstaller
+    public abstract class LiveOpInstaller : IInstaller
     {
-        public void Install(IContainerBuilder builder)
+        private readonly LiveOpEvent _liveOpEvent;
+
+        protected LiveOpInstaller(LiveOpEvent liveOpEvent)
+        {
+            _liveOpEvent = liveOpEvent;
+        }
+        
+        public virtual void Install(IContainerBuilder builder)
         {
             builder.RegisterControllerServices();
             builder.RegisterController<EventIconController>();
+            
+            builder.RegisterInstance(_liveOpEvent);
         }
     }
 }

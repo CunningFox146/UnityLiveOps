@@ -69,13 +69,13 @@ namespace App.Runtime.Features.LiveOps.Services
                 {
                     var currentTime = _timeService.Now - Data.TimeDifference;
                     var nextOccurrence = liveOp.Schedule.GetNextOccurrence(currentTime);
-                    var delay = nextOccurrence - currentTime;
-                    var occurrenceId = GetOccurrenceId(liveOp.Id, nextOccurrence);
-
-                    if (delay > TimeSpan.Zero && !Data.SeenEvents.Contains(occurrenceId))
+                    var startsIn = currentTime - nextOccurrence;
+                    var endsIn = startsIn + liveOp.Duration;
+                    if (endsIn.Ticks > 0)
                     {
-                        ScheduleEvent(liveOp, occurrenceId, delay, token);
+                        ScheduleEvent(liveOp, token);
                     }
+
                 }
                 catch (Exception exception)
                 {
@@ -84,12 +84,12 @@ namespace App.Runtime.Features.LiveOps.Services
             }
         }
 
-        private void ScheduleEvent(LiveOpEvent liveOp, int occurrenceId, TimeSpan delay, CancellationToken token)
+        private void ScheduleEvent(LiveOpEvent liveOp, CancellationToken token)
         {
             _featureService.StartFeature(liveOp.Type, builder =>
             {
                 builder.RegisterInstance(liveOp.Type);
-                new ClickerLiveOpInstaller().Install(builder);
+                new ClickerLiveOpInstaller(liveOp).Install(builder);
             });
         }
 

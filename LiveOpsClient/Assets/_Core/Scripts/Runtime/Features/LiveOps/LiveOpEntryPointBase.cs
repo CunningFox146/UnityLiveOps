@@ -20,15 +20,17 @@ namespace App.Runtime.Features.LiveOps
         private readonly IEventIconsHandler _iconsHandler;
         private readonly IAssetProvider _assetProvider;
         private readonly IControllerService _controllerService;
+        private readonly LiveOpEvent _liveOpEvent;
         private readonly ILogger _logger;
         private AssetScope _assetScope;
 
         protected LiveOpEntryPointBase(IEventIconsHandler iconsHandler, IAssetProvider assetProvider,
-            IControllerService controllerService, ILogger logger)
+            IControllerService controllerService, LiveOpEvent liveOpEvent, ILogger logger)
         {
             _iconsHandler = iconsHandler;
             _assetProvider = assetProvider;
             _controllerService = controllerService;
+            _liveOpEvent = liveOpEvent;
             _logger = logger;
         }
 
@@ -45,7 +47,7 @@ namespace App.Runtime.Features.LiveOps
 
         private void RegisterLobbyIcon()
         {
-            var info = new EventIconRegistration(FeatureType.ClickerLiveOp, CreateLobbyIcon);
+            var info = new EventIconRegistration(_liveOpEvent.Type, CreateLobbyIcon);
             _iconsHandler.RegisterIcon(info);
         }
 
@@ -58,7 +60,7 @@ namespace App.Runtime.Features.LiveOps
         {
             try
             {
-                var settings = await _assetScope.LoadAssetAsync<ILiveOpConfig>("ClickerLiveOp/Config", token);
+                var settings = await _assetScope.LoadAssetAsync<ILiveOpConfig>(_liveOpEvent.Type + "/Config", token);
                 var args = new EventIconControllerArgs(parent, settings.IconPrefab);
                 await _controllerService.StartController<EventIconController, EventIconControllerArgs>(args, token);
             }
