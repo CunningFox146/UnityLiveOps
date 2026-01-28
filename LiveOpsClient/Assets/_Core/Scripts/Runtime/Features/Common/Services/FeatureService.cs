@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using App.Shared.Logger;
 using Cysharp.Threading.Tasks;
+using VContainer;
 using VContainer.Unity;
 
 namespace App.Runtime.Features.Common
@@ -19,14 +20,11 @@ namespace App.Runtime.Features.Common
             _logger = logger;
         }
 
-        public UniTask StartFeature(FeatureType featureType, IInstaller featureInstaller, CancellationToken token)
+        public void StartFeature(FeatureType featureType, Action<IContainerBuilder> installation)
         {
-            if (_scopes.ContainsKey(featureType))
-                return UniTask.CompletedTask;
-
             try
             {
-                var scope = _lifetimeScope.CreateChild(featureInstaller);
+                var scope = _lifetimeScope.CreateChild(installation);
                 scope.name = $"DI {featureType}";
                 _scopes[featureType] = scope;
             }
@@ -34,8 +32,6 @@ namespace App.Runtime.Features.Common
             {
                 _logger.Error($"Failed to install feature {featureType}.", ex);
             }
-            
-            return UniTask.CompletedTask;
         }
 
         public void StopFeature(FeatureType featureType)

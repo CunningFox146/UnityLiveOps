@@ -1,12 +1,11 @@
-using System.Threading;
-using Cysharp.Threading.Tasks;
-using VContainer.Unity;
+using System;
+using VContainer;
 
 namespace App.Runtime.Features.Common
 {
     public interface IFeatureService
     {
-        UniTask StartFeature(FeatureType featureType, IInstaller featureInstaller, CancellationToken token);
+        void StartFeature(FeatureType featureType, Action<IContainerBuilder> installation);
         void StopFeature(FeatureType featureType);
     }
 }

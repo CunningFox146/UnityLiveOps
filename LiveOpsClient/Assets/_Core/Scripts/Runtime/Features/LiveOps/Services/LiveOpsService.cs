@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using App.Runtime.Features.ClickerLiveOp;
 using App.Runtime.Features.Common;
 using App.Runtime.Features.LiveOps.Api;
 using App.Runtime.Features.LiveOps.Models;
@@ -7,6 +8,8 @@ using App.Shared.Logger;
 using App.Shared.Repository;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
+using UnityEngine.LightTransport;
+using VContainer;
 
 namespace App.Runtime.Features.LiveOps.Services
 {
@@ -29,6 +32,12 @@ namespace App.Runtime.Features.LiveOps.Services
         }
         
         public async UniTask Initialize(CancellationToken token)
+        {
+            await LoadCalendar(token);
+            ScheduleLiveOps(token);
+        }
+
+        private async UniTask LoadCalendar(CancellationToken token)
         {
             try
             {
@@ -56,26 +65,32 @@ namespace App.Runtime.Features.LiveOps.Services
         {
             foreach (var liveOp in Data.Events)
             {
-                var currentTime = _timeService.Now - Data.TimeDifference;
-                var nextOccurrence = liveOp.Schedule.GetNextOccurrence(currentTime);
-                var delay = nextOccurrence - currentTime;
-                var occurrenceId = GetOccurrenceId(liveOp.Id, nextOccurrence);
-
-                if (delay > TimeSpan.Zero && !Data.SeenEvents.Contains(occurrenceId))
+                try
                 {
-                    ScheduleEvent(liveOp, occurrenceId, delay, token);
+                    var currentTime = _timeService.Now - Data.TimeDifference;
+                    var nextOccurrence = liveOp.Schedule.GetNextOccurrence(currentTime);
+                    var delay = nextOccurrence - currentTime;
+                    var occurrenceId = GetOccurrenceId(liveOp.Id, nextOccurrence);
+
+                    if (delay > TimeSpan.Zero && !Data.SeenEvents.Contains(occurrenceId))
+                    {
+                        ScheduleEvent(liveOp, occurrenceId, delay);
+                    }
+                }
+                catch (Exception exception)
+                {
+                    _logger.Error($"Failed to schedule event {liveOp.Id}", exception, LoggerTag.LiveOps);
                 }
             }
         }
 
-        private void ScheduleEvent(LiveOpEvent liveOp, int occurrenceId, TimeSpan delay, CancellationToken token)
+        private void ScheduleEvent(LiveOpEvent liveOp, int occurrenceId, TimeSpan delay)
         {
-            // Create new scope
-            // in scope:
-            // 1. Load assets
-            // 2. Register icon
-
-            _featureService.StartFeature(FeatureType.LiveOpClicker, LiveOpInstaller.Default, token).Forget();
+            _featureService.StartFeature(FeatureType.ClickerLiveOp, (builder) =>
+            {
+                builder.RegisterInstance(FeatureType.ClickerLiveOp);
+                new ClickerLiveOpInstaller().Install(builder);
+            });
         }
 
         private static int GetOccurrenceId(Guid eventId, DateTime occurrenceTime)

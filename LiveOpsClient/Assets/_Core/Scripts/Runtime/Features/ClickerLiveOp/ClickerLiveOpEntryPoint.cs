@@ -44,7 +44,7 @@ namespace App.Runtime.Features.ClickerLiveOp
 
         private void RegisterLobbyIcon()
         {
-            var info = new EventIconRegistration(FeatureType.LiveOpClicker, CreateLobbyIcon);
+            var info = new EventIconRegistration(FeatureType.ClickerLiveOp, CreateLobbyIcon);
             _iconsHandler.RegisterIcon(info);
         }
 

@@ -13,6 +13,12 @@ namespace App.Runtime.Features.LiveOps.Models
         public List<int> SeenEvents { get; private set; }
         public TimeSpan TimeDifference { get; private set; }
 
+        public static LiveOpsCalendar Empty => new()
+        {
+            Events = new List<LiveOpEvent>(),
+            SeenEvents = new List<int>(),
+        };
+        
         public static LiveOpsCalendar CreateFromDto(LiveOpsCalendarDto dto, ITimeService timeService)
             => new()
             {

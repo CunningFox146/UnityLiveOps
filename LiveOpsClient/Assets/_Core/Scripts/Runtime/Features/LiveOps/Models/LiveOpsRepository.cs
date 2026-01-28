@@ -7,7 +7,7 @@ namespace App.Runtime.Features.LiveOps.Models
     public class LiveOpsRepository : FeatureRepository<LiveOpsCalendar>
     {
         public LiveOpsRepository(IPersistentStorage persistentStorage, ILogger logger)
-            : base(persistentStorage, logger, nameof(LiveOpsCalendar), new LiveOpsCalendar())
+            : base(persistentStorage, logger, nameof(LiveOpsCalendar), LiveOpsCalendar.Empty)
         {
         }
     }

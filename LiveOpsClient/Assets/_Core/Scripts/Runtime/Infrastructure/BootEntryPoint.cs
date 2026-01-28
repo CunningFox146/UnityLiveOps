@@ -41,7 +41,6 @@ namespace App.Runtime.Infrastructure
                     _userStateService.RestoreUserState(cancellation)
                 );
                 await _liveOpsService.Initialize(cancellation);
-                await _featureService.StartFeature(FeatureType.LiveOpClicker, new ClickerLiveOpInstaller(), cancellation);
                 await _sceneLoader.LoadSceneAsync("Lobby", cancellationToken: cancellation);
             }
             catch (OperationCanceledException) { }
