@@ -45,7 +45,7 @@ namespace App.Runtime.Infrastructure
         {
             builder.Register<ILogger, UnityLogger>(Lifetime.Singleton);
             builder.Register<ISceneLoaderService, SceneLoaderService>(Lifetime.Singleton);
-            builder.Register<IViewStack, ViewStack>(Lifetime.Singleton);
+            builder.Register<ViewStack>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<UnhandledExceptionMonitoringService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<TimeService>(Lifetime.Singleton).AsImplementedInterfaces();

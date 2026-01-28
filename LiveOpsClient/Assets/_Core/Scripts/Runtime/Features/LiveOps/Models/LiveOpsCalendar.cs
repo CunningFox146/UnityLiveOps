@@ -11,13 +11,13 @@ namespace App.Runtime.Features.LiveOps.Models
     {
         public string Id { get; private set; }
         public List<LiveOpEvent> Events { get; private set; }
-        public List<LiveOpState> SeenEvents { get; private set; }
+        public HashSet<LiveOpState> SeenEvents { get; private set; }
         public TimeSpan TimeDifference { get; private set; }
 
         public static LiveOpsCalendar Empty => new()
         {
             Events = new List<LiveOpEvent>(),
-            SeenEvents = new List<LiveOpState>(),
+            SeenEvents = new HashSet<LiveOpState>(),
         };
         
         public void UpdateFromDto(LiveOpsCalendarDto dto, ITimeService timeService)
@@ -25,7 +25,7 @@ namespace App.Runtime.Features.LiveOps.Models
             Id = dto.Id;
             Events = GetEventsFromDto(dto);
             TimeDifference = TimeSpan.FromTicks(timeService.Now.Ticks - dto.ServerTime);
-            SeenEvents ??= new List<LiveOpState>();
+            SeenEvents ??= new HashSet<LiveOpState>();
         }
 
         public void RecordEvent(LiveOpState liveOpEvent)
