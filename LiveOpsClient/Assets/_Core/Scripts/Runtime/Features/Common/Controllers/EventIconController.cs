@@ -25,14 +25,12 @@ namespace App.Runtime.Features.ClickerLiveOp
             _logger = logger;
         }
 
-        protected override async UniTask OnStart(EventIconControllerArgs args, CancellationToken token)
+        protected override UniTask OnStart(EventIconControllerArgs args, CancellationToken token)
         {
             try
             {
                 _token = token;
-                var assetScope = args.Scope;
-                var config = await assetScope.LoadAssetAsync<ILiveOpConfig>("ClickerLiveOp/Config", token);
-                _view = Object.Instantiate(config.IconPrefab, args.IconParent);
+                _view = Object.Instantiate(args.IconPrefab, args.IconParent);
                 _view.Clicked += OnViewClicked;
             }
             catch (OperationCanceledException) { }
@@ -40,6 +38,7 @@ namespace App.Runtime.Features.ClickerLiveOp
             {
                 _logger.Error("Icon flow failed", exception);
             }
+            return UniTask.CompletedTask;
         }
 
         private void OnViewClicked()
