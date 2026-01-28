@@ -73,6 +73,7 @@ namespace App.Runtime.Features.ClickerLiveOp
 
         protected override void OnStop()
         {
+            Debug.Log("OnStop");
             _timeService.TimeChanged -= OnTimeChanged;
             _view.Clicked -= OnViewClicked;
             _view?.Dispose();   

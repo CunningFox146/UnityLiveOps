@@ -1,6 +1,5 @@
 using System;
 using System.Threading;
-using System.Threading.Tasks;
 using App.Runtime.Features.Common.Views;
 using App.Shared.Utils;
 using Cysharp.Threading.Tasks;
@@ -12,11 +11,25 @@ namespace App.Runtime.Features.ClickerLiveOp.Views
     {
         [SerializeField] private int _animationPlayPeriod;
         [SerializeField] private Animation _animation;
+        private CancellationTokenSource _animationCts;
 
         private void Start()
         {
-            var token = destroyCancellationToken;
-            ScheduleAnimation(token).Forget();
+            _animationCts = CancellationTokenSource.CreateLinkedTokenSource(destroyCancellationToken);
+            ScheduleAnimation(_animationCts.Token).Forget();
+        }
+
+        private void OnDestroy()
+        {
+            _animationCts?.Dispose();
+        }
+
+        public override void Expire()
+        {
+            base.Expire();
+            _animation.enabled = false;
+            _animationCts?.Cancel();
+            _animationCts?.Dispose();
         }
 
         private async UniTaskVoid ScheduleAnimation(CancellationToken token)
@@ -30,11 +43,6 @@ namespace App.Runtime.Features.ClickerLiveOp.Views
                 }
             }
             catch (OperationCanceledException) { }
-        }
-
-        public override void Expire()
-        {
-            throw new System.NotImplementedException();
         }
     }
 }
