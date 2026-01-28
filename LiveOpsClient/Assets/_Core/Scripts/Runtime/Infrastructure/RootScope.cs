@@ -2,7 +2,6 @@ using App.Runtime.Features.Common;
 using App.Runtime.Features.LiveOps.Api;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.LiveOps.Services;
-using App.Runtime.Features.Lobby.Controllers;
 using App.Runtime.Features.Lobby.Models;
 using App.Runtime.Features.UserState.Models;
 using App.Runtime.Features.UserState.Services;
@@ -13,8 +12,6 @@ using App.Runtime.Services.ViewStack;
 using App.Shared.Api;
 using App.Shared.Logger;
 using App.Shared.Monitoring;
-using App.Shared.Mvc.Factories;
-using App.Shared.Mvc.Services;
 using App.Shared.Repository;
 using App.Shared.Storage;
 using App.Shared.Time;
@@ -34,41 +31,60 @@ namespace App.Runtime.Infrastructure
 
         protected override void Configure(IContainerBuilder builder)
         {
+            RegisterCoreServices(builder);
+            RegisterHttpClient(builder);
+            RegisterUserState(builder);
+            RegisterAssets(builder);
+            RegisterLiveOps(builder);
+            RegisterFeatureService(builder);
+
+            builder.RegisterEntryPoint<BootEntryPoint>();
+        }
+
+        private static void RegisterCoreServices(IContainerBuilder builder)
+        {
             builder.Register<ILogger, UnityLogger>(Lifetime.Singleton);
             builder.Register<ISceneLoaderService, SceneLoaderService>(Lifetime.Singleton);
-            
-            #if UNITY_WEBGL
-            builder.RegisterInstance<IHttpClient>(new UnityHttpClient("https://localhost:7158"));
-            #else
-            builder.RegisterInstance<IHttpClient>(new SystemHttpClient("https://localhost:7158"));
-            #endif
-            
-            builder.Register<IRepository<LiveOpsCalendar>, LiveOpsRepository>(Lifetime.Singleton);
-            builder.Register<IRepository<ActiveUserState>, UserStateRepository>(Lifetime.Singleton);
-            builder.Register<IUserStateService, UserStateService>(Lifetime.Singleton);
-            
-            builder.Register<IAssetProvider, AddressableAssetProvider>(Lifetime.Singleton);
-            
             builder.Register<IViewStack, ViewStack>(Lifetime.Singleton);
-            builder.Register<IControllerFactory, ControllerFactory>(Lifetime.Singleton);
-            builder.Register<IControllerService, ControllerService>(Lifetime.Singleton);
-            builder.Register<LobbyController>(Lifetime.Transient);
-            
-            builder.Register<PersistentStorage>(Lifetime.Singleton)
-                .WithParameter(Application.persistentDataPath)
-                .AsImplementedInterfaces();
-            
             builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<UnhandledExceptionMonitoringService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<TimeService>(Lifetime.Singleton).AsImplementedInterfaces();
-            
-            builder.Register<LiveOpsService>(Lifetime.Singleton);
-            builder.Register<ILiveOpsApiService, LiveOpsApiService>(Lifetime.Singleton);
-            
+            builder.Register<PersistentStorage>(Lifetime.Singleton)
+                .WithParameter(Application.persistentDataPath)
+                .AsImplementedInterfaces();
+        }
+
+        private static void RegisterFeatureService(IContainerBuilder builder)
+        {
             builder.Register<IFeatureService, FeatureService>(Lifetime.Singleton);
             builder.Register<IEventIconsHandler, EventIconsHandler>(Lifetime.Singleton);
-            
-            builder.RegisterEntryPoint<BootEntryPoint>();
+        }
+        
+        private static void RegisterLiveOps(IContainerBuilder builder)
+        {
+            builder.Register<ILiveOpsService, LiveOpsService>(Lifetime.Singleton);
+            builder.Register<ILiveOpsApiService, LiveOpsApiService>(Lifetime.Singleton);
+            builder.Register<IRepository<LiveOpsCalendar>, LiveOpsRepository>(Lifetime.Singleton);
+        }
+
+        private static void RegisterAssets(IContainerBuilder builder)
+        {
+            builder.Register<IAssetProvider, AddressableAssetProvider>(Lifetime.Singleton);
+        }
+
+        private static void RegisterUserState(IContainerBuilder builder)
+        {
+            builder.Register<IRepository<ActiveUserState>, UserStateRepository>(Lifetime.Singleton);
+            builder.Register<IUserStateService, UserStateService>(Lifetime.Singleton);
+        }
+
+        private static void RegisterHttpClient(IContainerBuilder builder)
+        {
+#if UNITY_WEBGL
+            builder.RegisterInstance<IHttpClient>(new UnityHttpClient("https://localhost:7158"));
+#else
+            builder.RegisterInstance<IHttpClient>(new SystemHttpClient("https://localhost:7158"));
+#endif
         }
     }
 }

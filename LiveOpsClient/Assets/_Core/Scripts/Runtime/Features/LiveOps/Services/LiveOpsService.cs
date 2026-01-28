@@ -9,7 +9,12 @@ using Cysharp.Threading.Tasks;
 
 namespace App.Runtime.Features.LiveOps.Services
 {
-    public class LiveOpsService
+    public interface ILiveOpsService
+    {
+        UniTask Initialize(CancellationToken token);
+    }
+
+    public class LiveOpsService : ILiveOpsService
     {
         private readonly IRepository<LiveOpsCalendar> _repository;
         private readonly ILiveOpsApiService _apiService;

@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Threading;
+using App.Runtime.Features.Common;
 using App.Runtime.Features.Lobby.Models;
 using App.Runtime.Features.Lobby.Views;
 using App.Runtime.Services.AssetManagement.Provider;
@@ -13,7 +14,7 @@ namespace App.Runtime.Features.Lobby.Controllers
     {
         private readonly IAssetProvider _assetProvider;
         private readonly IEventIconsHandler _iconsHandler;
-        private readonly Dictionary<string, CancellationTokenSource> _activeIconsCts = new();
+        private readonly Dictionary<FeatureType, CancellationTokenSource> _activeIconsCts = new();
         private CancellationToken _token;
         private ILobbyView _view;
         private IAssetScope _assetScope;
@@ -36,7 +37,7 @@ namespace App.Runtime.Features.Lobby.Controllers
             HandleIconsQueue();
         }
 
-        private void RemoveIcon(string key)
+        private void RemoveIcon(FeatureType key)
         {
             if (!_activeIconsCts.Remove(key, out var cts))
                 return;
