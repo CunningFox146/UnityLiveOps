@@ -242,6 +242,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClickerEventIcon
       objectReference: {fileID: 0}
+    - target: {fileID: 4737907198108065856, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+      propertyPath: m_Color.b
+      value: 0.8156863
+      objectReference: {fileID: 0}
+    - target: {fileID: 4737907198108065856, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+      propertyPath: m_Color.g
+      value: 0.9490196
+      objectReference: {fileID: 0}
     - target: {fileID: 9169765663406589671, guid: d47d03bc240f8400685f02c16371351f, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
