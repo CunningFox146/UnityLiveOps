@@ -10,16 +10,14 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
 {
     public class ClickerLiveOpService
     {
-        private readonly IRepository<ClickerLiveOpState> _repository;
-        private readonly LiveOpEvent _liveOpEvent;
+        private readonly IRepository<ClickerLiveOpData> _repository;
         private readonly ITimeService _timeService;
-        public int Progress => State.Progress;
-        private ClickerLiveOpState State => _repository.Value;
+        public int Progress => Data.Progress;
+        private ClickerLiveOpData Data => _repository.Value;
         
-        public ClickerLiveOpService(IRepository<ClickerLiveOpState> repository, LiveOpEvent liveOpEvent, ITimeService timeService)
+        public ClickerLiveOpService(IRepository<ClickerLiveOpData> repository, LiveOpEvent liveOpEvent, ITimeService timeService)
         {
             _repository = repository;
-            _liveOpEvent = liveOpEvent;
             _timeService = timeService;
         }
 
@@ -40,11 +38,8 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
 
         public void IncrementProgress()
         {
-            if (_liveOpEvent.IsExpired(_timeService))
-                return;
-            
-            State.Progress++;
-            _repository.Update(State);
+            Data.Progress++;
+            _repository.Update(Data);
         }
     }
 }

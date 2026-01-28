@@ -7,7 +7,7 @@ namespace App.Shared.Time
 {
     public class TimeService : IAsyncStartable, ITimeService
     {
-        public event Action<DateTime> OnTimeChanged;
+        public event Action<DateTime> TimeChanged;
         public DateTime Now => DateTime.UtcNow;
 
         public UniTask StartAsync(CancellationToken cancellation = default)
@@ -20,7 +20,7 @@ namespace App.Shared.Time
         {
             while (!token.IsCancellationRequested)
             {
-                OnTimeChanged?.Invoke(Now);
+                TimeChanged?.Invoke(Now);
                 await UniTask.Delay(1000, cancellationToken: token);
             }
         }

@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.Common;
 using App.Runtime.Features.LiveOps;
 using App.Runtime.Features.LiveOps.Models;
@@ -8,6 +9,7 @@ using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.AssetManagement.Scope;
 using App.Shared.Logger;
 using App.Shared.Mvc.Services;
+using App.Shared.Time;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VContainer.Unity;
@@ -17,8 +19,9 @@ namespace App.Runtime.Features.ClickerLiveOp
 {
     public class ClickerLiveOpEntryPoint : LiveOpEntryPointBase
     {
-        public ClickerLiveOpEntryPoint(IEventIconsHandler iconsHandler, IAssetProvider assetProvider, IControllerService controllerService, LiveOpEvent liveOpEvent, ILogger logger)
-            : base(iconsHandler, assetProvider, controllerService, liveOpEvent, logger)
+        public ClickerLiveOpEntryPoint(IEventIconsHandler iconsHandler, IAssetProvider assetProvider,
+            IControllerService controllerService, ITimeService timeService, LiveOpState state, ILogger logger) : base(
+            iconsHandler, assetProvider, controllerService, timeService, state, logger)
         {
         }
     }

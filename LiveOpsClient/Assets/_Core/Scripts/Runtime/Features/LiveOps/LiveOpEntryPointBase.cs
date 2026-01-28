@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using App.Runtime.Features.ClickerLiveOp;
+using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.Common;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.Lobby.Models;
@@ -8,6 +9,7 @@ using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.AssetManagement.Scope;
 using App.Shared.Logger;
 using App.Shared.Mvc.Services;
+using App.Shared.Time;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using VContainer.Unity;
@@ -20,17 +22,19 @@ namespace App.Runtime.Features.LiveOps
         private readonly IEventIconsHandler _iconsHandler;
         private readonly IAssetProvider _assetProvider;
         private readonly IControllerService _controllerService;
-        private readonly LiveOpEvent _liveOpEvent;
+        private readonly ITimeService _timeService;
+        private readonly LiveOpState _state;
         private readonly ILogger _logger;
         private AssetScope _assetScope;
 
         protected LiveOpEntryPointBase(IEventIconsHandler iconsHandler, IAssetProvider assetProvider,
-            IControllerService controllerService, LiveOpEvent liveOpEvent, ILogger logger)
+            IControllerService controllerService, ITimeService timeService, LiveOpState state, ILogger logger)
         {
             _iconsHandler = iconsHandler;
             _assetProvider = assetProvider;
             _controllerService = controllerService;
-            _liveOpEvent = liveOpEvent;
+            _timeService = timeService;
+            _state = state;
             _logger = logger;
         }
 
@@ -47,7 +51,7 @@ namespace App.Runtime.Features.LiveOps
 
         private void RegisterLobbyIcon()
         {
-            var info = new EventIconRegistration(_liveOpEvent.Type, CreateLobbyIcon);
+            var info = new EventIconRegistration(_state.FeatureType, CreateLobbyIcon);
             _iconsHandler.RegisterIcon(info);
         }
 
@@ -60,7 +64,7 @@ namespace App.Runtime.Features.LiveOps
         {
             try
             {
-                var settings = await _assetScope.LoadAssetAsync<ILiveOpConfig>(_liveOpEvent.Type + "/Config", token);
+                var settings = await _assetScope.LoadAssetAsync<ILiveOpConfig>(_state.FeatureType + "/Config", token);
                 var args = new EventIconControllerArgs(parent, settings.IconPrefab);
                 await _controllerService.StartController<EventIconController, EventIconControllerArgs>(args, token);
             }
