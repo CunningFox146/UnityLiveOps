@@ -74,7 +74,7 @@ namespace App.Runtime.Features.LiveOps.Services
 
                     if (delay > TimeSpan.Zero && !Data.SeenEvents.Contains(occurrenceId))
                     {
-                        ScheduleEvent(liveOp, occurrenceId, delay);
+                        ScheduleEvent(liveOp, occurrenceId, delay, token);
                     }
                 }
                 catch (Exception exception)
@@ -84,11 +84,11 @@ namespace App.Runtime.Features.LiveOps.Services
             }
         }
 
-        private void ScheduleEvent(LiveOpEvent liveOp, int occurrenceId, TimeSpan delay)
+        private void ScheduleEvent(LiveOpEvent liveOp, int occurrenceId, TimeSpan delay, CancellationToken token)
         {
-            _featureService.StartFeature(FeatureType.ClickerLiveOp, (builder) =>
+            _featureService.StartFeature(liveOp.Type, builder =>
             {
-                builder.RegisterInstance(FeatureType.ClickerLiveOp);
+                builder.RegisterInstance(liveOp.Type);
                 new ClickerLiveOpInstaller().Install(builder);
             });
         }

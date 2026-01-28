@@ -22,6 +22,11 @@ namespace App.Runtime.Features.Common
 
         public void StartFeature(FeatureType featureType, Action<IContainerBuilder> installation)
         {
+            if (_scopes.ContainsKey(featureType))
+            {
+                _logger.Error($"Feature {featureType} is already active");
+                return;
+            }
             try
             {
                 var scope = _lifetimeScope.CreateChild(installation);
@@ -30,7 +35,7 @@ namespace App.Runtime.Features.Common
             }
             catch (Exception ex)
             {
-                _logger.Error($"Failed to install feature {featureType}.", ex);
+                _logger.Error($"Failed to install feature {featureType}", ex);
             }
         }
 

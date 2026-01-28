@@ -29,10 +29,10 @@ public class LiveOpService : ILiveOpService
         var now = DateTime.UtcNow;
         var events = new List<LiveOpDto>
         {
-            new(Guid.NewGuid(), "0 12 * * Mon", TimeSpan.FromMinutes(0.5), "Test", 0),
-            new(Guid.NewGuid(), "0 12 * * Mon", TimeSpan.FromMinutes(1), "Test", 3),
-            new(Guid.NewGuid(), "0 12 * * Mon", TimeSpan.FromMinutes(60), "Test", 5),
-            new(Guid.NewGuid(), "0 12 * * Mon", TimeSpan.FromMinutes(1), "Test", 7),
+            new(Guid.NewGuid(), "0 12 * * Mon", TimeSpan.FromMinutes(0.5), "ClickerLiveOp", 0),
+            new(Guid.NewGuid(), "0 12 * * Mon", TimeSpan.FromMinutes(1), "ClickerLiveOp", 3),
+            new(Guid.NewGuid(), "0 12 * * Mon", TimeSpan.FromMinutes(60), "ClickerLiveOp", 5),
+            new(Guid.NewGuid(), "0 12 * * Mon", TimeSpan.FromMinutes(1), "ClickerLiveOp", 7),
         };
 
         return new LiveOpsCalendarDto(Guid.NewGuid(), now.Ticks, events);
