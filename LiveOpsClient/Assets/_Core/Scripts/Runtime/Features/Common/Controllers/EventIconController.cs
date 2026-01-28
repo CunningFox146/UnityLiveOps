@@ -1,8 +1,10 @@
 using System;
 using System.Threading;
+using App.Runtime.Features.Common.Views;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.Lobby.Models;
 using App.Shared.Mvc;
+using App.Shared.Mvc.Services;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using ILogger = App.Shared.Logger.ILogger;
@@ -12,11 +14,14 @@ namespace App.Runtime.Features.ClickerLiveOp
 {
     public class EventIconController : ControllerBase<EventIconControllerArgs>
     {
-        private GameObject _icon;
+        private readonly IControllerService _controllerService;
         private readonly ILogger _logger;
+        private IEventIconView _view;
+        private CancellationToken _token;
 
-        public EventIconController(ILogger logger)
+        public EventIconController(IControllerService controllerService, ILogger logger)
         {
+            _controllerService = controllerService;
             _logger = logger;
         }
 
@@ -24,9 +29,11 @@ namespace App.Runtime.Features.ClickerLiveOp
         {
             try
             {
+                _token = token;
                 var assetScope = args.Scope;
                 var config = await assetScope.LoadAssetAsync<ILiveOpConfig>("ClickerLiveOp/Config", token);
-                _icon = Object.Instantiate(config.IconPrefab, args.IconParent);
+                _view = Object.Instantiate(config.IconPrefab, args.IconParent);
+                _view.Clicked += OnViewClicked;
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)
@@ -35,10 +42,16 @@ namespace App.Runtime.Features.ClickerLiveOp
             }
         }
 
+        private void OnViewClicked()
+        {
+            Debug.Log("OnViewClicked");
+            //_controllerService.StartController<EventPopupController>(_token);
+        }
+
         protected override void OnStop()
         {
-            if (_icon != null)
-                Object.Destroy(_icon);
+            _view.Clicked -= OnViewClicked;
+            _view?.Dispose();   
         }
     }
 }

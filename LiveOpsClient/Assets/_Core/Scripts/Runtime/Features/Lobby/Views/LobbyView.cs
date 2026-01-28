@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using App.Shared.Utils;
 using TMPro;
 using UnityEngine;
 
@@ -21,9 +21,6 @@ namespace App.Runtime.Features.Lobby.Views
             => _canvas.worldCamera = uiCamera;
 
         public void Dispose()
-        {
-            if (this != null)
-                Destroy(gameObject);
-        }
+            => this.DestroyBehaviourObject();
     }
 }

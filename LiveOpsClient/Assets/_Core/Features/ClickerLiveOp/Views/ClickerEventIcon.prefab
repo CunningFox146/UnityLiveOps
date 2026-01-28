@@ -242,6 +242,34 @@ PrefabInstance:
       propertyPath: m_Name
       value: ClickerEventIcon
       objectReference: {fileID: 0}
+    - target: {fileID: 9169765663406589671, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9169765663406589671, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9169765663406589671, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3111812072820689278}
+    - target: {fileID: 9169765663406589671, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9169765663406589671, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnClick
+      objectReference: {fileID: 0}
+    - target: {fileID: 9169765663406589671, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: App.Runtime.Features.ClickerLiveOp.Views.ClickerLiveOpIconView, App.Runtime
+      objectReference: {fileID: 0}
+    - target: {fileID: 9169765663406589671, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
@@ -252,6 +280,9 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 3019942237474140866}
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2107725005678108503, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3111812072820689278}
     - targetCorrespondingSourceObject: {fileID: 7721315697149049751, guid: d47d03bc240f8400685f02c16371351f, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7932024066462092329}
@@ -264,6 +295,26 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 1511166367171577950, guid: d47d03bc240f8400685f02c16371351f, type: 3}
   m_PrefabInstance: {fileID: 557337331929892378}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1944477380426340685 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2107725005678108503, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+  m_PrefabInstance: {fileID: 557337331929892378}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &3111812072820689278
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1944477380426340685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df8b70eac1c947bdbf5b9650c37460b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: App.Runtime::App.Runtime.Features.ClickerLiveOp.Views.ClickerLiveOpIconView
+  _timer: {fileID: 8657469512474633693}
+  _animationPlayPeriod: 4
+  _animation: {fileID: 7932024066462092329}
 --- !u!1 &7826008130009546125 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7721315697149049751, guid: d47d03bc240f8400685f02c16371351f, type: 3}
@@ -282,7 +333,7 @@ Animation:
   m_Animations:
   - {fileID: 7400000, guid: 2e3ac922dceb34722a9b5bb2b36fddf5, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_UpdateMode: 0
   m_CullingType: 0
@@ -309,3 +360,14 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!114 &8657469512474633693 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9194536239425774535, guid: d47d03bc240f8400685f02c16371351f, type: 3}
+  m_PrefabInstance: {fileID: 557337331929892378}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI

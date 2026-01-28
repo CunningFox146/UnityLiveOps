@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8333205ff141a2829d4301bb2e1bcb, type: 3}
   m_Name: ClickerLiveOpConfig
   m_EditorClassIdentifier: App.Runtime::App.Runtime.Features.LiveOps.Models.LiveOpConfig
-  <IconPrefab>k__BackingField: {fileID: 1944477380426340685, guid: b6925ad7430d744fe9e1243729443d44, type: 3}
+  <IconPrefab>k__BackingField: {fileID: 3111812072820689278, guid: b6925ad7430d744fe9e1243729443d44, type: 3}

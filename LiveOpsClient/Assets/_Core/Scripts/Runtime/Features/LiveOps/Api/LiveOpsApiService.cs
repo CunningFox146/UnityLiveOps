@@ -25,7 +25,7 @@ namespace App.Runtime.Features.LiveOps.Api
             catch (OperationCanceledException) { }
             catch (Exception exception)
             {
-                _logger.Error("Failed to get active calendar", exception, LoggerTag.LiveOps);
+                _logger.Error("Failed to fetch active calendar", exception, LoggerTag.LiveOps);
             }
 
             return null;
@@ -40,7 +40,7 @@ namespace App.Runtime.Features.LiveOps.Api
             catch (OperationCanceledException) { }
             catch (Exception exception)
             {
-                _logger.Error("Failed to get active calendar id", exception, LoggerTag.LiveOps);
+                _logger.Error("Failed to fetch active calendar id", exception, LoggerTag.LiveOps);
             }
 
             return Guid.Empty;
