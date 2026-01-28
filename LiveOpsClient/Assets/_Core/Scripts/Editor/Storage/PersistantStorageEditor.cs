@@ -6,9 +6,13 @@ namespace App.Editor.Storage
 {
     public static class PersistantStorageEditor
     {
-        private const string MenuPath = EditorConstants.PersistantStorageToolsPath + "Clear";
+        [MenuItem(EditorConstants.PersistantStorageToolsPath + "Copy persistentDataPath", false)]
+        private static void CopyPersistentDataPath()
+        {
+            EditorGUIUtility.systemCopyBuffer = Application.persistentDataPath;
+        }
         
-        [MenuItem(MenuPath, false)]
+        [MenuItem(EditorConstants.PersistantStorageToolsPath + "Clear", false)]
         private static void ClearPersistentStorage()
         {
             Clear(Application.persistentDataPath);

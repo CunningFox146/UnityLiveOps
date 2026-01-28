@@ -35,7 +35,7 @@ namespace App.Shared.Storage
             };
         }
 
-        public async UniTask SaveAsync<T>(string key, T data, CancellationToken cancellationToken = default)
+        public async UniTask SaveAsync<T>(string key, T data, CancellationToken token = default)
         {
             var filePath = GetFilePath(key);
             var tempPath = ZString.Concat(filePath, TempFileExtension);
@@ -43,7 +43,7 @@ namespace App.Shared.Storage
             try
             {
                 EnsureDirectoryExists(Path.GetDirectoryName(filePath));
-                await WriteToTempFileAsync(tempPath, data, cancellationToken);
+                await WriteToTempFileAsync(tempPath, data, token);
                 ReplaceFile(filePath, tempPath);
             }
             finally
@@ -52,13 +52,12 @@ namespace App.Shared.Storage
             }
         }
 
-        public async UniTask<T> LoadAsync<T>(string key, CancellationToken cancellationToken = default)
+        public UniTask<T> LoadAsync<T>(string key, CancellationToken token = default)
         {
             var filePath = GetFilePath(key);
-            if (!File.Exists(filePath))
-                return default;
-
-            return await ReadFromFileAsync<T>(filePath, cancellationToken);
+            return !File.Exists(filePath)
+                ? default
+                : ReadFromFileAsync<T>(filePath, token);
         }
 
         public void Delete(string key)
@@ -67,7 +66,7 @@ namespace App.Shared.Storage
             DeleteFileIfExists(filePath);
         }
 
-        private async UniTask WriteToTempFileAsync<T>(string tempPath, T data, CancellationToken cancellationToken)
+        private async UniTask WriteToTempFileAsync<T>(string tempPath, T data, CancellationToken token)
         {
             var json = JsonConvert.SerializeObject(data, _serializerSettings);
             var bytes = Encoding.UTF8.GetBytes(json);
@@ -80,8 +79,8 @@ namespace App.Shared.Storage
                 BufferSize,
                 true);
 
-            await stream.WriteAsync(bytes, 0, bytes.Length, cancellationToken);
-            await stream.FlushAsync(cancellationToken);
+            await stream.WriteAsync(bytes, 0, bytes.Length, token);
+            await stream.FlushAsync(token);
         }
 
         private async UniTask<T> ReadFromFileAsync<T>(string filePath, CancellationToken cancellationToken)
@@ -141,7 +140,5 @@ namespace App.Shared.Storage
 
             return Path.Combine(_basePath, ZString.Concat(key, FileExtension));
         }
-
-        
     }
 }
