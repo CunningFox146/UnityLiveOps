@@ -90,6 +90,7 @@ namespace App.Runtime.Features.LiveOps.Services
                     if (isRunning)
                     {
                         activeEvents.Add(liveOp.Type);
+                        Data.RecordEvent(state);
                         StartEvent(state);
                     }
                     else
@@ -126,6 +127,7 @@ namespace App.Runtime.Features.LiveOps.Services
             {
                 await UniTask.Delay(state.StartTime - CurrentTime, cancellationToken: token);
                 _featureService.StopFeature(state.Type);
+                Data.RecordEvent(state);
                 StartEvent(state);
             }
             catch (OperationCanceledException) { }
@@ -137,7 +139,6 @@ namespace App.Runtime.Features.LiveOps.Services
 
         private void StartEvent(LiveOpState state)
         {
-            Data.RecordEvent(state);
             _featureService.StartFeature(state.Type, builder =>
             {
                 new ClickerLiveOpInstaller(state).Install(builder);
