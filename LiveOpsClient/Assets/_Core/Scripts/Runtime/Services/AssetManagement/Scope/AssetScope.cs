@@ -15,7 +15,7 @@ namespace App.Runtime.Services.AssetManagement.Scope
     public class AssetScope : IAssetScope
     {
         private readonly IAssetProvider _provider;
-        private readonly List<Object> _loadedAssets = new();
+        private readonly List<object> _loadedAssets = new();
         private bool _disposed;
 
         public AssetScope(IAssetProvider provider)
@@ -41,7 +41,6 @@ namespace App.Runtime.Services.AssetManagement.Scope
         }
 
         public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken token = default)
-            where T : Object
         {
             ThrowIfDisposed();
 

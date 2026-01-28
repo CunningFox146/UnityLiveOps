@@ -18,6 +18,6 @@ namespace App.Runtime.Services.AssetManagement.Scope
         UniTask<TComponent> InstantiateAsync<TComponent>(string key, Transform parent = null, CancellationToken cancellationToken = default)
             where TComponent : Component;
 
-        UniTask<T> LoadAssetAsync<T>(string key, CancellationToken token = default) where T : Object;
+        UniTask<T> LoadAssetAsync<T>(string key, CancellationToken token = default);
     }
 }

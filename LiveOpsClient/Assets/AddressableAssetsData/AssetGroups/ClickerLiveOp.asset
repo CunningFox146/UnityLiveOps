@@ -10,14 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Default Local Group
+  m_Name: ClickerLiveOp
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Default Local Group
-  m_GUID: ac542f870088344888245765d8cfcf16
-  m_SerializeEntries: []
+  m_GroupName: ClickerLiveOp
+  m_GUID: c66637c831eda4cbd8c137bfd9f83aba
+  m_SerializeEntries:
+  - m_GUID: 098d5c2effeab48bebf5c08741483bbd
+    m_Address: ClickerLiveOp/Config
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 50c27f7fc0d4643c1b95532358316cbe, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: a13bcbecfeac64dfd81a024203ce9e4b, type: 2}
-    - {fileID: 11400000, guid: e4904d7b5b0d8404e88ddaf859e35f29, type: 2}
+    - {fileID: 11400000, guid: f6aac8358819243e4a233225dfa13818, type: 2}
+    - {fileID: 11400000, guid: e2d70639733414921a43c64cb2216232, type: 2}

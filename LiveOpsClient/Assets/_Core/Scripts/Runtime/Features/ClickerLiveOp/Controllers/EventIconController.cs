@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.Lobby.Models;
 using App.Shared.Mvc;
 using Cysharp.Threading.Tasks;
@@ -24,7 +25,8 @@ namespace App.Runtime.Features.ClickerLiveOp
             try
             {
                 var assetScope = args.Scope;
-                _icon = await assetScope.InstantiateAsync("EventIconBase", args.IconParent, token);
+                var config = await assetScope.LoadAssetAsync<ILiveOpConfig>("ClickerLiveOp/Config", token);
+                _icon = Object.Instantiate(config.IconPrefab, args.IconParent);
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)

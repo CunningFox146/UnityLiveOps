@@ -25,6 +25,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d47d03bc240f8400685f02c16371351f
+    m_Address: EventIconBase
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: f7ce246b4575a4cacbec5e188bc5d65f
     m_Address: Prefabs
     m_ReadOnly: 0

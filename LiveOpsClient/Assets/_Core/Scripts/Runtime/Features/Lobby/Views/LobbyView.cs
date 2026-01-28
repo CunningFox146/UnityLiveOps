@@ -6,6 +6,7 @@ namespace App.Runtime.Features.Lobby.Views
 {
     public class LobbyView : MonoBehaviour, ILobbyView
     {
+        [SerializeField] private Canvas _canvas;
         [SerializeField] private EventsContainerView _eventsContainer;
         [SerializeField] private TextMeshProUGUI _levelText;
         
@@ -15,7 +16,10 @@ namespace App.Runtime.Features.Lobby.Views
         {
             _levelText.text = $"Level {level}";
         }
-        
+
+        public void SetCamera(Camera uiCamera)
+            => _canvas.worldCamera = uiCamera;
+
         public void Dispose()
         {
             if (this != null)

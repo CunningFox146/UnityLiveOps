@@ -10,14 +10,14 @@ namespace App.Runtime.Services.AssetManagement.Provider
 {
     public class AddressableAssetProvider : IAssetProvider, IDisposable
     {
-        private readonly Dictionary<Object, AsyncOperationHandle> _handleCache = new();
+        private readonly Dictionary<object, AsyncOperationHandle> _handleCache = new();
 
         public UniTask InitializeAsync(CancellationToken cancellationToken)
         {
             return Addressables.InitializeAsync().ToUniTask(cancellationToken: cancellationToken);
         }
 
-        public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default) where T : Object
+        public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default)
         {
             var handle = Addressables.LoadAssetAsync<T>(key);
             try
@@ -34,7 +34,7 @@ namespace App.Runtime.Services.AssetManagement.Provider
             }
         }
 
-        public void Release(Object asset)
+        public void Release(object asset)
         {
             if (_handleCache.Remove(asset, out var handle) && handle.IsValid())
                 Addressables.Release(handle);

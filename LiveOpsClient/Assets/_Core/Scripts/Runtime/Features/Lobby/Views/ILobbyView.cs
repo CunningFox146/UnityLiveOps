@@ -7,5 +7,6 @@ namespace App.Runtime.Features.Lobby.Views
     {
         Transform IconContainer { get; }
         void SetLevel(int level);
+        void SetCamera(Camera uiCamera);
     }
 }
