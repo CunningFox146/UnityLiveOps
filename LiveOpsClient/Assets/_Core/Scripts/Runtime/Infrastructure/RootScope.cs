@@ -8,6 +8,7 @@ using App.Runtime.Features.LiveOps.Services.Scheduler;
 using App.Runtime.Features.Lobby.Models;
 using App.Runtime.Features.UserState.Models;
 using App.Runtime.Features.UserState.Services;
+using App.Runtime.Gameplay.Services;
 using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.Input;
 using App.Runtime.Services.SceneLoader;
@@ -40,6 +41,7 @@ namespace App.Runtime.Infrastructure
             RegisterAssets(builder);
             RegisterLiveOps(builder);
             RegisterFeatureService(builder);
+            RegisterGameplay(builder);
 
             builder.RegisterEntryPoint<BootEntryPoint>();
         }
@@ -81,6 +83,12 @@ namespace App.Runtime.Infrastructure
         {
             builder.Register<IRepository<ActiveUserState>, UserStateRepository>(Lifetime.Singleton);
             builder.Register<IUserStateService, UserStateService>(Lifetime.Singleton);
+        }
+
+        private static void RegisterGameplay(IContainerBuilder builder)
+        {
+            builder.Register<GameplayService>(Lifetime.Singleton).AsImplementedInterfaces();
+            builder.Register<IGameplayHandler, GameplayHandler>(Lifetime.Singleton);
         }
 
         private static void RegisterHttpClient(IContainerBuilder builder)
