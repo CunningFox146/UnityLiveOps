@@ -35,8 +35,8 @@ namespace App.Runtime.Features.Lobby.Controllers
         {
             _token = token;
             _assetScope = new AssetScope(_assetProvider);
-            _parallaxController = await _assetScope.InstantiateAsync<ParallaxView>("ParallaxView", cancellationToken: token);
-            _view = await _assetScope.InstantiateAsync<LobbyView>("LobbyView", cancellationToken: token);
+            _parallaxController = await _assetScope.InstantiateAsync<ParallaxView>(LobbyConstants.ParallaxViewPath, cancellationToken: token);
+            _view = await _assetScope.InstantiateAsync<LobbyView>(LobbyConstants.LobbyViewPath, cancellationToken: token);
             _view.SetCamera(_cameraProvider.Camera);
             _view.SetLevel(args.PlayerLevel);
 
