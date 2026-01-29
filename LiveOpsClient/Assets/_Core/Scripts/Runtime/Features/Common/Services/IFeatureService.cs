@@ -8,5 +8,6 @@ namespace App.Runtime.Features.Common
     {
         void StartFeature(FeatureType featureType, IInstaller installer);
         void StopFeature(FeatureType featureType);
+        bool IsFeatureActive(FeatureType featureType);
     }
 }

@@ -19,7 +19,7 @@ namespace App.Runtime.Features.Common
 
         public void StartFeature(FeatureType featureType, IInstaller installer)
         {
-            if (_scopes.ContainsKey(featureType))
+            if (IsFeatureActive(featureType))
             {
                 _logger.Error($"Feature {featureType} is already active");
                 return;
@@ -41,5 +41,8 @@ namespace App.Runtime.Features.Common
                 return;
             scope.Dispose();
         }
+        
+        public bool IsFeatureActive(FeatureType featureType)
+            => _scopes.ContainsKey(featureType);
     }
 }

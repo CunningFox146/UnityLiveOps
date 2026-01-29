@@ -34,8 +34,7 @@ namespace App.Runtime.Features.ClickerLiveOp.Model
         {
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
-            if (obj.GetType() != GetType()) return false;
-            return Equals((LiveOpState)obj);
+            return obj.GetType() == GetType() && Equals((LiveOpState)obj);
         }
 
         public override int GetHashCode()
