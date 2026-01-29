@@ -3,6 +3,7 @@ using App.Runtime.Features.ClickerLiveOp;
 using App.Runtime.Features.Common.Models;
 using App.Runtime.Features.KeyCollectLiveOp;
 using App.Runtime.Features.LiveOps.Models;
+using App.Runtime.Features.PlayGamesLiveOp;
 using VContainer.Unity;
 
 namespace App.Runtime.Features.LiveOps
@@ -14,7 +15,7 @@ namespace App.Runtime.Features.LiveOps
             {
                 FeatureType.ClickerLiveOp => new ClickerLiveOpInstaller(state),
                 FeatureType.KeyCollectLiveOp => new KeyCollectLiveOpInstaller(state),
-                FeatureType.PlayGamesLiveOp => throw new NotImplementedException(),
+                FeatureType.PlayGamesLiveOp => new PlayGamesLiveOpInstaller(state),
                 _ => throw new ArgumentOutOfRangeException(nameof(state.Type), state.Type, null)
             };
     }
