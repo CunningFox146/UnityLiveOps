@@ -61,7 +61,7 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
             try
             {
                 _clickerService.IncrementProgress();
-                await _controllerService .StartControllerWithResult<ClickerLiveOpPopupController, ClickerLiveOpPopup, Empty>(_popupPrefab, token);
+                await _controllerService.StartControllerWithResult<ClickerLiveOpPopupController, ClickerLiveOpPopup, Empty>(_popupPrefab, token);
                 _clickerService.TryUnloadFeatureIfExpired();
             }
             catch (OperationCanceledException) { }
@@ -73,6 +73,5 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
         
         private void IconHandlerOnIconClicked()
             => HandleIconClickAsync(Token).Forget(_logger.LogUniTask);
-
     }
 }

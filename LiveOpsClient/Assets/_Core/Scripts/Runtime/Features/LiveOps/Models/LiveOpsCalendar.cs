@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Shared.Time;
 using CunningFox.LiveOps.Models;
 using ZLinq;
