@@ -52,7 +52,7 @@ namespace App.Shared.Repository
             UpdateAsync(data).Forget();
         }
 
-        public async UniTask UpdateAsync(T data, CancellationToken token = default)
+        private async UniTask UpdateAsync(T data, CancellationToken token = default)
         {
             await _semaphore.WaitAsync(token);
 

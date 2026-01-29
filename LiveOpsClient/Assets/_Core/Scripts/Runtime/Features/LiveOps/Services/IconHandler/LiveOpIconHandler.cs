@@ -35,9 +35,9 @@ namespace App.Runtime.Features.LiveOps.Services
         }
 
         private void CreateIconAsync(Transform parent, CancellationToken token)
-            => CreateIconAsyncInternal(parent, _config, token).Forget();
+            => CreateIconAsyncInternal(parent, _config, token).Forget(_logger.LogUniTask);
 
-        private async UniTaskVoid CreateIconAsyncInternal(Transform parent, ILiveOpConfig config, CancellationToken token)
+        private async UniTask CreateIconAsyncInternal(Transform parent, ILiveOpConfig config, CancellationToken token)
         {
             try
             {

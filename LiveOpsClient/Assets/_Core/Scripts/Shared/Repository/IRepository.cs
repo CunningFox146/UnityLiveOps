@@ -7,7 +7,6 @@ namespace App.Shared.Repository
     public interface IRepository<TDto> : IReadOnlyRepository<TDto>
     {
         void Update(TDto data);
-        UniTask UpdateAsync(TDto data, CancellationToken token = default);
         event Action RepositoryUpdated;
     }
 }

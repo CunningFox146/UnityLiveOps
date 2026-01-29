@@ -30,14 +30,27 @@ namespace App.Runtime.Features.LiveOps.Services.Calendar
             _logger = logger;
         }
 
-        public async UniTask LoadFromServer(CancellationToken token)
+        public async UniTask LoadCalendar(CancellationToken token)
         {
             try
             {
                 await _repository.RestoreFeatureData(token);
+                await UpdateCalendar(token);
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                _logger.Error("Failed to load LiveOps calendar", ex, LoggerTag.LiveOps);
+            }
+        }
+
+        private async UniTask UpdateCalendar(CancellationToken token)
+        {
+            try
+            {
                 var activeCalendarId = await _apiService.GetCalendarId(token);
 
-                if (string.IsNullOrEmpty(activeCalendarId) || IsCalendarUpToDate(activeCalendarId))
+                if (IsCalendarUpToDate(activeCalendarId))
                 {
                     _logger.Info($"Using cached calendar {activeCalendarId}", LoggerTag.LiveOps);
                     return;
@@ -48,25 +61,31 @@ namespace App.Runtime.Features.LiveOps.Services.Calendar
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                _logger.Error("Failed to load LiveOps calendar", ex, LoggerTag.LiveOps);
+                _logger.Error("Failed to fetch calendar, using cached one", ex, LoggerTag.LiveOps);
             }
         }
 
         public void SaveCalendar()
             => _repository.Update(Calendar);
-
+        
+        private async UniTask FetchAndUpdateCalendar(CancellationToken token)
+        {
+            try
+            {
+                var calendarDto = await _apiService.GetCalendar(token);
+                Calendar.UpdateFromDto(calendarDto, _timeService);
+                _repository.Update(Calendar);
+                _logger.Info("Successfully updated calendar from server", LoggerTag.LiveOps);
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                _logger.Error("Failed to update calendar", ex, LoggerTag.LiveOps);
+            }
+        }
+        
         private bool IsCalendarUpToDate(string activeCalendarId)
             => Calendar.Id == activeCalendarId;
 
-        private async UniTask FetchAndUpdateCalendar(CancellationToken token)
-        {
-            var calendarDto = await _apiService.GetCalendar(token);
-            if (calendarDto is not null)
-            {
-                Calendar.UpdateFromDto(calendarDto, _timeService);
-                await _repository.UpdateAsync(Calendar, token);
-                _logger.Info("Successfully fetched calendar from server", LoggerTag.LiveOps);
-            }
-        }
     }
 }

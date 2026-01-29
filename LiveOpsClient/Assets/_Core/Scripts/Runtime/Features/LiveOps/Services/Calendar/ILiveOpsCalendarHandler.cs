@@ -7,7 +7,7 @@ namespace App.Runtime.Features.LiveOps.Services.Calendar
     public interface ILiveOpsCalendarHandler
     {
         LiveOpsCalendar Calendar { get; }
-        UniTask LoadFromServer(CancellationToken token);
+        UniTask LoadCalendar(CancellationToken token);
         void SaveCalendar();
     }
 }

@@ -9,41 +9,12 @@ namespace App.Runtime.Features.LiveOps.Api
 {
     public class LiveOpsApiService : ApiServiceBase, ILiveOpsApiService
     {
-        private readonly ILogger _logger;
+        public LiveOpsApiService(IHttpClient httpClient) : base(httpClient) { }
 
-        public LiveOpsApiService(IHttpClient httpClient, ILogger logger) : base(httpClient)
-        {
-            _logger = logger;
-        }
+        public UniTask<LiveOpsCalendarDto> GetCalendar(CancellationToken token = default)
+            => GetAsync<LiveOpsCalendarDto>("LiveOps/Active", token);
 
-        public async UniTask<LiveOpsCalendarDto> GetCalendar(CancellationToken token = default)
-        {
-            try
-            {
-                return await GetAsync<LiveOpsCalendarDto>("LiveOps/Active", token);
-            }
-            catch (OperationCanceledException) { }
-            catch (Exception exception)
-            {
-                _logger.Error("Failed to fetch active calendar", exception, LoggerTag.LiveOps);
-            }
-
-            return null;
-        }
-
-        public async UniTask<string> GetCalendarId(CancellationToken token = default)
-        {
-            try
-            {
-                return await GetStringAsync("LiveOps/ActiveId", token);
-            }
-            catch (OperationCanceledException) { }
-            catch (Exception exception)
-            {
-                _logger.Error("Failed to fetch active calendar id", exception, LoggerTag.LiveOps);
-            }
-
-            return null;
-        }
+        public UniTask<string> GetCalendarId(CancellationToken token = default)
+            => GetStringAsync("LiveOps/ActiveId", token);
     }
 }

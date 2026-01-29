@@ -20,7 +20,7 @@ namespace App.Runtime.Features.LiveOps.Services
 
         public async UniTask Initialize(CancellationToken token)
         {
-            await _calendarHandler.LoadFromServer(token);
+            await _calendarHandler.LoadCalendar(token);
             _eventScheduler.ScheduleAllEvents(token);
             _calendarHandler.SaveCalendar();
         }
