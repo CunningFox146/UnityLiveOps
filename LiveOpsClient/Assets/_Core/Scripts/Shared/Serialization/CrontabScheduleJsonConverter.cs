@@ -34,7 +34,7 @@ namespace App.Shared.Serialization
 
         public override void WriteJson(JsonWriter writer, CrontabSchedule value, JsonSerializer serializer)
         {
-            if (value == null)
+            if (value is null)
             {
                 writer.WriteNull();
                 return;

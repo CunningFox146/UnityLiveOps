@@ -27,7 +27,7 @@ namespace App.Shared.Logger
         [HideInCallstack]
         public void Warn(string message, Exception exception = null, LoggerTag tag = LoggerTag.Generic)
         {
-            var msg = exception != null 
+            var msg = exception is not null 
                 ? ZString.Concat(message, "\n", FormatException(exception)) 
                 : message;
             UnityEngine.Debug.LogWarning(FormatMessage(tag, msg, ColorWarn));
@@ -36,7 +36,7 @@ namespace App.Shared.Logger
         [HideInCallstack]
         public void Error(string message, Exception exception = null, LoggerTag tag = LoggerTag.Generic)
         {
-            var msg = exception != null 
+            var msg = exception is not null 
                 ? ZString.Concat(message, "\n", FormatException(exception)) 
                 : message;
             UnityEngine.Debug.LogError(FormatMessage(tag, msg, ColorError));
@@ -60,7 +60,7 @@ namespace App.Shared.Logger
 
         private static string FormatException(Exception exception)
         {
-            if (exception == null)
+            if (exception is null)
                 return string.Empty;
 
             using var sb = ZString.CreateStringBuilder();

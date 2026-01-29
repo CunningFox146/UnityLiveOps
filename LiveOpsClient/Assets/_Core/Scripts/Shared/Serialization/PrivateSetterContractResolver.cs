@@ -10,7 +10,7 @@ namespace App.Shared.Storage
         {
             var property = base.CreateProperty(member, memberSerialization);
             if (!property.Writable && member is PropertyInfo propertyInfo)
-                property.Writable = propertyInfo.GetSetMethod(true) != null;
+                property.Writable = propertyInfo.GetSetMethod(true) is not null;
 
             return property;
         }

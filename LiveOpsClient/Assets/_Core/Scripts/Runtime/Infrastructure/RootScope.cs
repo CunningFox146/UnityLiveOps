@@ -62,6 +62,8 @@ namespace App.Runtime.Infrastructure
         
         private static void RegisterLiveOps(IContainerBuilder builder)
         {
+            builder.Register<ILiveOpsCalendarHandler, LiveOpsCalendarHandler>(Lifetime.Singleton);
+            builder.Register<ILiveOpsEventScheduler, LiveOpsEventScheduler>(Lifetime.Singleton);
             builder.Register<ILiveOpsService, LiveOpsService>(Lifetime.Singleton);
             builder.Register<ILiveOpsApiService, LiveOpsApiService>(Lifetime.Singleton);
             builder.Register<IRepository<LiveOpsCalendar>, LiveOpsRepository>(Lifetime.Singleton);

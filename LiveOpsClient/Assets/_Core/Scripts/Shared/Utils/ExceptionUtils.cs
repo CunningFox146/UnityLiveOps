@@ -10,7 +10,7 @@ namespace App.Shared.Utils
             using var message = ZString.CreateStringBuilder();
             var current = exception;
 
-            while (current != null)
+            while (current is not null)
             {
                 var value = ToString(current);
                 message.Append(value);

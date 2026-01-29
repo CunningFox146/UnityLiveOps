@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using App.Shared.Logger;
-using VContainer;
 using VContainer.Unity;
 
 namespace App.Runtime.Features.Common
@@ -18,7 +17,7 @@ namespace App.Runtime.Features.Common
             _logger = logger;
         }
 
-        public void StartFeature(FeatureType featureType, Action<IContainerBuilder> installation)
+        public void StartFeature(FeatureType featureType, IInstaller installer)
         {
             if (_scopes.ContainsKey(featureType))
             {
@@ -27,8 +26,7 @@ namespace App.Runtime.Features.Common
             }
             try
             {
-                var scope = _lifetimeScope.CreateChild(installation);
-                scope.name = $"DI {featureType}";
+                var scope = _lifetimeScope.CreateChild(installer, $"DI {featureType}");
                 _scopes[featureType] = scope;
             }
             catch (Exception ex)

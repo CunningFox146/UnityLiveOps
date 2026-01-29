@@ -45,7 +45,7 @@ namespace App.Editor.Addressables
                 return;
 
             var settings = AddressableAssetSettingsDefaultObject.Settings;
-            if (settings == null || settings.ActivePlayerDataBuilder == null)
+            if (settings == null || settings.ActivePlayerDataBuilder is null)
             {
                 Debug.LogWarning("[Addressables] Invalid settings, skipping build.");
                 return;
@@ -70,7 +70,7 @@ namespace App.Editor.Addressables
                 return builderInput;
 
             var previousState = ContentUpdateScript.LoadContentState(contentStatePath);
-            if (previousState != null)
+            if (previousState is not null)
             {
                 builderInput.PreviousContentState = previousState;
             }
