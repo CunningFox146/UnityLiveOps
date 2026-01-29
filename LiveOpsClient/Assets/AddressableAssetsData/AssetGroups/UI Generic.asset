@@ -20,6 +20,11 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42685bc6a1e114e348227dd8ba8a13b6
+    m_Address: Shaders
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: bba696f6d0bdb4638879b465f265820e
     m_Address: GenericUI
     m_ReadOnly: 0

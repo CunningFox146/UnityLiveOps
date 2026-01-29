@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dd8333205ff141a2829d4301bb2e1bcb, type: 3}
+  m_Name: KeyCollectLiveOpConfig
+  m_EditorClassIdentifier: App.Runtime::App.Runtime.Features.LiveOps.Models.LiveOpConfig
+  <IconPrefab>k__BackingField: {fileID: 3111812072820689278, guid: bdfc96e3642ca41a191b7477931047bb, type: 3}
+  <PopupPrefab>k__BackingField: {fileID: 8863739147796023732, guid: 615c2a42a15e54d22ab14d9d40d508af, type: 3}
