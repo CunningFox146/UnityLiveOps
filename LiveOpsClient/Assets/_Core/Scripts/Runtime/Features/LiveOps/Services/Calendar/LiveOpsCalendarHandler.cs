@@ -6,6 +6,7 @@ using App.Shared.Logger;
 using App.Shared.Repository;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
+using UnityEngine.InputSystem.XR;
 
 namespace App.Runtime.Features.LiveOps.Services.Calendar
 {
@@ -43,6 +44,15 @@ namespace App.Runtime.Features.LiveOps.Services.Calendar
                 _logger.Error("Failed to load LiveOps calendar", ex, LoggerTag.LiveOps);
             }
         }
+        
+        public void SaveCalendar()
+            => _repository.Update(Calendar);
+
+        public void RemoveSeenEvent(LiveOpState state)
+        {
+            Calendar.SeenEvents.Remove(state);
+            SaveCalendar();
+        }
 
         private async UniTask UpdateCalendar(CancellationToken token)
         {
@@ -64,9 +74,6 @@ namespace App.Runtime.Features.LiveOps.Services.Calendar
                 _logger.Error("Failed to fetch calendar, using cached one", ex, LoggerTag.LiveOps);
             }
         }
-
-        public void SaveCalendar()
-            => _repository.Update(Calendar);
         
         private async UniTask FetchAndUpdateCalendar(CancellationToken token)
         {
@@ -74,7 +81,7 @@ namespace App.Runtime.Features.LiveOps.Services.Calendar
             {
                 var calendarDto = await _apiService.GetCalendar(token);
                 Calendar.UpdateFromDto(calendarDto, _timeService);
-                _repository.Update(Calendar);
+                SaveCalendar();
                 _logger.Info("Successfully updated calendar from server", LoggerTag.LiveOps);
             }
             catch (OperationCanceledException) { }
@@ -86,6 +93,5 @@ namespace App.Runtime.Features.LiveOps.Services.Calendar
         
         private bool IsCalendarUpToDate(string activeCalendarId)
             => Calendar.Id == activeCalendarId;
-
     }
 }

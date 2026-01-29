@@ -8,6 +8,7 @@ namespace App.Shared.Repository
 {
     public abstract class FeatureRepository<T> : IRepository<T> where T : class, new()
     {
+
         public event Action RepositoryUpdated;
         
         private readonly IPersistentStorage _persistentStorage;
@@ -48,9 +49,10 @@ namespace App.Shared.Repository
         }
 
         public void Update(T data)
-        {
-            UpdateAsync(data).Forget();
-        }
+            => UpdateAsync(data).Forget();
+
+        public void Clear()
+            => UpdateAsync(_defaultValue).Forget();
 
         private async UniTask UpdateAsync(T data, CancellationToken token = default)
         {

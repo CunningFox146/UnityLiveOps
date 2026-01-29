@@ -3,6 +3,7 @@ using System.Threading;
 using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.Common.Services;
 using App.Runtime.Features.LiveOps.Models;
+using App.Runtime.Features.LiveOps.Services.Calendar;
 using App.Shared.Logger;
 using App.Shared.Repository;
 using App.Shared.Time;
@@ -16,16 +17,20 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
         private readonly LiveOpState _state;
         private readonly ITimeService _timeService;
         private readonly IFeatureService _featureService;
+        private readonly ILiveOpsCalendarHandler _calendarHandler;
         private readonly ILogger _logger;
         public int Progress => Data.Progress;
         private ClickerLiveOpData Data => _repository.Value;
-        
-        public ClickerLiveOpService(IRepository<ClickerLiveOpData> repository, LiveOpState state, ITimeService timeService, IFeatureService featureService, ILogger logger)
+
+        public ClickerLiveOpService(IRepository<ClickerLiveOpData> repository, LiveOpState state,
+            ITimeService timeService, IFeatureService featureService, ILiveOpsCalendarHandler calendarHandler,
+            ILogger logger)
         {
             _repository = repository;
             _state = state;
             _timeService = timeService;
             _featureService = featureService;
+            _calendarHandler = calendarHandler;
             _logger = logger;
         }
 
@@ -53,8 +58,12 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
 
         public void TryUnloadFeatureIfExpired()
         {
-            if (_state.IsExpired(_timeService))
-                _featureService.StopFeature(_state.Type);
+            if (!_state.IsExpired(_timeService))
+                return;
+            
+            _featureService.StopFeature(_state.Type);
+            _calendarHandler.RemoveSeenEvent(_state);
+            _repository.Clear();
         }
     }
 }

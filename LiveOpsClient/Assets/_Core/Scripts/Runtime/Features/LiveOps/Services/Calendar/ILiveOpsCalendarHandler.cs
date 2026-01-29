@@ -9,5 +9,6 @@ namespace App.Runtime.Features.LiveOps.Services.Calendar
         LiveOpsCalendar Calendar { get; }
         UniTask LoadCalendar(CancellationToken token);
         void SaveCalendar();
+        void RemoveSeenEvent(LiveOpState state);
     }
 }
