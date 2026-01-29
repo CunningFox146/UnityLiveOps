@@ -29,6 +29,7 @@ namespace App.Runtime.Features.Common.Services
             {
                 var scope = _lifetimeScope.CreateChild(installer, $"DI {featureType}");
                 _scopes[featureType] = scope;
+                _logger.Info($"Feature {featureType} has been started");
             }
             catch (Exception ex)
             {
@@ -41,6 +42,7 @@ namespace App.Runtime.Features.Common.Services
             if (!_scopes.Remove(featureType, out var scope))
                 return;
             scope.Dispose();
+            _logger.Info($"Feature {featureType} has been stopped");
         }
         
         public bool IsFeatureActive(FeatureType featureType)

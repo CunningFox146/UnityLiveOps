@@ -1,7 +1,7 @@
-using App.Runtime.Features.ClickerLiveOp;
 using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.Common.Controllers;
 using App.Runtime.Features.LiveOps.Models;
+using App.Runtime.Features.LiveOps.Services;
 using App.Shared.Mvc.Utils;
 using VContainer;
 using VContainer.Unity;
@@ -22,6 +22,8 @@ namespace App.Runtime.Features.LiveOps
             builder.RegisterInstance(_state);
             builder.RegisterControllerServices();
             builder.RegisterController<EventIconController>();
+            
+            builder.Register<ILiveOpIconHandler, LiveOpIconHandler>(Lifetime.Scoped);
         }
     }
 }

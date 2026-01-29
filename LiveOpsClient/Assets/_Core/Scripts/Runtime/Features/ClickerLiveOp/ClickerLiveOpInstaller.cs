@@ -12,9 +12,7 @@ namespace App.Runtime.Features.ClickerLiveOp
 {
     public class ClickerLiveOpInstaller : LiveOpInstaller
     {
-        public ClickerLiveOpInstaller(LiveOpState state) : base(state)
-        {
-        }
+        public ClickerLiveOpInstaller(LiveOpState state) : base(state) { }
 
         public override void Install(IContainerBuilder builder)
         {
@@ -22,6 +20,7 @@ namespace App.Runtime.Features.ClickerLiveOp
             
             builder.Register<IRepository<ClickerLiveOpData>, ClickerLiveOpRepository>(Lifetime.Scoped);
             builder.Register<IClickerLiveOpService, ClickerLiveOpService>(Lifetime.Scoped);
+            builder.Register<ClickerLiveOpUIHandler>(Lifetime.Scoped).AsImplementedInterfaces();
             builder.RegisterController<ClickerLiveOpPopupController>();
             builder.RegisterEntryPoint<ClickerLiveOpEntryPoint>();
         }

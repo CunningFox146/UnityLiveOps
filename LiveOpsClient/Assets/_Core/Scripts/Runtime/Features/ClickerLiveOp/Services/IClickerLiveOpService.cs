@@ -8,5 +8,6 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
         int Progress { get; }
         UniTask Initialize(CancellationToken token);
         void IncrementProgress();
+        void TryUnloadFeatureIfExpired();
     }
 }

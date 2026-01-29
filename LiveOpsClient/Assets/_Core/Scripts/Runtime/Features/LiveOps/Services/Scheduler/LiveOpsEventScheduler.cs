@@ -64,7 +64,7 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
                 }
                 else
                 {
-                    ScheduleEventStartAsync(eventState, token).Forget();
+                    ScheduleEventStartAsync(eventState, token).Forget(_logger.LogUniTask);
                 }
             }
         }
@@ -78,7 +78,7 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
             return new LiveOpState(liveOpEvent.Type, occurrenceStart, occurrenceEnd);
         }
 
-        private async UniTaskVoid ScheduleEventStartAsync(LiveOpState eventState, CancellationToken token)
+        private async UniTask ScheduleEventStartAsync(LiveOpState eventState, CancellationToken token)
         {
             try
             {
