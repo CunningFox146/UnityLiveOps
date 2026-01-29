@@ -10,9 +10,9 @@ namespace App.Shared.Time
         public event Action<DateTime> TimeChanged;
         public DateTime Now => DateTime.UtcNow;
 
-        public UniTask StartAsync(CancellationToken cancellation = default)
+        public UniTask StartAsync(CancellationToken token = default)
         {
-            StartTimeUpdate(cancellation).Forget();
+            StartTimeUpdate(token).Forget();
             return UniTask.CompletedTask;
         }
         

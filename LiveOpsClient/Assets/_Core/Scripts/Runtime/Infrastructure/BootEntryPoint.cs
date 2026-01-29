@@ -32,16 +32,16 @@ namespace App.Runtime.Infrastructure
             _featureService = featureService;
         }
 
-        public async UniTask StartAsync(CancellationToken cancellation = default)
+        public async UniTask StartAsync(CancellationToken token = default)
         {
             try
             {
                 await UniTask.WhenAll(
-                    _assetProvider.InitializeAsync(cancellation),
-                    _userStateService.RestoreUserState(cancellation)
+                    _assetProvider.InitializeAsync(token),
+                    _userStateService.RestoreUserState(token)
                 );
-                await _liveOpsService.Initialize(cancellation);
-                await _sceneLoader.LoadSceneAsync("Lobby", cancellationToken: cancellation);
+                await _liveOpsService.Initialize(token);
+                await _sceneLoader.LoadSceneAsync("Lobby", cancellationToken: token);
             }
             catch (OperationCanceledException) { }
             catch (Exception e)

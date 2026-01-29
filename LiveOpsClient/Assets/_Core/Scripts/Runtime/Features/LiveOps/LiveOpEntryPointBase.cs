@@ -23,92 +23,57 @@ namespace App.Runtime.Features.LiveOps
 {
     public abstract class LiveOpEntryPointBase : IAsyncStartable, IDisposable
     {
+        protected readonly IControllerService ControllerService;
+        protected readonly ILogger Logger;
+        protected readonly LiveOpState State;
         private readonly IEventIconsHandler _iconsHandler;
         private readonly IAssetProvider _assetProvider;
-        private readonly IControllerService _controllerService;
-        private readonly ITimeService _timeService;
-        private readonly LiveOpState _state;
-        private readonly IFeatureService _featureService;
-        private readonly IClickerLiveOpService _clickerService;
-        private readonly ILogger _logger;
+
         private AssetScope _assetScope;
-        private CancellationToken _token;
-        private ILiveOpConfig _config;
+        protected ILiveOpConfig Config;
 
         protected LiveOpEntryPointBase(IEventIconsHandler iconsHandler, IAssetProvider assetProvider,
-            IControllerService controllerService, ITimeService timeService, LiveOpState state, IFeatureService featureService, IClickerLiveOpService clickerService, ILogger logger)
+            IControllerService controllerService, LiveOpState liveOpState, ILogger logger)
         {
             _iconsHandler = iconsHandler;
             _assetProvider = assetProvider;
-            _controllerService = controllerService;
-            _timeService = timeService;
-            _state = state;
-            _featureService = featureService;
-            _clickerService = clickerService;
-            _logger = logger;
+            ControllerService = controllerService;
+            State = liveOpState;
+            Logger = logger;
         }
 
         public virtual async UniTask StartAsync(CancellationToken token = default)
         {
-            _token = token;
             _assetScope = new AssetScope(_assetProvider);
-            await _clickerService.Initialize(token);
-            _config = await _assetScope.LoadAssetAsync<ILiveOpConfig>(_state.Type + "/Config", token);
+            Config = await _assetScope.LoadAssetAsync<ILiveOpConfig>(State.Type + "/Config", token);
             RegisterLobbyIcon();
         }
 
         public virtual void Dispose()
-        {
-            _assetScope?.Dispose();
-        }
+            => _assetScope?.Dispose();
 
+        protected abstract void OnIconClicked();
+        
         private void RegisterLobbyIcon()
         {
-            var info = new EventIconRegistration(_state.Type, CreateLobbyIcon);
+            var info = new EventIconRegistration(State.Type, CreateLobbyIcon);
             _iconsHandler.RegisterIcon(info);
         }
-
+        
         private void CreateLobbyIcon(Transform parent, CancellationToken token)
-        {
-            CreateLobbyIconAsync(parent, token).Forget();
-        }
+            => CreateLobbyIconAsync(parent, token).Forget();
 
         private async UniTaskVoid CreateLobbyIconAsync(Transform parent, CancellationToken token)
         {
             try
             {
-                var args = new EventIconControllerArgs(parent, _config.IconPrefab, OnIconClicked);
-                await _controllerService.StartController<EventIconController, EventIconControllerArgs>(args, token);
+                var args = new EventIconControllerArgs(parent, Config.IconPrefab, OnIconClicked);
+                await ControllerService.StartController<EventIconController, EventIconControllerArgs>(args, token);
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)
             {
-                _logger.Error("Failed to show icon for liveOp", exception, LoggerTag.LiveOps);
-            }
-        }
-
-        private void OnIconClicked()
-        {
-            _clickerService.IncrementProgress();
-            ShowPopup(_token).Forget();
-        }
-
-        private async UniTaskVoid ShowPopup(CancellationToken token)
-        {
-            try
-            {
-                var popupPrefab = (ClickerLiveOpPopup)_config.PopupPrefab;
-                await _controllerService
-                    .StartControllerWithResult<ClickerLiveOpPopupController, ClickerLiveOpPopup, Empty>(popupPrefab,
-                        token);
-                
-                if (_state.IsExpired(_timeService))
-                    _featureService.StopFeature(_state.Type);
-            }
-            catch (OperationCanceledException) { }
-            catch (Exception exception)
-            {
-                _logger.Error("Failed to show popup", exception, LoggerTag.LiveOps);
+                Logger.Error("Failed to show icon for liveOp", exception, LoggerTag.LiveOps);
             }
         }
     }
