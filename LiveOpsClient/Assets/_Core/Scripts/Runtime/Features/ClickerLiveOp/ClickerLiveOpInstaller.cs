@@ -2,6 +2,7 @@ using App.Runtime.Features.ClickerLiveOp.Controllers;
 using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.ClickerLiveOp.Services;
 using App.Runtime.Features.LiveOps;
+using App.Runtime.Features.LiveOps.Models;
 using App.Shared.Mvc.Utils;
 using App.Shared.Repository;
 using VContainer;

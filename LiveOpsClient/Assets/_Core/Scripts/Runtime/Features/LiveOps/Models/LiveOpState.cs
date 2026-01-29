@@ -1,8 +1,8 @@
 using System;
-using App.Runtime.Features.Common;
+using App.Runtime.Features.Common.Models;
 using App.Shared.Time;
 
-namespace App.Runtime.Features.ClickerLiveOp.Model
+namespace App.Runtime.Features.LiveOps.Models
 {
     public class LiveOpState : IEquatable<LiveOpState>
     {

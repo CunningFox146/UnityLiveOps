@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using App.Runtime.Features.Common;
+using App.Runtime.Features.Common.Models;
 using UnityEngine;
 
 namespace App.Runtime.Features.Lobby.Models

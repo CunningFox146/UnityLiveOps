@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using App.Runtime.Features.Common;
+using App.Runtime.Features.Common.Models;
 
 namespace App.Runtime.Features.Lobby.Models
 {

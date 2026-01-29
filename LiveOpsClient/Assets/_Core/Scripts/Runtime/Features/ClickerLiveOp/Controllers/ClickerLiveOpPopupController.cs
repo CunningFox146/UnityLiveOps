@@ -4,6 +4,7 @@ using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.ClickerLiveOp.Services;
 using App.Runtime.Features.ClickerLiveOp.Views;
 using App.Runtime.Features.Common.Views;
+using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Services.Camera;
 using App.Runtime.Services.ViewStack;
 using App.Shared.Mvc;

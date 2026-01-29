@@ -1,16 +1,14 @@
 using System;
 using System.Threading;
-using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.Common.Views;
-using App.Runtime.Features.Lobby.Models;
+using App.Runtime.Features.LiveOps.Models;
 using App.Shared.Mvc;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
-using UnityEngine;
 using ILogger = App.Shared.Logger.ILogger;
 using Object = UnityEngine.Object;
 
-namespace App.Runtime.Features.ClickerLiveOp
+namespace App.Runtime.Features.Common.Controllers
 {
     public class EventIconController : ControllerBase<EventIconControllerArgs>
     {

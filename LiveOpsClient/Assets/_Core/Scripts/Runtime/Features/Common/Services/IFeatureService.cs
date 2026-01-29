@@ -1,8 +1,7 @@
-using System;
-using VContainer;
+using App.Runtime.Features.Common.Models;
 using VContainer.Unity;
 
-namespace App.Runtime.Features.Common
+namespace App.Runtime.Features.Common.Services
 {
     public interface IFeatureService
     {

@@ -2,7 +2,7 @@ using System.Threading;
 using App.Runtime.Features.LiveOps.Models;
 using Cysharp.Threading.Tasks;
 
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Services.Calendar
 {
     public interface ILiveOpsCalendarHandler
     {

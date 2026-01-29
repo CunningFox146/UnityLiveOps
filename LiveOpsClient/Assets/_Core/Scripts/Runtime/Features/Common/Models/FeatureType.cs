@@ -1,6 +1,6 @@
 using System;
 
-namespace App.Runtime.Features.Common
+namespace App.Runtime.Features.Common.Models
 {
     public enum FeatureType
     {

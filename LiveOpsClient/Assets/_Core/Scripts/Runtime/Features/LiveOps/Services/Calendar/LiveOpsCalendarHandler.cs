@@ -7,7 +7,7 @@ using App.Shared.Repository;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
 
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Services.Calendar
 {
     public class LiveOpsCalendarHandler : ILiveOpsCalendarHandler
     {
@@ -37,9 +37,9 @@ namespace App.Runtime.Features.LiveOps.Services
                 await _repository.RestoreFeatureData(token);
                 var activeCalendarId = await _apiService.GetCalendarId(token);
 
-                if (IsCalendarUpToDate(activeCalendarId))
+                if (string.IsNullOrEmpty(activeCalendarId) || IsCalendarUpToDate(activeCalendarId))
                 {
-                    _logger.Info($"Using cached calendar id: {activeCalendarId}", LoggerTag.LiveOps);
+                    _logger.Info($"Using cached calendar {activeCalendarId}", LoggerTag.LiveOps);
                     return;
                 }
 
@@ -48,7 +48,7 @@ namespace App.Runtime.Features.LiveOps.Services
             catch (OperationCanceledException) { }
             catch (Exception ex)
             {
-                _logger.Error("Failed to load LiveOps calendar.", ex, LoggerTag.LiveOps);
+                _logger.Error("Failed to load LiveOps calendar", ex, LoggerTag.LiveOps);
             }
         }
 

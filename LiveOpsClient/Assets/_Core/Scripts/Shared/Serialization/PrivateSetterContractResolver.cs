@@ -2,7 +2,7 @@ using System.Reflection;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace App.Shared.Storage
+namespace App.Shared.Serialization
 {
     public sealed class PrivateSetterContractResolver : DefaultContractResolver
     {

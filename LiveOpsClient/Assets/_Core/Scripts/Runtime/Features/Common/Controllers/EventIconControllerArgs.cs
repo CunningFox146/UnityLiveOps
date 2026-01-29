@@ -2,7 +2,7 @@ using System;
 using App.Runtime.Features.Common.Views;
 using UnityEngine;
 
-namespace App.Runtime.Features.Lobby.Models
+namespace App.Runtime.Features.Common.Controllers
 {
     public readonly struct EventIconControllerArgs
     {

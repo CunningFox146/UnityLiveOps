@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
+using App.Runtime.Features.Common.Models;
 using App.Shared.Logger;
 using VContainer.Unity;
 
-namespace App.Runtime.Features.Common
+namespace App.Runtime.Features.Common.Services
 {
     public class FeatureService : IFeatureService
     {

@@ -1,6 +1,6 @@
 using System.Threading;
 
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Services.Scheduler
 {
     public interface ILiveOpsEventScheduler
     {

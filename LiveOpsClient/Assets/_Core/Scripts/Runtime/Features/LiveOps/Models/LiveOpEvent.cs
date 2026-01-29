@@ -1,5 +1,6 @@
 using System;
 using App.Runtime.Features.Common;
+using App.Runtime.Features.Common.Models;
 using App.Shared.Serialization;
 using App.Shared.Time;
 using CunningFox.LiveOps.Models;

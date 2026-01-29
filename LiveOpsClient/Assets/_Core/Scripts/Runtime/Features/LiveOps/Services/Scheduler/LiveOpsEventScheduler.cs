@@ -1,15 +1,15 @@
 using System;
 using System.Threading;
-using App.Runtime.Features.ClickerLiveOp.Model;
-using App.Runtime.Features.Common;
+using App.Runtime.Features.Common.Services;
 using App.Runtime.Features.LiveOps.Models;
+using App.Runtime.Features.LiveOps.Services.Calendar;
 using App.Runtime.Features.UserState.Services;
 using App.Shared.Logger;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
 using ZLinq;
 
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Services.Scheduler
 {
     public class LiveOpsEventScheduler : ILiveOpsEventScheduler
     {
