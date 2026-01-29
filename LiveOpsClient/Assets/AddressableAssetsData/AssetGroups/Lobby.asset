@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: Lobby
   m_GUID: 09ead0961122b4d939ac34fe452ffb5e
   m_SerializeEntries:
+  - m_GUID: 591b145e2d17e4e61aeacc32953c2866
+    m_Address: ParallaxView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9498231423f734771a2a30f28b676c7e
     m_Address: LobbyView
     m_ReadOnly: 0

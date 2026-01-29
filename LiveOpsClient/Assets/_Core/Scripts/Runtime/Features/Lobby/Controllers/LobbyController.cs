@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading;
 using App.Runtime.Features.Common;
 using App.Runtime.Features.Common.Models;
+using App.Runtime.Features.Lobby.Behaviours;
 using App.Runtime.Features.Lobby.Models;
 using App.Runtime.Features.Lobby.Views;
 using App.Runtime.Services.AssetManagement.Provider;
@@ -20,6 +21,7 @@ namespace App.Runtime.Features.Lobby.Controllers
         private readonly Dictionary<FeatureType, CancellationTokenSource> _activeIconsCts = new();
         private CancellationToken _token;
         private ILobbyView _view;
+        private IParallaxController _parallaxController;
         private IAssetScope _assetScope;
 
         public LobbyController(IAssetProvider assetProvider, IEventIconsHandler iconsHandler, ICameraProvider cameraProvider)
@@ -33,6 +35,7 @@ namespace App.Runtime.Features.Lobby.Controllers
         {
             _token = token;
             _assetScope = new AssetScope(_assetProvider);
+            _parallaxController = await _assetScope.InstantiateAsync<ParallaxView>("ParallaxView", cancellationToken: token);
             _view = await _assetScope.InstantiateAsync<LobbyView>("LobbyView", cancellationToken: token);
             _view.SetCamera(_cameraProvider.Camera);
             _view.SetLevel(args.PlayerLevel);
@@ -54,6 +57,7 @@ namespace App.Runtime.Features.Lobby.Controllers
         {
             _assetScope?.Dispose();
             _view?.Dispose();
+            _parallaxController?.Dispose();
         }
         
         private void HandleIconsQueue()
