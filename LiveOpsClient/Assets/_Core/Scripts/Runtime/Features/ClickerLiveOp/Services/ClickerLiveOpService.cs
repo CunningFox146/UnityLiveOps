@@ -39,6 +39,14 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
             try
             {
                 await _repository.RestoreFeatureData(token);
+                
+                // Clear old data if it belongs to a previous event occurrence
+                if (Data.EventStartTime != _state.StartTime)
+                {
+                    _repository.Clear();
+                    Data.EventStartTime = _state.StartTime;
+                    _repository.Update(Data);
+                }
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)
