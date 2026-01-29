@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd8333205ff141a2829d4301bb2e1bcb, type: 3}
   m_Name: PlayGamesLiveOpConfig
   m_EditorClassIdentifier: App.Runtime::App.Runtime.Features.LiveOps.Models.LiveOpConfig
-  <IconPrefab>k__BackingField: {fileID: 3111812072820689278, guid: 8946fce1215714d9ebc8f240d0809138, type: 3}
-  <PopupPrefab>k__BackingField: {fileID: 8863739147796023732, guid: 22dcbaa72f6d148fe9fc517529efc63b, type: 3}
+  <IconPrefab>k__BackingField: {fileID: 4624246054232382932, guid: 8946fce1215714d9ebc8f240d0809138, type: 3}
+  <PopupPrefab>k__BackingField: {fileID: 3111692086526367279, guid: 22dcbaa72f6d148fe9fc517529efc63b, type: 3}

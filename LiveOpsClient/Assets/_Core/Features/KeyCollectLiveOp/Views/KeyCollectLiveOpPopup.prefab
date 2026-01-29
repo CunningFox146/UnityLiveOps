@@ -65,7 +65,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: you've clicked 10 times. Crazy!
+  m_text: You've collected 10 keys!!!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 221afe60aa25c49deaa294e7514b27df, type: 2}
   m_sharedMaterial: {fileID: -1444778628150695651, guid: 221afe60aa25c49deaa294e7514b27df, type: 2}
@@ -227,7 +227,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4770871946187828584, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
       propertyPath: m_Name
-      value: ClickerLiveOpPopup
+      value: KeyCollectLiveOpPopup
+      objectReference: {fileID: 0}
+    - target: {fileID: 7560383659076674971, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
+      propertyPath: m_text
+      value: Key Collecting
       objectReference: {fileID: 0}
     - target: {fileID: 8218885391306940924, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -242,7 +246,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 4770871946187828584, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8863739147796023732}
+      addedObject: {fileID: 2033128931080268010}
   m_SourcePrefab: {fileID: 100100000, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
 --- !u!114 &1766027588926836470 stripped
 MonoBehaviour:
@@ -260,7 +264,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4770871946187828584, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
   m_PrefabInstance: {fileID: 6575534633617856576}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8863739147796023732
+--- !u!114 &2033128931080268010
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -269,13 +273,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 1834503450200962344}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ea9c720115f43f8bc29fd4b2ff3dfd9, type: 3}
+  m_Script: {fileID: 11500000, guid: 62511814092ac4cc8ac314a3bc4c3f82, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: App.Runtime::App.Runtime.Features.ClickerLiveOp.Views.ClickerLiveOpPopup
+  m_EditorClassIdentifier: App.Runtime::App.Runtime.Features.KeyCollectLiveOp.Views.KeyCollectLiveOpPopup
   _title: {fileID: 3723101439329631707}
   _ctaText: {fileID: 1766027588926836470}
   _ctaButton: {fileID: 6579405640799502228}
-  _progressText: {fileID: 3850547780876992792}
+  _keysText: {fileID: 3850547780876992792}
+  _canvas: {fileID: 4189694043259843680}
 --- !u!224 &2976779705542080956 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8218885391306940924, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
@@ -292,6 +297,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!223 &4189694043259843680 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7017792813618211872, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
+  m_PrefabInstance: {fileID: 6575534633617856576}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6579405640799502228 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4014845906921428, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
