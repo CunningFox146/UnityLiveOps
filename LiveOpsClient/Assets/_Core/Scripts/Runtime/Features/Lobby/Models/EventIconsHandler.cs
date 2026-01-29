@@ -9,16 +9,22 @@ namespace App.Runtime.Features.Lobby.Models
     {
         public event Action IconAdded;
         public event Action<FeatureType> IconRemoved;
-        public Queue<EventIconRegistration> IconsQueue { get; } = new();
+        public IReadOnlyDictionary<FeatureType, EventIconRegistration> RegisteredIcons => _registeredIcons;
+        
+        private readonly Dictionary<FeatureType, EventIconRegistration> _registeredIcons = new();
 
         public void UnregisterIcon(FeatureType key)
         {
+            _registeredIcons.Remove(key);
             IconRemoved?.Invoke(key);
         }
         
         public void RegisterIcon(EventIconRegistration iconInfo)
         {
-            IconsQueue.Enqueue(iconInfo);
+            if (_registeredIcons.ContainsKey(iconInfo.Key))
+                return;
+            
+            _registeredIcons[iconInfo.Key] = iconInfo;
             IconAdded?.Invoke();
         }
     }

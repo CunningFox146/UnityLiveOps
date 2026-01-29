@@ -34,7 +34,10 @@ namespace App.Runtime.Features.LiveOps
             => RegisterLiveOpIcon(token);
 
         public virtual void Dispose()
-            => _assetScope?.Dispose();
+        {
+            _iconHandler.UnregisterIcon(State.Type);
+            _assetScope?.Dispose();
+        }
 
         private async UniTask RegisterLiveOpIcon(CancellationToken token)
         {

@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using App.Runtime.Features.Common.Controllers;
+using App.Runtime.Features.Common.Models;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.Lobby.Models;
 using App.Shared.Logger;
@@ -32,6 +33,11 @@ namespace App.Runtime.Features.LiveOps.Services
             _config = config;
             var registration = new EventIconRegistration(state.Type, CreateIconAsync);
             _iconsHandler.RegisterIcon(registration);
+        }
+
+        public void UnregisterIcon(FeatureType featureType)
+        {
+            _iconsHandler.UnregisterIcon(featureType);
         }
 
         private void CreateIconAsync(Transform parent, CancellationToken token)

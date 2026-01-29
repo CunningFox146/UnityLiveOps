@@ -44,9 +44,9 @@ namespace App.Runtime.Features.Lobby.Controllers
             _view.SetLevel(args.PlayerLevel);
             _view.PlayButtonClicked += OnPlayButtonClicked;
 
-            _iconsHandler.IconAdded += HandleIconsQueue;
+            _iconsHandler.IconAdded += HandleRegisteredIcons;
             _iconsHandler.IconRemoved += RemoveIcon;
-            HandleIconsQueue();
+            HandleRegisteredIcons();
         }
 
         private void RemoveIcon(FeatureType key)
@@ -59,18 +59,31 @@ namespace App.Runtime.Features.Lobby.Controllers
 
         protected override void OnStop()
         {
+            _iconsHandler.IconAdded -= HandleRegisteredIcons;
+            _iconsHandler.IconRemoved -= RemoveIcon;
+            
+            foreach (var cts in _activeIconsCts.Values)
+            {
+                cts.Cancel();
+                cts.Dispose();
+            }
+            _activeIconsCts.Clear();
+            
             _assetScope?.Dispose();
             _view?.Dispose();
             _parallaxController?.Dispose();
         }
         
-        private void HandleIconsQueue()
+        private void HandleRegisteredIcons()
         {
-            while (_iconsHandler.IconsQueue.TryDequeue(out var iconArgs))
+            foreach (var icon in _iconsHandler.RegisteredIcons.Values)
             {
-                var cts = CancellationTokenSource.CreateLinkedTokenSource(_token);
-                iconArgs.Factory(_view.IconContainer, cts.Token);
-                _activeIconsCts[iconArgs.Key] = cts;
+                if (!_activeIconsCts.ContainsKey(icon.Key))
+                {
+                    var cts = CancellationTokenSource.CreateLinkedTokenSource(_token);
+                    icon.Factory(_view.IconContainer, cts.Token);
+                    _activeIconsCts[icon.Key] = cts;
+                }
             }
         }
         

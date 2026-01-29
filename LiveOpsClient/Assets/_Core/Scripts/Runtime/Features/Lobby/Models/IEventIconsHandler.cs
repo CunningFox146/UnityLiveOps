@@ -10,7 +10,8 @@ namespace App.Runtime.Features.Lobby.Models
     {
         event Action IconAdded;
         event Action<FeatureType> IconRemoved;
-        Queue<EventIconRegistration> IconsQueue { get; }
+        IReadOnlyDictionary<FeatureType, EventIconRegistration> RegisteredIcons { get; }
         void RegisterIcon(EventIconRegistration iconInfo);
+        void UnregisterIcon(FeatureType key);
     }
 }
