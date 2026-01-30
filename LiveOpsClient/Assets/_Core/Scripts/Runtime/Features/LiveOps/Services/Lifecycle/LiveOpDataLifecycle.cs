@@ -7,37 +7,42 @@ using Cysharp.Threading.Tasks;
 
 namespace App.Runtime.Features.LiveOps.Services.Lifecycle
 {
-    public class LiveOpDataLifecycle : ILiveOpDataLifecycle
+    public class LiveOpDataLifecycle<TData> : ILiveOpDataLifecycle
+        where TData : class, ILiveOpData
     {
+        private readonly IRepository<TData> _repository;
+        private readonly LiveOpState _state;
         private readonly ILogger _logger;
+        private TData Data => _repository.Value;
 
-        public LiveOpDataLifecycle(ILogger logger)
+        public LiveOpDataLifecycle(IRepository<TData> repository, LiveOpState state, ILogger logger)
         {
+            _repository = repository;
+            _state = state;
             _logger = logger;
         }
 
-        public async UniTask RestoreAndValidateData<TData>(
-            IRepository<TData> repository, 
-            LiveOpState state, 
-            CancellationToken token) where TData : ILiveOpData
+        public async UniTask RestoreAndValidateData(CancellationToken token)
         {
             try
             {
-                await repository.RestoreFeatureData(token);
+                await _repository.RestoreFeatureData(token);
                 
-                var data = repository.Value;
-                if (data.EventStartTime != state.StartTime)
-                {
-                    repository.Clear();
-                    data.EventStartTime = state.StartTime;
-                    repository.Update(data);
-                }
+                if (Data.EventStartTime != _state.StartTime)
+                    ResetData();
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)
             {
                 _logger.Error("Failed to restore LiveOp data", exception, LoggerTag.LiveOps);
             }
+        }
+
+        private void ResetData()
+        {
+            Data.Clear();
+            Data.EventStartTime = _state.StartTime;
+            _repository.Update(Data);
         }
     }
 }

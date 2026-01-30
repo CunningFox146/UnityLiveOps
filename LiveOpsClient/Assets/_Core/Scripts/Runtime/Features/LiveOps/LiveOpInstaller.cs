@@ -10,7 +10,7 @@ using VContainer.Unity;
 namespace App.Runtime.Features.LiveOps
 {
     public abstract class LiveOpInstaller<TData> : IInstaller
-        where TData : ILiveOpData
+        where TData : class, ILiveOpData
     {
         private readonly LiveOpState _state;
 
@@ -26,7 +26,7 @@ namespace App.Runtime.Features.LiveOps
             builder.RegisterController<EventIconController>();
 
             builder.Register<ILiveOpIconHandler, LiveOpIconHandler>(Lifetime.Scoped);
-            builder.Register<ILiveOpDataLifecycle, LiveOpDataLifecycle>(Lifetime.Scoped);
+            builder.Register<ILiveOpDataLifecycle, LiveOpDataLifecycle<TData>>(Lifetime.Scoped);
             builder.Register<ILiveOpExpirationHandler, LiveOpExpirationHandler<TData>>(Lifetime.Scoped);
         }
     }

@@ -35,7 +35,7 @@ namespace App.Runtime.Features.ClickerLiveOp
 
         public override async UniTask StartAsync(CancellationToken token = default)
         {
-            await _dataLifecycle.RestoreAndValidateData(_repository, _state, token);
+            await _dataLifecycle.RestoreAndValidateData(token);
             await base.StartAsync(token);
             _uiHandler.SetConfig(Config);
         }

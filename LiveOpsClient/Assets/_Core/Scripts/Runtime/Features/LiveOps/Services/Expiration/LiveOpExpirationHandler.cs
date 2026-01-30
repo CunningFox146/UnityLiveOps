@@ -7,7 +7,7 @@ using App.Shared.Time;
 namespace App.Runtime.Features.LiveOps.Services.Expiration
 {
     public class LiveOpExpirationHandler<TData> : ILiveOpExpirationHandler
-        where TData : ILiveOpData
+        where TData : class, ILiveOpData
     {
         private readonly ITimeService _timeService;
         private readonly IFeatureService _featureService;

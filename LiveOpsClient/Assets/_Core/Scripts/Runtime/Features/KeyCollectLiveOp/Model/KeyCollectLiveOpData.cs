@@ -7,5 +7,11 @@ namespace App.Runtime.Features.KeyCollectLiveOp.Model
     {
         public int KeysCollected { get; set; }
         public DateTime EventStartTime { get; set; }
+        
+        public void Clear()
+        {
+            KeysCollected = 0;
+            EventStartTime = DateTime.MinValue;
+        }
     }
 }
