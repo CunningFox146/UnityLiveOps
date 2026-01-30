@@ -2,7 +2,7 @@ using System;
 using App.Runtime.Features.Common.Models;
 using App.Runtime.Features.LiveOps.Models;
 
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Services.IconHandler
 {
     public interface ILiveOpIconHandler
     {

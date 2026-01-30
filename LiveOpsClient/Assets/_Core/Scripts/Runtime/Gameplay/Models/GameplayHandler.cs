@@ -1,7 +1,6 @@
 using System;
-using App.Runtime.Gameplay.Models;
 
-namespace App.Runtime.Gameplay.Services
+namespace App.Runtime.Gameplay.Models
 {
     public class GameplayHandler : IGameplayHandler
     {

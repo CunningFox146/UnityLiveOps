@@ -5,7 +5,7 @@ using App.Shared.Logger;
 using App.Shared.Repository;
 using Cysharp.Threading.Tasks;
 
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Services.Lifecycle
 {
     public class LiveOpDataLifecycle : ILiveOpDataLifecycle
     {

@@ -10,7 +10,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using ILogger = App.Shared.Logger.ILogger;
 
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Services.IconHandler
 {
     public class LiveOpIconHandler : ILiveOpIconHandler
     {

@@ -3,7 +3,7 @@ using App.Runtime.Features.LiveOps.Models;
 using App.Shared.Repository;
 using Cysharp.Threading.Tasks;
 
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Services.Lifecycle
 {
     public interface ILiveOpDataLifecycle
     {

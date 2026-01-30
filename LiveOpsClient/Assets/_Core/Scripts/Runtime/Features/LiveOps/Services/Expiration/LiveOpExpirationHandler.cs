@@ -4,7 +4,7 @@ using App.Runtime.Features.LiveOps.Services.Calendar;
 using App.Shared.Repository;
 using App.Shared.Time;
 
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Services.Expiration
 {
     public class LiveOpExpirationHandler<TData> : ILiveOpExpirationHandler
         where TData : ILiveOpData

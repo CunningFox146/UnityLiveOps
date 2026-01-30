@@ -1,7 +1,7 @@
 using System.Threading;
 using App.Runtime.Features.Common.Models;
 using App.Runtime.Features.Common.Services;
-using App.Runtime.Gameplay.Services;
+using App.Runtime.Gameplay.Models;
 using App.Runtime.Gameplay.Views;
 using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.AssetManagement.Scope;

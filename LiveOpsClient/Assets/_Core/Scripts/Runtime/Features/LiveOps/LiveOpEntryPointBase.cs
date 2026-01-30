@@ -1,7 +1,7 @@
 using System;
 using System.Threading;
 using App.Runtime.Features.LiveOps.Models;
-using App.Runtime.Features.LiveOps.Services;
+using App.Runtime.Features.LiveOps.Services.IconHandler;
 using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.AssetManagement.Scope;
 using Cysharp.Text;
@@ -12,10 +12,9 @@ namespace App.Runtime.Features.LiveOps
 {
     public abstract class LiveOpEntryPointBase : IAsyncStartable, IDisposable
     {
-        protected readonly LiveOpState State;
-
         private readonly IAssetProvider _assetProvider;
         private readonly ILiveOpIconHandler _iconHandler;
+        private readonly LiveOpState _state;
         private AssetScope _assetScope;
 
         protected ILiveOpConfig Config { get; private set; }
@@ -27,7 +26,7 @@ namespace App.Runtime.Features.LiveOps
         {
             _assetProvider = assetProvider;
             _iconHandler = iconHandler;
-            State = state;
+            _state = state;
         }
 
         public virtual UniTask StartAsync(CancellationToken token = default)
@@ -35,16 +34,16 @@ namespace App.Runtime.Features.LiveOps
 
         public virtual void Dispose()
         {
-            _iconHandler.UnregisterIcon(State.Type);
+            _iconHandler.UnregisterIcon(_state.Type);
             _assetScope?.Dispose();
         }
 
         private async UniTask RegisterLiveOpIcon(CancellationToken token)
         {
             _assetScope = new AssetScope(_assetProvider);
-            var path = ZString.Format(LiveOpConstants.LiveOpConfigName, State.Type);
+            var path = ZString.Format(LiveOpConstants.LiveOpConfigName, _state.Type);
             Config = await _assetScope.LoadAssetAsync<ILiveOpConfig>(path, token);
-            _iconHandler.RegisterIcon(State, Config);
+            _iconHandler.RegisterIcon(_state, Config);
         }
     }
 }

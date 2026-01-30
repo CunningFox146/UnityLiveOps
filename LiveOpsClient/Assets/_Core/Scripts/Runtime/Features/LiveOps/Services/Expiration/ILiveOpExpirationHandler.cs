@@ -1,4 +1,4 @@
-namespace App.Runtime.Features.LiveOps.Services
+namespace App.Runtime.Features.LiveOps.Services.Expiration
 {
     public interface ILiveOpExpirationHandler
     {

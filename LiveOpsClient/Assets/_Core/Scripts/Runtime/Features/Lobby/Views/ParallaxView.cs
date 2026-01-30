@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using App.Shared.Utils;
 using UnityEngine;
 
-namespace App.Runtime.Features.Lobby.Behaviours
+namespace App.Runtime.Features.Lobby.Views
 {
     public class ParallaxView : MonoBehaviour, IParallaxController
     {
