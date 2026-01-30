@@ -1,6 +1,7 @@
 using System.Threading;
 using App.Runtime.Features.LiveOps.Services.Calendar;
 using App.Runtime.Features.LiveOps.Services.Scheduler;
+using App.Shared.Logger;
 using Cysharp.Threading.Tasks;
 
 namespace App.Runtime.Features.LiveOps.Services
@@ -12,7 +13,8 @@ namespace App.Runtime.Features.LiveOps.Services
 
         public LiveOpsService(
             ILiveOpsCalendarHandler calendarHandler,
-            ILiveOpsEventScheduler eventScheduler)
+            ILiveOpsEventScheduler eventScheduler,
+            ILogger logger)
         {
             _calendarHandler = calendarHandler;
             _eventScheduler = eventScheduler;

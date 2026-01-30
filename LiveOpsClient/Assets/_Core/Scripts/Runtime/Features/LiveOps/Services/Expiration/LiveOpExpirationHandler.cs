@@ -1,6 +1,8 @@
+using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.Common.Services;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.LiveOps.Services.Calendar;
+using App.Shared.Repository;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
 
@@ -11,30 +13,33 @@ namespace App.Runtime.Features.LiveOps.Services
         private readonly ITimeService _timeService;
         private readonly IFeatureService _featureService;
         private readonly ILiveOpsCalendarHandler _calendarHandler;
+        private readonly IRepository<ClickerLiveOpData> _repository;
+        private readonly LiveOpState _state;
+        
+        public bool IsExpired => _state.IsExpired(_timeService);
 
         public LiveOpExpirationHandler(
             ITimeService timeService,
             IFeatureService featureService,
-            ILiveOpsCalendarHandler calendarHandler)
+            ILiveOpsCalendarHandler calendarHandler,
+            IRepository<ClickerLiveOpData> repository,
+            LiveOpState state)
         {
             _timeService = timeService;
             _featureService = featureService;
             _calendarHandler = calendarHandler;
+            _repository = repository;
+            _state = state;
         }
 
-        public bool IsExpired(LiveOpState state)
+        public void UnloadIfExpired()
         {
-            return state.IsExpired(_timeService);
-        }
-
-        public async UniTask UnloadIfExpired(LiveOpState state)
-        {
-            if (!IsExpired(state))
+            if (!IsExpired)
                 return;
             
-            _featureService.StopFeature(state.Type);
-            _calendarHandler.RemoveSeenEvent(state);
-            await UniTask.CompletedTask;
+            _calendarHandler.RemoveSeenEvent(_state);
+            _repository.Clear();
+            _featureService.StopFeature(_state.Type);
         }
     }
 }

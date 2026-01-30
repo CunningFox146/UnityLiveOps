@@ -19,7 +19,6 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
         private readonly IControllerService _controllerService;
         private readonly IRepository<ClickerLiveOpData> _repository;
         private readonly ILiveOpExpirationHandler _expirationHandler;
-        private readonly LiveOpState _state;
         private readonly ILiveOpIconHandler _iconHandler;
         private readonly ILogger _logger;
         private readonly CancellationTokenSource _cts = new();
@@ -30,14 +29,12 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
             IControllerService controllerService,
             IRepository<ClickerLiveOpData> repository,
             ILiveOpExpirationHandler expirationHandler,
-            LiveOpState state,
             ILiveOpIconHandler iconHandler,
             ILogger logger)
         {
             _controllerService = controllerService;
             _repository = repository;
             _expirationHandler = expirationHandler;
-            _state = state;
             _iconHandler = iconHandler;
             _logger = logger;
         }
@@ -67,18 +64,11 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
         {
             try
             {
-                if (!_expirationHandler.IsExpired(_state))
-                {
-                    var data = _repository.Value;
-                    data.Progress++;
-                    _repository.Update(data);
-                }
+                if (!_expirationHandler.IsExpired)
+                    AddClick();
                 
                 await _controllerService.StartControllerWithResult<ClickerLiveOpPopupController, ClickerLiveOpPopup, Empty>(_popupPrefab, token);
-                await _expirationHandler.UnloadIfExpired(_state);
-                
-                if (_expirationHandler.IsExpired(_state))
-                    _repository.Clear();
+                _expirationHandler.UnloadIfExpired();
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)
@@ -86,7 +76,14 @@ namespace App.Runtime.Features.ClickerLiveOp.Services
                 _logger.Error("Failed to handle icon click", exception, LoggerTag.LiveOps);
             }
         }
-        
+
+        private void AddClick()
+        {
+            var data = _repository.Value;
+            data.Progress++;
+            _repository.Update(data);
+        }
+
         private void IconHandlerOnIconClicked()
             => HandleIconClickAsync(Token).Forget(_logger.LogUniTask);
     }

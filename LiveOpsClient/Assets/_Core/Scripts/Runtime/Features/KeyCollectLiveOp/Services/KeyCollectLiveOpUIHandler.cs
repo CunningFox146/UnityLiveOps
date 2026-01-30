@@ -68,10 +68,7 @@ namespace App.Runtime.Features.KeyCollectLiveOp.Services
             try
             {
                 await _controllerService.StartControllerWithResult<KeyCollectLiveOpPopupController, KeyCollectLiveOpPopup, Empty>(_popupPrefab, token);
-                await _expirationHandler.UnloadIfExpired(_state);
-                
-                if (_expirationHandler.IsExpired(_state))
-                    _repository.Clear();
+                _expirationHandler.UnloadIfExpired();
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)

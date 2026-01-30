@@ -49,10 +49,10 @@ namespace App.Shared.Repository
         }
 
         public void Update(T data)
-            => UpdateAsync(data).Forget();
+            => UpdateAsync(data).Forget(_logger.LogUniTask);
 
         public void Clear()
-            => UpdateAsync(_defaultValue).Forget();
+            => Update(_defaultValue);
 
         private async UniTask UpdateAsync(T data, CancellationToken token = default)
         {
