@@ -215,7 +215,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: faa3f4b357274f5883bdc6c7dad2c373, type: 3}
   m_Name: 
   m_EditorClassIdentifier: App.Runtime::App.Runtime.Gameplay.Views.HUDView
+  _canvas: {fileID: 7767149532873628761}
   _addKeyButton: {fileID: 724497504871722238}
+--- !u!223 &7767149532873628761 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7017792813618211872, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
+  m_PrefabInstance: {fileID: 769623198999687289}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &773824276934257925
 PrefabInstance:
   m_ObjectHideFlags: 0

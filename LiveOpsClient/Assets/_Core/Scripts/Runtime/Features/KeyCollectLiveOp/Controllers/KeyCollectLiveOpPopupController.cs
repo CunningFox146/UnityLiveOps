@@ -2,7 +2,7 @@ using System;
 using System.Threading;
 using App.Runtime.Features.KeyCollectLiveOp.Model;
 using App.Runtime.Features.KeyCollectLiveOp.Views;
-using App.Runtime.Services.Camera;
+using App.Runtime.Services.Cameras;
 using App.Runtime.Services.ViewStack;
 using App.Shared.Mvc;
 using App.Shared.Utils;
@@ -33,7 +33,7 @@ namespace App.Runtime.Features.KeyCollectLiveOp.Controllers
             try
             {
                 _view = Object.Instantiate(prefab);
-                // _view.SetCamera(_cameraProvider.Camera);
+                _view.SetCamera(_cameraProvider.UICamera);
                 _view.SetKeysCollected(_repository.Value.KeysCollected);
                 _viewStack.Push(_view);
                 await _view.WaitForCtaClick(token);

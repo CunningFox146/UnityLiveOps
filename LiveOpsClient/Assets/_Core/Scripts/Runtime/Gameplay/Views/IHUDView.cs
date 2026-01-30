@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace App.Runtime.Gameplay.Views
 {
@@ -7,5 +8,6 @@ namespace App.Runtime.Gameplay.Views
         event Action AddKeyClicked;
         event Action ExitGameClicked;
         void ShowAddKeyButton();
+        void SetCamera(Camera uiCamera);
     }
 }

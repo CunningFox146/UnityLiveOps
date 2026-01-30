@@ -383,6 +383,9 @@ MonoBehaviour:
     TypeName: 
   autoRun: 1
   autoInjectGameObjects: []
+  _cameras:
+    <UICamera>k__BackingField: {fileID: 1428975148}
+    <WorldCamera>k__BackingField: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

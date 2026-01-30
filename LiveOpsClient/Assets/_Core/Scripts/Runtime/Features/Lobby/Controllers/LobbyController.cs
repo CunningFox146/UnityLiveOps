@@ -6,7 +6,7 @@ using App.Runtime.Features.Lobby.Views;
 using App.Runtime.Gameplay.Models;
 using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.AssetManagement.Scope;
-using App.Runtime.Services.Camera;
+using App.Runtime.Services.Cameras;
 using App.Shared.Mvc;
 using App.Shared.Utils;
 using Cysharp.Threading.Tasks;
@@ -25,7 +25,8 @@ namespace App.Runtime.Features.Lobby.Controllers
         private IParallaxController _parallaxController;
         private IAssetScope _assetScope;
 
-        public LobbyController(IAssetProvider assetProvider, IEventIconsHandler iconsHandler, ICameraProvider cameraProvider, IGameplayHandler gameplayHandler)
+        public LobbyController(IAssetProvider assetProvider, IEventIconsHandler iconsHandler,
+            ICameraProvider cameraProvider, IGameplayHandler gameplayHandler)
         {
             _assetProvider = assetProvider;
             _iconsHandler = iconsHandler;
@@ -39,7 +40,7 @@ namespace App.Runtime.Features.Lobby.Controllers
             _assetScope = new AssetScope(_assetProvider);
             _parallaxController = await _assetScope.InstantiateAsync<ParallaxView>(LobbyConstants.ParallaxViewPath, cancellationToken: token);
             _view = await _assetScope.InstantiateAsync<LobbyView>(LobbyConstants.LobbyViewPath, cancellationToken: token);
-            _view.SetCamera(_cameraProvider.Camera);
+            _view.SetCamera(_cameraProvider.UICamera);
             _view.SetLevel(args.PlayerLevel);
             _view.PlayButtonClicked += OnPlayButtonClicked;
 

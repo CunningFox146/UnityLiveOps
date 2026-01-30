@@ -8,6 +8,7 @@ namespace App.Runtime.Gameplay.Views
         public event Action AddKeyClicked;
         public event Action ExitGameClicked;
         
+        [SerializeField] private Canvas _canvas;
         [SerializeField] private GameObject _addKeyButton;
 
         public void ShowAddKeyButton()
@@ -18,5 +19,8 @@ namespace App.Runtime.Gameplay.Views
 
         public void ExitGame()
             => ExitGameClicked?.Invoke();
+        
+        public void SetCamera(Camera uiCamera)
+            => _canvas.worldCamera = uiCamera;
     }
 }
