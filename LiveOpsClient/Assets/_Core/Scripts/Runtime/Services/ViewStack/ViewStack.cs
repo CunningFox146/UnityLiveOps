@@ -9,6 +9,9 @@ namespace App.Runtime.Services.ViewStack
     {
         private readonly IInputService _inputService;
         private readonly Stack<ICloseableView> _views = new();
+        
+        public int ViewsCount => _views.Count;
+        public ICloseableView TopView => _views.Count > 0 ? _views.Peek() : null;
 
         public ViewStack(IInputService inputService)
         {
@@ -24,16 +27,16 @@ namespace App.Runtime.Services.ViewStack
         {
             _inputService.BackPressed -= OnBackPressed;
         }
-
+        
         public void Push(ICloseableView view)
         {
             _views.Push(view);
         }
 
-        public void Pop()
+        public void Pop(bool isClosing = true)
         {
-            if (_views.TryPop(out var view))
-                view.RequestClose();
+            if (_views.TryPop(out var view) && isClosing)
+                view?.RequestClose();
         }
 
         private void OnBackPressed()

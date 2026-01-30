@@ -276,6 +276,7 @@ MonoBehaviour:
   _ctaText: {fileID: 1766027588926836470}
   _ctaButton: {fileID: 6579405640799502228}
   _progressText: {fileID: 3850547780876992792}
+  _canvas: {fileID: 4189694043259843680}
 --- !u!224 &2976779705542080956 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 8218885391306940924, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
@@ -292,6 +293,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.TextMeshPro::TMPro.TextMeshProUGUI
+--- !u!223 &4189694043259843680 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 7017792813618211872, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}
+  m_PrefabInstance: {fileID: 6575534633617856576}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &6579405640799502228 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4014845906921428, guid: 8df44ce03c1754306a34ddd32e93bc3e, type: 3}

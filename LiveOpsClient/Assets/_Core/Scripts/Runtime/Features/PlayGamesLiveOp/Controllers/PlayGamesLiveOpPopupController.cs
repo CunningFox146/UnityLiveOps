@@ -2,42 +2,35 @@ using System;
 using System.Threading;
 using App.Runtime.Features.PlayGamesLiveOp.Model;
 using App.Runtime.Features.PlayGamesLiveOp.Views;
-using App.Runtime.Services.Cameras;
-using App.Runtime.Services.ViewStack;
+using App.Runtime.Services.ViewsFactory;
 using App.Shared.Mvc;
 using App.Shared.Utils;
 using App.Shared.Logger;
 using App.Shared.Repository;
 using Cysharp.Threading.Tasks;
-using Object = UnityEngine.Object;
 
 namespace App.Runtime.Features.PlayGamesLiveOp.Controllers
 {
     public class PlayGamesLiveOpPopupController : ControllerWithResult<PlayGamesLiveOpPopup, Empty>
     {
-        private readonly IViewStack _viewStack;
         private readonly IRepository<PlayGamesLiveOpData> _repository;
-        private readonly ICameraProvider _cameraProvider;
+        private readonly IViewFactory _viewFactory;
         private readonly ILogger _logger;
         private PlayGamesLiveOpPopup _view;
 
-        public PlayGamesLiveOpPopupController(IViewStack viewStack, IRepository<PlayGamesLiveOpData> repository,
-            ICameraProvider cameraProvider, ILogger logger)
+        public PlayGamesLiveOpPopupController(IRepository<PlayGamesLiveOpData> repository, IViewFactory viewFactory, ILogger logger)
         {
-            _viewStack = viewStack;
             _repository = repository;
+            _viewFactory = viewFactory;
             _logger = logger;
-            _cameraProvider = cameraProvider;
         }
 
         protected override async UniTask<Empty> OnStart(PlayGamesLiveOpPopup prefab, CancellationToken token)
         {
             try
             {
-                _view = Object.Instantiate(prefab);
-                _view.SetCamera(_cameraProvider.UICamera);
+                _view = _viewFactory.CreateView(prefab);
                 _view.SetGamesPlayed(_repository.Value.GamesPlayed);
-                _viewStack.Push(_view);
                 await _view.WaitForCtaClick(token);
             }
             catch (OperationCanceledException) { }

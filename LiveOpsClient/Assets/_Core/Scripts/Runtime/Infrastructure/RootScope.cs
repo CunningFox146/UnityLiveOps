@@ -20,6 +20,7 @@ using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.Cameras;
 using App.Runtime.Services.Input;
 using App.Runtime.Services.SceneLoader;
+using App.Runtime.Services.ViewsFactory;
 using App.Runtime.Services.ViewStack;
 using App.Shared.Api;
 using App.Shared.Logger;
@@ -61,6 +62,7 @@ namespace App.Runtime.Infrastructure
             builder.Register<ILogger, UnityLogger>(Lifetime.Singleton);
             builder.Register<ISceneLoaderService, SceneLoaderService>(Lifetime.Singleton);
             builder.Register<ICameraProvider, CameraProvider>(Lifetime.Singleton);
+            builder.Register<IViewFactory, ViewFactory>(Lifetime.Singleton);
             builder.Register<ViewStack>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<UnhandledExceptionMonitoringService>(Lifetime.Singleton).AsImplementedInterfaces();
