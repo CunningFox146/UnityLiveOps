@@ -37,7 +37,7 @@ namespace App.Runtime.Infrastructure
                     _userStateService.RestoreUserState(token)
                 );
                 await _liveOpsService.Initialize(token);
-                await _sceneLoader.LoadScene("Lobby", cancellationToken: token);
+                await _sceneLoader.LoadScene(SceneNames.Lobby, cancellationToken: token);
             }
             catch (OperationCanceledException) { }
             catch (Exception e)

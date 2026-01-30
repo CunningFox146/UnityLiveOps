@@ -57,7 +57,7 @@ namespace App.Runtime.Gameplay.Services
         {
             try
             {
-                await _sceneLoader.LoadScene("Gameplay", cancellationToken: token);
+                await _sceneLoader.LoadScene(SceneNames.Gameplay, cancellationToken: token);
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)
@@ -70,7 +70,7 @@ namespace App.Runtime.Gameplay.Services
         {
             try
             {
-                await _sceneLoader.LoadScene("Lobby", cancellationToken: token);
+                await _sceneLoader.LoadScene(SceneNames.Lobby, cancellationToken: token);
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)
