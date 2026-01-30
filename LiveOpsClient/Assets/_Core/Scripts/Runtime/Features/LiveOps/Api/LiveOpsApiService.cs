@@ -1,7 +1,5 @@
-using System;
 using System.Threading;
 using App.Shared.Api;
-using App.Shared.Logger;
 using CunningFox.LiveOps.Models;
 using Cysharp.Threading.Tasks;
 

@@ -6,7 +6,6 @@ using App.Shared.Logger;
 using App.Shared.Repository;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
-using UnityEngine.InputSystem.XR;
 
 namespace App.Runtime.Features.LiveOps.Services.Calendar
 {
