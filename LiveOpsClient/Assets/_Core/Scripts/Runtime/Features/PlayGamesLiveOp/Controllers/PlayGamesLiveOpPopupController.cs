@@ -2,7 +2,6 @@ using System;
 using System.Threading;
 using App.Runtime.Features.PlayGamesLiveOp.Model;
 using App.Runtime.Features.PlayGamesLiveOp.Views;
-using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Services.Camera;
 using App.Runtime.Services.ViewStack;
 using App.Shared.Mvc;
@@ -19,15 +18,13 @@ namespace App.Runtime.Features.PlayGamesLiveOp.Controllers
         private readonly IViewStack _viewStack;
         private readonly IRepository<PlayGamesLiveOpData> _repository;
         private readonly ICameraProvider _cameraProvider;
-        private readonly LiveOpState _state;
         private readonly ILogger _logger;
         private PlayGamesLiveOpPopup _view;
 
-        public PlayGamesLiveOpPopupController(IViewStack viewStack, IRepository<PlayGamesLiveOpData> repository, LiveOpState state, ILogger logger)
+        public PlayGamesLiveOpPopupController(IViewStack viewStack, IRepository<PlayGamesLiveOpData> repository, ILogger logger)
         {
             _viewStack = viewStack;
             _repository = repository;
-            _state = state;
             _logger = logger;
         }
 

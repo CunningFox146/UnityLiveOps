@@ -10,7 +10,7 @@ using VContainer.Unity;
 
 namespace App.Runtime.Features.ClickerLiveOp
 {
-    public class ClickerLiveOpInstaller : LiveOpInstaller
+    public class ClickerLiveOpInstaller : LiveOpInstaller<ClickerLiveOpData>
     {
         public ClickerLiveOpInstaller(LiveOpState state) : base(state) { }
 

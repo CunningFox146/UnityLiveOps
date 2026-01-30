@@ -1,19 +1,18 @@
-using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.Common.Services;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.LiveOps.Services.Calendar;
 using App.Shared.Repository;
 using App.Shared.Time;
-using Cysharp.Threading.Tasks;
 
 namespace App.Runtime.Features.LiveOps.Services
 {
-    public class LiveOpExpirationHandler : ILiveOpExpirationHandler
+    public class LiveOpExpirationHandler<TData> : ILiveOpExpirationHandler
+        where TData : ILiveOpData
     {
         private readonly ITimeService _timeService;
         private readonly IFeatureService _featureService;
         private readonly ILiveOpsCalendarHandler _calendarHandler;
-        private readonly IRepository<ClickerLiveOpData> _repository;
+        private readonly IRepository<TData> _repository;
         private readonly LiveOpState _state;
         
         public bool IsExpired => _state.IsExpired(_timeService);
@@ -22,7 +21,7 @@ namespace App.Runtime.Features.LiveOps.Services
             ITimeService timeService,
             IFeatureService featureService,
             ILiveOpsCalendarHandler calendarHandler,
-            IRepository<ClickerLiveOpData> repository,
+            IRepository<TData> repository,
             LiveOpState state)
         {
             _timeService = timeService;

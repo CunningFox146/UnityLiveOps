@@ -50,7 +50,7 @@ namespace App.Runtime.Features.LiveOps.Services.Calendar
 
         public void RemoveSeenEvent(LiveOpState state)
         {
-            Calendar.SeenEvents.Remove(state);
+            Calendar.SeenEvents.Remove(state.Type);
             SaveCalendar();
         }
 

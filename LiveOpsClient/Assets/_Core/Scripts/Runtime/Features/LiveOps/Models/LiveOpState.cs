@@ -22,7 +22,10 @@ namespace App.Runtime.Features.LiveOps.Models
             => EndTime - timeService.Now;
         public bool IsExpired(ITimeService timeService)
             => timeService.Now > EndTime;
-
+        
+        public override int GetHashCode()
+            => HashCode.Combine((int)Type, StartTime, EndTime);
+        
         public bool Equals(LiveOpState other)
         {
             if (other is null) return false;
@@ -35,11 +38,6 @@ namespace App.Runtime.Features.LiveOps.Models
             if (obj is null) return false;
             if (ReferenceEquals(this, obj)) return true;
             return obj.GetType() == GetType() && Equals((LiveOpState)obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine((int)Type, StartTime, EndTime);
         }
     }
 }

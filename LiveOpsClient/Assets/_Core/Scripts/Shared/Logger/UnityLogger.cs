@@ -50,6 +50,7 @@ namespace App.Shared.Logger
         
         [Conditional("UNITY_EDITOR")]
         [Conditional("DEBUG")]
+        [HideInCallstack]
         private static void InternalDebug(string message, LoggerTag tag)
             => UnityEngine.Debug.Log(FormatMessage(tag, message, ColorDebug));
 

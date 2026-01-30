@@ -10,7 +10,7 @@ using VContainer.Unity;
 
 namespace App.Runtime.Features.KeyCollectLiveOp
 {
-    public class KeyCollectLiveOpInstaller : LiveOpInstaller
+    public class KeyCollectLiveOpInstaller : LiveOpInstaller<KeyCollectLiveOpData>
     {
         public KeyCollectLiveOpInstaller(LiveOpState state) : base(state) { }
 

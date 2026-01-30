@@ -1,5 +1,3 @@
-using System.Threading;
-using System.Threading.Tasks;
 using App.Runtime.Features.Common.Views;
 using TMPro;
 using UnityEngine;

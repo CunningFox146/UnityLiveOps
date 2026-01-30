@@ -10,7 +10,7 @@ using VContainer.Unity;
 
 namespace App.Runtime.Features.PlayGamesLiveOp
 {
-    public class PlayGamesLiveOpInstaller : LiveOpInstaller
+    public class PlayGamesLiveOpInstaller : LiveOpInstaller<PlayGamesLiveOpData>
     {
         public PlayGamesLiveOpInstaller(LiveOpState state) : base(state) { }
 

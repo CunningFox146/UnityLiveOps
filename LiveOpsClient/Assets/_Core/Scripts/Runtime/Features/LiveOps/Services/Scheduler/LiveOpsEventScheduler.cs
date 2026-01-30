@@ -94,7 +94,7 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
             {
                 var delay = eventState.StartTime - ServerTime;
                 
-                _logger.Debug($@"Scheduling event {eventState.Type} to start in {delay:hh\:mm\:ss}", LoggerTag.LiveOps);
+                _logger.Debug($@"Scheduling event {eventState.Type} to start in {delay:dd\:hh\:mm\:ss}", LoggerTag.LiveOps);
                 await UniTask.Delay(delay, cancellationToken: token);
 
                 _featureService.StopFeature(eventState.Type);
@@ -111,7 +111,7 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
 
         private void StartPreviouslySeenExpiredEvents()
         {
-            var expiredEvents = Calendar.SeenEvents
+            var expiredEvents = Calendar.SeenEvents.Values
                 .AsValueEnumerable()
                 .Where(IsEventExpiredAndNotActive);
 
