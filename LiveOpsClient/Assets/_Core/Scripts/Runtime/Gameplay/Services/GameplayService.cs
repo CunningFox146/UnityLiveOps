@@ -4,6 +4,7 @@ using App.Runtime.Features.UserState.Services;
 using App.Runtime.Gameplay.Models;
 using App.Runtime.Services.SceneLoader;
 using App.Shared.Logger;
+using App.Shared.Utils;
 using Cysharp.Threading.Tasks;
 using VContainer.Unity;
 
@@ -15,9 +16,9 @@ namespace App.Runtime.Gameplay.Services
         private readonly ISceneLoaderService _sceneLoader;
         private readonly IUserStateService _userState;
         private readonly ILogger _logger;
-        private readonly CancellationTokenSource _cancellationTokenSource = new();
+        private readonly CancellationTokenSource _cts = new();
 
-        private CancellationToken Token => _cancellationTokenSource.Token;
+        private CancellationToken Token => _cts.Token;
 
         public GameplayService(IGameplayHandler gameplayHandler, ISceneLoaderService sceneLoader, IUserStateService userState, ILogger logger)
         {
@@ -36,8 +37,7 @@ namespace App.Runtime.Gameplay.Services
         public void Dispose()
         {
             _gameplayHandler.GameplayEnter -= OnGameplayEnter;
-            _cancellationTokenSource.Cancel();
-            _cancellationTokenSource.Dispose();
+            _cts.CancelAndDispose();
         }
         
         private void OnGameplayEnter()

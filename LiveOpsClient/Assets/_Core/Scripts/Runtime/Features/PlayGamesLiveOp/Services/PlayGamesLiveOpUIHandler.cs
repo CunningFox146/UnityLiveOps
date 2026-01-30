@@ -50,8 +50,7 @@ namespace App.Runtime.Features.PlayGamesLiveOp.Services
         public void Dispose()
         {
             _iconHandler.IconClicked -= IconHandlerOnIconClicked;
-            _cts.Cancel();
-            _cts.Dispose();
+            _cts.CancelAndDispose();
         }
 
         public void SetConfig(ILiveOpConfig config)

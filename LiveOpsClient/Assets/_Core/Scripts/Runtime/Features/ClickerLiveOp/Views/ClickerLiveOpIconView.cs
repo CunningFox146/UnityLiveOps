@@ -28,8 +28,7 @@ namespace App.Runtime.Features.ClickerLiveOp.Views
         {
             base.Expire();
             _animation.enabled = false;
-            _animationCts?.Cancel();
-            _animationCts?.Dispose();
+            _animationCts?.CancelAndDispose();
         }
 
         private async UniTaskVoid ScheduleAnimation(CancellationToken token)

@@ -6,6 +6,7 @@ using App.Runtime.Features.LiveOps.Services.Calendar;
 using App.Runtime.Features.UserState.Services;
 using App.Shared.Logger;
 using App.Shared.Time;
+using App.Shared.Utils;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using ZLinq;
@@ -42,9 +43,7 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
 
         public void Dispose()
         {
-            Debug.Log("DDDDDIIIIII");
-            _schedulerCts?.Cancel();
-            _schedulerCts?.Dispose();
+            _schedulerCts.CancelAndDispose();
         }
 
         public void ScheduleAllEvents()

@@ -10,6 +10,7 @@ using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.AssetManagement.Scope;
 using App.Runtime.Services.Camera;
 using App.Shared.Mvc;
+using App.Shared.Utils;
 using Cysharp.Threading.Tasks;
 
 namespace App.Runtime.Features.Lobby.Controllers
@@ -53,8 +54,7 @@ namespace App.Runtime.Features.Lobby.Controllers
         {
             if (!_activeIconsCts.Remove(key, out var cts))
                 return;
-            cts.Cancel();
-            cts.Dispose();
+            cts.CancelAndDispose();
         }
 
         protected override void OnStop()
@@ -63,10 +63,7 @@ namespace App.Runtime.Features.Lobby.Controllers
             _iconsHandler.IconRemoved -= RemoveIcon;
             
             foreach (var cts in _activeIconsCts.Values)
-            {
-                cts.Cancel();
-                cts.Dispose();
-            }
+                cts.CancelAndDispose();
             _activeIconsCts.Clear();
             
             _assetScope?.Dispose();
