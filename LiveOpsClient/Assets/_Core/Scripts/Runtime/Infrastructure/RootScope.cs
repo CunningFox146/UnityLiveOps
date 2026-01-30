@@ -17,6 +17,7 @@ using App.Runtime.Gameplay.Models;
 using App.Runtime.Gameplay.Services;
 using App.Runtime.Infrastructure.Model;
 using App.Runtime.Services.AssetManagement.Provider;
+using App.Runtime.Services.Cameras;
 using App.Runtime.Services.Input;
 using App.Runtime.Services.SceneLoader;
 using App.Runtime.Services.ViewStack;
@@ -59,6 +60,7 @@ namespace App.Runtime.Infrastructure
         {
             builder.Register<ILogger, UnityLogger>(Lifetime.Singleton);
             builder.Register<ISceneLoaderService, SceneLoaderService>(Lifetime.Singleton);
+            builder.Register<ICameraProvider, CameraProvider>(Lifetime.Singleton);
             builder.Register<ViewStack>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<InputService>(Lifetime.Singleton).AsImplementedInterfaces();
             builder.Register<UnhandledExceptionMonitoringService>(Lifetime.Singleton).AsImplementedInterfaces();
@@ -73,7 +75,6 @@ namespace App.Runtime.Infrastructure
             builder.Register<IFeatureService, FeatureService>(Lifetime.Singleton);
             builder.Register<IEventIconsHandler, EventIconsHandler>(Lifetime.Singleton);
         }
-        
         
         private static void RegisterLiveOps(IContainerBuilder builder)
         {

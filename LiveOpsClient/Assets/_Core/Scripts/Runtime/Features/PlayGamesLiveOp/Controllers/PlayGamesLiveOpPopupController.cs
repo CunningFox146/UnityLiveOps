@@ -21,11 +21,13 @@ namespace App.Runtime.Features.PlayGamesLiveOp.Controllers
         private readonly ILogger _logger;
         private PlayGamesLiveOpPopup _view;
 
-        public PlayGamesLiveOpPopupController(IViewStack viewStack, IRepository<PlayGamesLiveOpData> repository, ILogger logger)
+        public PlayGamesLiveOpPopupController(IViewStack viewStack, IRepository<PlayGamesLiveOpData> repository,
+            ICameraProvider cameraProvider, ILogger logger)
         {
             _viewStack = viewStack;
             _repository = repository;
             _logger = logger;
+            _cameraProvider = cameraProvider;
         }
 
         protected override async UniTask<Empty> OnStart(PlayGamesLiveOpPopup prefab, CancellationToken token)

@@ -13,10 +13,9 @@ namespace App.Runtime.Features.Lobby
         
         protected override void Configure(IContainerBuilder builder)
         {
+            builder.RegisterInstance(_cameras);
             builder.RegisterControllerServices();
             builder.RegisterController<LobbyController>();
-            builder.Register<ICameraProvider, CameraProvider>(Lifetime.Scoped)
-                .WithParameter(_cameras);
             
             builder.RegisterEntryPoint<LobbyEntryPoint>(Lifetime.Scoped);
         }

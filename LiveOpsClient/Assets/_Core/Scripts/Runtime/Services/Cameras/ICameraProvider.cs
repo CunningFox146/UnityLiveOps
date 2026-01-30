@@ -4,5 +4,6 @@ namespace App.Runtime.Services.Cameras
     {
         UnityEngine.Camera UICamera { get; }
         UnityEngine.Camera WorldCamera { get; }
+        void SetCameras(CamerasRegistration registration);
     }
 }

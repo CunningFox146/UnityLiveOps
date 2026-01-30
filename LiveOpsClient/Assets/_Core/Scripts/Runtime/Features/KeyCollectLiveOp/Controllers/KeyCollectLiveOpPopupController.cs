@@ -21,11 +21,12 @@ namespace App.Runtime.Features.KeyCollectLiveOp.Controllers
         private readonly ILogger _logger;
         private KeyCollectLiveOpPopup _view;
 
-        public KeyCollectLiveOpPopupController(IViewStack viewStack, IRepository<KeyCollectLiveOpData> repository, ILogger logger)
+        public KeyCollectLiveOpPopupController(IViewStack viewStack, IRepository<KeyCollectLiveOpData> repository, ICameraProvider cameraProvider, ILogger logger)
         {
             _viewStack = viewStack;
             _repository = repository;
             _logger = logger;
+            _cameraProvider = cameraProvider;
         }
 
         protected override async UniTask<Empty> OnStart(KeyCollectLiveOpPopup prefab, CancellationToken token)

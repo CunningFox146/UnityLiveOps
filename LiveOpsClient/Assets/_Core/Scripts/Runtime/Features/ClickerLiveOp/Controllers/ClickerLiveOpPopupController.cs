@@ -21,10 +21,12 @@ namespace App.Runtime.Features.ClickerLiveOp.Controllers
         private readonly ILogger _logger;
         private ClickerLiveOpPopup _view;
 
-        public ClickerLiveOpPopupController(IViewStack viewStack, IRepository<ClickerLiveOpData> repository, ILogger logger)
+        public ClickerLiveOpPopupController(IViewStack viewStack, IRepository<ClickerLiveOpData> repository,
+            ICameraProvider cameraProvider, ILogger logger)
         {
             _viewStack = viewStack;
             _repository = repository;
+            _cameraProvider = cameraProvider;
             _logger = logger;
         }
 

@@ -13,10 +13,9 @@ namespace App.Runtime.Gameplay
         
         protected override void Configure(IContainerBuilder builder)
         {
+            builder.RegisterInstance(_cameras);
             builder.RegisterControllerServices();
             builder.RegisterController<HUDController>();
-            builder.Register<ICameraProvider, CameraProvider>(Lifetime.Scoped)
-                .WithParameter(_cameras);
             
             builder.RegisterEntryPoint<GameplayEntryPoint>();
         }

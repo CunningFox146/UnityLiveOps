@@ -15,5 +15,6 @@ namespace App.Runtime.Services.SceneLoader
             LoadSceneMode mode = LoadSceneMode.Single);
 
         UniTask UnloadBuiltinScene(string sceneName, CancellationToken cancellationToken);
+        UniTask UnloadAllScenes(CancellationToken cancellationToken);
     }
 }
