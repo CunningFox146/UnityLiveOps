@@ -4,6 +4,8 @@ using System.Threading;
 using Cysharp.Threading.Tasks;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.SceneManagement;
 
 namespace App.Runtime.Services.AssetManagement.Provider
 {
@@ -11,12 +13,12 @@ namespace App.Runtime.Services.AssetManagement.Provider
     {
         private readonly Dictionary<object, AsyncOperationHandle> _handleCache = new();
 
-        public UniTask InitializeAsync(CancellationToken cancellationToken)
+        public UniTask Initialize(CancellationToken token)
         {
-            return Addressables.InitializeAsync().ToUniTask(cancellationToken: cancellationToken);
+            return Addressables.InitializeAsync().ToUniTask(cancellationToken: token);
         }
 
-        public async UniTask<T> LoadAssetAsync<T>(string key, CancellationToken cancellationToken = default)
+        public async UniTask<T> LoadAsset<T>(string key, CancellationToken cancellationToken)
         {
             var handle = Addressables.LoadAssetAsync<T>(key);
             try
@@ -32,6 +34,25 @@ namespace App.Runtime.Services.AssetManagement.Provider
                 throw;
             }
         }
+
+        public async UniTask<SceneInstance> LoadScene(string key, LoadSceneMode mode,
+            CancellationToken token)
+        {
+            var handle = Addressables.LoadSceneAsync(key, mode);
+            try
+            {
+                return await handle.ToUniTask(cancellationToken: token);
+            }
+            catch (OperationCanceledException)
+            {
+                if (handle.IsValid())
+                    Addressables.Release(handle);
+                throw;
+            }
+        }
+
+        public UniTask UnloadScene(SceneInstance scene, CancellationToken token = default)
+            => Addressables.UnloadSceneAsync(scene).ToUniTask(cancellationToken: token);
 
         public void Release(object asset)
         {

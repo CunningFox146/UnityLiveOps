@@ -1,35 +1,43 @@
-using System;
+using System.Collections.Generic;
 using System.Threading;
+using App.Runtime.Services.AssetManagement.Provider;
 using Cysharp.Threading.Tasks;
+using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
 namespace App.Runtime.Services.SceneLoader
 {
     public class SceneLoaderService : ISceneLoaderService
     {
-        public async UniTask LoadSceneAsync(string sceneName, LoadSceneMode mode = LoadSceneMode.Single,
-            CancellationToken cancellationToken = default)
+        private readonly IAssetProvider _assetProvider;
+        private readonly Dictionary<string, SceneInstance> _activeScenes = new();
+
+        public SceneLoaderService(IAssetProvider assetProvider)
         {
-            await SceneManager.LoadSceneAsync(sceneName, mode).ToUniTask(cancellationToken: cancellationToken);
+            _assetProvider = assetProvider;
         }
 
-        public async UniTask LoadSceneAsync(string sceneName, IProgress<float> progress,
-            LoadSceneMode mode = LoadSceneMode.Single,
-            CancellationToken cancellationToken = default)
+        public async UniTask<Scene> LoadScene(string sceneName,
+            CancellationToken cancellationToken, LoadSceneMode mode = LoadSceneMode.Single)
         {
-            await SceneManager.LoadSceneAsync(sceneName, mode)
-                .ToUniTask(progress, cancellationToken: cancellationToken);
+            if (_activeScenes.TryGetValue(sceneName, out var activeScene))
+                return activeScene.Scene;
+            
+            var sceneInstance = await _assetProvider.LoadScene(sceneName, mode, cancellationToken);
+            _activeScenes[sceneName] = sceneInstance;
+            return sceneInstance.Scene;
         }
 
-        public async UniTask UnloadSceneAsync(string sceneName, CancellationToken cancellationToken = default)
-        {
-            await SceneManager.UnloadSceneAsync(sceneName).ToUniTask(cancellationToken: cancellationToken);
-        }
+        public UniTask UnloadScene(string sceneName, CancellationToken cancellationToken)
+            => _activeScenes.TryGetValue(sceneName, out var activeScene)
+                ? _assetProvider.UnloadScene(activeScene, cancellationToken)
+                : throw new KeyNotFoundException($"Scene '{sceneName}' was not found.");
 
-        public async UniTask UnloadSceneAsync(string sceneName, UnloadSceneOptions options,
-            CancellationToken cancellationToken = default)
-        {
-            await SceneManager.UnloadSceneAsync(sceneName, options).ToUniTask(cancellationToken: cancellationToken);
-        }
+        public UniTask LoadBuiltinScene(string sceneName,
+            CancellationToken cancellationToken, LoadSceneMode mode = LoadSceneMode.Single)
+            => SceneManager.LoadSceneAsync(sceneName, mode).ToUniTask(cancellationToken: cancellationToken);
+
+        public UniTask UnloadBuiltinScene(string sceneName, CancellationToken cancellationToken)
+            => SceneManager.UnloadSceneAsync(sceneName).ToUniTask(cancellationToken: cancellationToken);
     }
 }

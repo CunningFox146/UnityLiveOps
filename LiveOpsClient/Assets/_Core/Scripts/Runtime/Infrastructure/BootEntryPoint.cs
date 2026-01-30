@@ -33,11 +33,11 @@ namespace App.Runtime.Infrastructure
             try
             {
                 await UniTask.WhenAll(
-                    _assetProvider.InitializeAsync(token),
+                    _assetProvider.Initialize(token),
                     _userStateService.RestoreUserState(token)
                 );
                 await _liveOpsService.Initialize(token);
-                await _sceneLoader.LoadSceneAsync("Lobby", cancellationToken: token);
+                await _sceneLoader.LoadBuiltinScene("Lobby", cancellationToken: token);
             }
             catch (OperationCanceledException) { }
             catch (Exception e)

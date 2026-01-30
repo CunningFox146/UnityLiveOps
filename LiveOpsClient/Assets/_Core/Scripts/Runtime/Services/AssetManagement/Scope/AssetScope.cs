@@ -4,6 +4,8 @@ using System.Threading;
 using App.Runtime.Services.AssetManagement.Provider;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.ResourceManagement.ResourceProviders;
+using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
 namespace App.Runtime.Services.AssetManagement.Scope
@@ -44,11 +46,11 @@ namespace App.Runtime.Services.AssetManagement.Scope
         {
             ThrowIfDisposed();
 
-            var asset = await _provider.LoadAssetAsync<T>(key, token);
+            var asset = await _provider.LoadAsset<T>(key, token);
             _loadedAssets.Add(asset);
             return asset;
         }
-
+        
         public void Dispose()
         {
             if (_disposed)
