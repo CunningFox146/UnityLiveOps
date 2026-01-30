@@ -9,6 +9,7 @@ using App.Runtime.Features.UserState.Models;
 using App.Runtime.Features.UserState.Services;
 using App.Runtime.Gameplay.Models;
 using App.Runtime.Gameplay.Services;
+using App.Runtime.Infrastructure.Model;
 using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.Input;
 using App.Runtime.Services.SceneLoader;
@@ -28,6 +29,7 @@ namespace App.Runtime.Infrastructure
 {
     public class RootScope : LifetimeScope
     {
+        [SerializeField] protected RootProjectConfig _config;
         private void OnEnable()
         {
             name = $"DI {nameof(RootScope)}";
@@ -91,12 +93,12 @@ namespace App.Runtime.Infrastructure
             builder.Register<IGameplayHandler, GameplayHandler>(Lifetime.Singleton);
         }
 
-        private static void RegisterHttpClient(IContainerBuilder builder)
+        private void RegisterHttpClient(IContainerBuilder builder)
         {
 #if UNITY_WEBGL
-            builder.RegisterInstance<IHttpClient>(new UnityHttpClient("https://localhost:7158"));
+            builder.RegisterInstance<IHttpClient>(new UnityHttpClient(_config.EnvironmentUrl));
 #else
-            builder.RegisterInstance<IHttpClient>(new SystemHttpClient("https://localhost:7158"));
+            builder.RegisterInstance<IHttpClient>(new SystemHttpClient(_config.EnvironmentUrl));
 #endif
         }
     }
