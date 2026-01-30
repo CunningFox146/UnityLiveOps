@@ -1,10 +1,16 @@
+using System;
+using App.Runtime.Features.ClickerLiveOp;
+using App.Runtime.Features.Common.Models;
 using App.Runtime.Features.Common.Services;
+using App.Runtime.Features.KeyCollectLiveOp;
 using App.Runtime.Features.LiveOps.Api;
+using App.Runtime.Features.LiveOps.Factories;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.LiveOps.Services;
 using App.Runtime.Features.LiveOps.Services.Calendar;
 using App.Runtime.Features.LiveOps.Services.Scheduler;
 using App.Runtime.Features.Lobby.Models;
+using App.Runtime.Features.PlayGamesLiveOp;
 using App.Runtime.Features.UserState.Models;
 using App.Runtime.Features.UserState.Services;
 using App.Runtime.Gameplay.Models;
@@ -41,6 +47,7 @@ namespace App.Runtime.Infrastructure
             RegisterHttpClient(builder);
             RegisterUserState(builder);
             RegisterAssets(builder);
+            RegisterLiveOpsFactories(builder);
             RegisterLiveOps(builder);
             RegisterFeatureService(builder);
             RegisterGameplay(builder);
@@ -67,6 +74,7 @@ namespace App.Runtime.Infrastructure
             builder.Register<IEventIconsHandler, EventIconsHandler>(Lifetime.Singleton);
         }
         
+        
         private static void RegisterLiveOps(IContainerBuilder builder)
         {
             builder.Register<ILiveOpsCalendarHandler, LiveOpsCalendarHandler>(Lifetime.Singleton);
@@ -74,6 +82,14 @@ namespace App.Runtime.Infrastructure
             builder.Register<ILiveOpsService, LiveOpsService>(Lifetime.Singleton);
             builder.Register<ILiveOpsApiService, LiveOpsApiService>(Lifetime.Singleton);
             builder.Register<IRepository<LiveOpsCalendar>, LiveOpsRepository>(Lifetime.Singleton);
+        }
+
+        private static void RegisterLiveOpsFactories(IContainerBuilder builder)
+        {
+            RegisterLiveOpInstallerFactory(builder, FeatureType.ClickerLiveOp, state => new ClickerLiveOpInstaller(state));
+            RegisterLiveOpInstallerFactory(builder, FeatureType.KeyCollectLiveOp, state => new KeyCollectLiveOpInstaller(state));
+            RegisterLiveOpInstallerFactory(builder, FeatureType.PlayGamesLiveOp, state => new PlayGamesLiveOpInstaller(state));
+            builder.Register<ILiveOpInstallerFactory, LiveOpInstallerFactory>(Lifetime.Singleton);
         }
 
         private static void RegisterAssets(IContainerBuilder builder)
@@ -101,5 +117,8 @@ namespace App.Runtime.Infrastructure
             builder.RegisterInstance<IHttpClient>(new SystemHttpClient(_config.EnvironmentUrl));
 #endif
         }
+        
+        private static void RegisterLiveOpInstallerFactory(IContainerBuilder builder, FeatureType key, Func<LiveOpState, IInstaller> factory)
+            => builder.RegisterInstance(factory).Keyed(key);
     }
 }

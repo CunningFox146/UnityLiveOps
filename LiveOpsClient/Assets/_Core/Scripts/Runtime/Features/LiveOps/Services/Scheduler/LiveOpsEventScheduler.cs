@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using App.Runtime.Features.Common.Services;
+using App.Runtime.Features.LiveOps.Factories;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.LiveOps.Services.Calendar;
 using App.Runtime.Features.UserState.Services;
@@ -19,6 +20,7 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
         private readonly ITimeService _timeService;
         private readonly IFeatureService _featureService;
         private readonly IUserStateService _userStateService;
+        private readonly ILiveOpInstallerFactory _installerFactory;
         private readonly ILogger _logger;
         private readonly CancellationTokenSource _schedulerCts = new();
 
@@ -31,12 +33,14 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
             ITimeService timeService,
             IFeatureService featureService,
             IUserStateService userStateService,
+            ILiveOpInstallerFactory installerFactory,
             ILogger logger)
         {
             _calendarHandler = calendarHandler;
             _timeService = timeService;
             _featureService = featureService;
             _userStateService = userStateService;
+            _installerFactory = installerFactory;
             _logger = logger;
         }
 
@@ -120,7 +124,7 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
 
         private void StartLiveOp(LiveOpState eventState)
         {
-            var installer = LiveOpInstallersPerFeature.GetInstaller(eventState);
+            var installer = _installerFactory.CreateInstaller(eventState);
             _featureService.StartFeature(eventState.Type, installer);
         }
         
