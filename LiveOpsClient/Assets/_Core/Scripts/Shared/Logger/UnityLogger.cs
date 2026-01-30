@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using Cysharp.Text;
 using UnityEngine;
 
@@ -14,15 +15,11 @@ namespace App.Shared.Logger
 
         [HideInCallstack]
         public void Debug(string message, LoggerTag tag = LoggerTag.Generic)
-        {
-            UnityEngine.Debug.Log(FormatMessage(tag, message, ColorDebug));
-        }
+            => InternalDebug(message, tag);
 
         [HideInCallstack]
         public void Info(string message, LoggerTag tag = LoggerTag.Generic)
-        {
-            UnityEngine.Debug.Log(FormatMessage(tag, message, ColorInfo));
-        }
+            => UnityEngine.Debug.Log(FormatMessage(tag, message, ColorInfo));
 
         [HideInCallstack]
         public void Warn(string message, Exception exception = null, LoggerTag tag = LoggerTag.Generic)
@@ -50,6 +47,11 @@ namespace App.Shared.Logger
                 Error(exception.Message, exception);
             }
         }
+        
+        [Conditional("UNITY_EDITOR")]
+        [Conditional("DEBUG")]
+        private static void InternalDebug(string message, LoggerTag tag)
+            => UnityEngine.Debug.Log(FormatMessage(tag, message, ColorDebug));
 
         private static string FormatMessage(LoggerTag tag, string message, string color)
         {

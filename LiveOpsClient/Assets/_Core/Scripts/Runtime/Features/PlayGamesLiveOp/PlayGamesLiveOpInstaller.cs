@@ -19,7 +19,6 @@ namespace App.Runtime.Features.PlayGamesLiveOp
             base.Install(builder);
             
             builder.Register<IRepository<PlayGamesLiveOpData>, PlayGamesLiveOpRepository>(Lifetime.Scoped);
-            builder.Register<IPlayGamesLiveOpService, PlayGamesLiveOpService>(Lifetime.Scoped);
             builder.Register<PlayGamesLiveOpUIHandler>(Lifetime.Scoped).AsImplementedInterfaces();
             builder.RegisterController<PlayGamesLiveOpPopupController>();
             builder.RegisterEntryPoint<PlayGamesLiveOpEntryPoint>();

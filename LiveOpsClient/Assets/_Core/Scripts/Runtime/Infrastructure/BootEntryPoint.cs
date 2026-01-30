@@ -8,6 +8,7 @@ using App.Runtime.Features.UserState.Services;
 using App.Runtime.Services.AssetManagement.Provider;
 using App.Runtime.Services.SceneLoader;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using VContainer.Unity;
 using ILogger = App.Shared.Logger.ILogger;
 
@@ -20,17 +21,15 @@ namespace App.Runtime.Infrastructure
         private readonly IAssetProvider _assetProvider;
         private readonly IUserStateService _userStateService;
         private readonly ILiveOpsService _liveOpsService;
-        private readonly IFeatureService _featureService;
 
         public BootEntryPoint(ILogger logger, ISceneLoaderService sceneLoader, IAssetProvider assetProvider,
-            IUserStateService userStateService, ILiveOpsService liveOpsService, IFeatureService featureService)
+            IUserStateService userStateService, ILiveOpsService liveOpsService)
         {
             _logger = logger;
             _sceneLoader = sceneLoader;
             _assetProvider = assetProvider;
             _userStateService = userStateService;
             _liveOpsService = liveOpsService;
-            _featureService = featureService;
         }
 
         public async UniTask StartAsync(CancellationToken token = default)

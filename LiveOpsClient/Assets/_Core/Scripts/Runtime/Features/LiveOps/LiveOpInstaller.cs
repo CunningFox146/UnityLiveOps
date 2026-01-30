@@ -23,6 +23,8 @@ namespace App.Runtime.Features.LiveOps
             builder.RegisterController<EventIconController>();
             
             builder.Register<ILiveOpIconHandler, LiveOpIconHandler>(Lifetime.Scoped);
+            builder.Register<ILiveOpDataLifecycle, LiveOpDataLifecycle>(Lifetime.Scoped);
+            builder.Register<ILiveOpExpirationHandler, LiveOpExpirationHandler>(Lifetime.Scoped);
         }
     }
 }

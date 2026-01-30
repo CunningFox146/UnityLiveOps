@@ -19,7 +19,6 @@ namespace App.Runtime.Features.ClickerLiveOp
             base.Install(builder);
             
             builder.Register<IRepository<ClickerLiveOpData>, ClickerLiveOpRepository>(Lifetime.Scoped);
-            builder.Register<IClickerLiveOpService, ClickerLiveOpService>(Lifetime.Scoped);
             builder.Register<ClickerLiveOpUIHandler>(Lifetime.Scoped).AsImplementedInterfaces();
             builder.RegisterController<ClickerLiveOpPopupController>();
             builder.RegisterEntryPoint<ClickerLiveOpEntryPoint>();

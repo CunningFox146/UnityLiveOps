@@ -1,13 +1,13 @@
 using System;
 using System.Threading;
-using App.Runtime.Features.ClickerLiveOp.Services;
+using App.Runtime.Features.ClickerLiveOp.Model;
 using App.Runtime.Features.ClickerLiveOp.Views;
-using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Services.Camera;
 using App.Runtime.Services.ViewStack;
 using App.Shared.Mvc;
 using App.Shared.Utils;
 using App.Shared.Logger;
+using App.Shared.Repository;
 using Cysharp.Threading.Tasks;
 using Object = UnityEngine.Object;
 
@@ -16,15 +16,15 @@ namespace App.Runtime.Features.ClickerLiveOp.Controllers
     public class ClickerLiveOpPopupController : ControllerWithResult<ClickerLiveOpPopup, Empty>
     {
         private readonly IViewStack _viewStack;
-        private readonly IClickerLiveOpService _liveOpService;
+        private readonly IRepository<ClickerLiveOpData> _repository;
         private readonly ICameraProvider _cameraProvider;
         private readonly ILogger _logger;
         private ClickerLiveOpPopup _view;
 
-        public ClickerLiveOpPopupController(IViewStack viewStack, IClickerLiveOpService liveOpService, ILogger logger)
+        public ClickerLiveOpPopupController(IViewStack viewStack, IRepository<ClickerLiveOpData> repository, ILogger logger)
         {
             _viewStack = viewStack;
-            _liveOpService = liveOpService;
+            _repository = repository;
             _logger = logger;
         }
 
@@ -34,7 +34,7 @@ namespace App.Runtime.Features.ClickerLiveOp.Controllers
             {
                 _view = Object.Instantiate(prefab);
                 // _view.SetCamera(_cameraProvider.Camera);
-                _view.SetProgress(_liveOpService.Progress);
+                _view.SetProgress(_repository.Value.Progress);
                 _viewStack.Push(_view);
                 await _view.WaitForCtaClick(token);
             }

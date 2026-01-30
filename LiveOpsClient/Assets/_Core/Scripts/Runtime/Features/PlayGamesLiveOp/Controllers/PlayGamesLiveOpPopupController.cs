@@ -1,6 +1,6 @@
 using System;
 using System.Threading;
-using App.Runtime.Features.PlayGamesLiveOp.Services;
+using App.Runtime.Features.PlayGamesLiveOp.Model;
 using App.Runtime.Features.PlayGamesLiveOp.Views;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Services.Camera;
@@ -8,6 +8,7 @@ using App.Runtime.Services.ViewStack;
 using App.Shared.Mvc;
 using App.Shared.Utils;
 using App.Shared.Logger;
+using App.Shared.Repository;
 using Cysharp.Threading.Tasks;
 using Object = UnityEngine.Object;
 
@@ -16,16 +17,16 @@ namespace App.Runtime.Features.PlayGamesLiveOp.Controllers
     public class PlayGamesLiveOpPopupController : ControllerWithResult<PlayGamesLiveOpPopup, Empty>
     {
         private readonly IViewStack _viewStack;
-        private readonly IPlayGamesLiveOpService _liveOpService;
+        private readonly IRepository<PlayGamesLiveOpData> _repository;
         private readonly ICameraProvider _cameraProvider;
         private readonly LiveOpState _state;
         private readonly ILogger _logger;
         private PlayGamesLiveOpPopup _view;
 
-        public PlayGamesLiveOpPopupController(IViewStack viewStack, IPlayGamesLiveOpService liveOpService, LiveOpState state, ILogger logger)
+        public PlayGamesLiveOpPopupController(IViewStack viewStack, IRepository<PlayGamesLiveOpData> repository, LiveOpState state, ILogger logger)
         {
             _viewStack = viewStack;
-            _liveOpService = liveOpService;
+            _repository = repository;
             _state = state;
             _logger = logger;
         }
@@ -36,7 +37,7 @@ namespace App.Runtime.Features.PlayGamesLiveOp.Controllers
             {
                 _view = Object.Instantiate(prefab);
                 // _view.SetCamera(_cameraProvider.Camera);
-                _view.SetGamesPlayed(_liveOpService.GamesPlayed);
+                _view.SetGamesPlayed(_repository.Value.GamesPlayed);
                 _viewStack.Push(_view);
                 await _view.WaitForCtaClick(token);
             }

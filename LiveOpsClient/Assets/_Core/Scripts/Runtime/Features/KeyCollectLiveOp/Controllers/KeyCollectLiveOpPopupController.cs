@@ -1,12 +1,13 @@
 using System;
 using System.Threading;
-using App.Runtime.Features.KeyCollectLiveOp.Services;
+using App.Runtime.Features.KeyCollectLiveOp.Model;
 using App.Runtime.Features.KeyCollectLiveOp.Views;
 using App.Runtime.Services.Camera;
 using App.Runtime.Services.ViewStack;
 using App.Shared.Mvc;
 using App.Shared.Utils;
 using App.Shared.Logger;
+using App.Shared.Repository;
 using Cysharp.Threading.Tasks;
 using Object = UnityEngine.Object;
 
@@ -15,15 +16,15 @@ namespace App.Runtime.Features.KeyCollectLiveOp.Controllers
     public class KeyCollectLiveOpPopupController : ControllerWithResult<KeyCollectLiveOpPopup, Empty>
     {
         private readonly IViewStack _viewStack;
-        private readonly IKeyCollectLiveOpService _liveOpService;
+        private readonly IRepository<KeyCollectLiveOpData> _repository;
         private readonly ICameraProvider _cameraProvider;
         private readonly ILogger _logger;
         private KeyCollectLiveOpPopup _view;
 
-        public KeyCollectLiveOpPopupController(IViewStack viewStack, IKeyCollectLiveOpService liveOpService, ILogger logger)
+        public KeyCollectLiveOpPopupController(IViewStack viewStack, IRepository<KeyCollectLiveOpData> repository, ILogger logger)
         {
             _viewStack = viewStack;
-            _liveOpService = liveOpService;
+            _repository = repository;
             _logger = logger;
         }
 
@@ -33,7 +34,7 @@ namespace App.Runtime.Features.KeyCollectLiveOp.Controllers
             {
                 _view = Object.Instantiate(prefab);
                 // _view.SetCamera(_cameraProvider.Camera);
-                _view.SetKeysCollected(_liveOpService.KeysCollected);
+                _view.SetKeysCollected(_repository.Value.KeysCollected);
                 _viewStack.Push(_view);
                 await _view.WaitForCtaClick(token);
             }

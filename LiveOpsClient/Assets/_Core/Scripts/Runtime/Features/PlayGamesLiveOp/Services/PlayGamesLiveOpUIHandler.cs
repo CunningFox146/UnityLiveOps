@@ -1,11 +1,13 @@
 using System;
 using System.Threading;
 using App.Runtime.Features.PlayGamesLiveOp.Controllers;
+using App.Runtime.Features.PlayGamesLiveOp.Model;
 using App.Runtime.Features.PlayGamesLiveOp.Views;
 using App.Runtime.Features.LiveOps.Models;
 using App.Runtime.Features.LiveOps.Services;
 using App.Shared.Logger;
 using App.Shared.Mvc.Services;
+using App.Shared.Repository;
 using App.Shared.Utils;
 using Cysharp.Threading.Tasks;
 using VContainer.Unity;
@@ -15,7 +17,9 @@ namespace App.Runtime.Features.PlayGamesLiveOp.Services
     public class PlayGamesLiveOpUIHandler : IPlayGamesLiveOpUIHandler, IInitializable, IDisposable
     {
         private readonly IControllerService _controllerService;
-        private readonly IPlayGamesLiveOpService _playGamesService;
+        private readonly IRepository<PlayGamesLiveOpData> _repository;
+        private readonly ILiveOpExpirationHandler _expirationHandler;
+        private readonly LiveOpState _state;
         private readonly ILiveOpIconHandler _iconHandler;
         private readonly ILogger _logger;
         private readonly CancellationTokenSource _cts = new();
@@ -24,12 +28,16 @@ namespace App.Runtime.Features.PlayGamesLiveOp.Services
 
         public PlayGamesLiveOpUIHandler(
             IControllerService controllerService,
-            IPlayGamesLiveOpService playGamesService,
+            IRepository<PlayGamesLiveOpData> repository,
+            ILiveOpExpirationHandler expirationHandler,
+            LiveOpState state,
             ILiveOpIconHandler iconHandler,
             ILogger logger)
         {
             _controllerService = controllerService;
-            _playGamesService = playGamesService;
+            _repository = repository;
+            _expirationHandler = expirationHandler;
+            _state = state;
             _iconHandler = iconHandler;
             _logger = logger;
         }
@@ -61,7 +69,10 @@ namespace App.Runtime.Features.PlayGamesLiveOp.Services
             try
             {
                 await _controllerService.StartControllerWithResult<PlayGamesLiveOpPopupController, PlayGamesLiveOpPopup, Empty>(_popupPrefab, token);
-                _playGamesService.TryUnloadFeatureIfExpired();
+                await _expirationHandler.UnloadIfExpired(_state);
+                
+                if (_expirationHandler.IsExpired(_state))
+                    _repository.Clear();
             }
             catch (OperationCanceledException) { }
             catch (Exception exception)

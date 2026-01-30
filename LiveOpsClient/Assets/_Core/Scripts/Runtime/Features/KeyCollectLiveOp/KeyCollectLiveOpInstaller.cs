@@ -19,7 +19,6 @@ namespace App.Runtime.Features.KeyCollectLiveOp
             base.Install(builder);
             
             builder.Register<IRepository<KeyCollectLiveOpData>, KeyCollectLiveOpRepository>(Lifetime.Scoped);
-            builder.Register<IKeyCollectLiveOpService, KeyCollectLiveOpService>(Lifetime.Scoped);
             builder.Register<KeyCollectLiveOpUIHandler>(Lifetime.Scoped).AsImplementedInterfaces();
             builder.RegisterController<KeyCollectLiveOpPopupController>();
             builder.RegisterEntryPoint<KeyCollectLiveOpEntryPoint>();

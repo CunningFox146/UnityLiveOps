@@ -7,18 +7,22 @@ using App.Runtime.Features.UserState.Services;
 using App.Shared.Logger;
 using App.Shared.Time;
 using Cysharp.Threading.Tasks;
+using UnityEngine;
 using ZLinq;
+using ILogger = App.Shared.Logger.ILogger;
 
 namespace App.Runtime.Features.LiveOps.Services.Scheduler
 {
-    public class LiveOpsEventScheduler : ILiveOpsEventScheduler
+    public class LiveOpsEventScheduler : ILiveOpsEventScheduler, IDisposable
     {
         private readonly ILiveOpsCalendarHandler _calendarHandler;
         private readonly ITimeService _timeService;
         private readonly IFeatureService _featureService;
         private readonly IUserStateService _userStateService;
         private readonly ILogger _logger;
+        private readonly CancellationTokenSource _schedulerCts = new();
 
+        private CancellationToken Token => _schedulerCts.Token;
         private LiveOpsCalendar Calendar => _calendarHandler.Calendar;
         private DateTime ServerTime => _timeService.Now - Calendar.TimeDifference;
 
@@ -36,11 +40,18 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
             _logger = logger;
         }
 
-        public void ScheduleAllEvents(CancellationToken token)
+        public void Dispose()
+        {
+            Debug.Log("DDDDDIIIIII");
+            _schedulerCts?.Cancel();
+            _schedulerCts?.Dispose();
+        }
+
+        public void ScheduleAllEvents()
         {
             try
             {
-                ProcessCalendarEvents(token);
+                ProcessCalendarEvents();
                 StartPreviouslySeenExpiredEvents();
             }
             catch (Exception exception)
@@ -49,7 +60,7 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
             }
         }
 
-        private void ProcessCalendarEvents(CancellationToken token)
+        private void ProcessCalendarEvents()
         {
             foreach (var liveOpEvent in Calendar.Events)
             {
@@ -64,7 +75,7 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
                 }
                 else
                 {
-                    ScheduleEventStartAsync(eventState, token).Forget(_logger.LogUniTask);
+                    ScheduleEventStartAsync(eventState, Token).Forget(_logger.LogUniTask);
                 }
             }
         }
@@ -83,6 +94,8 @@ namespace App.Runtime.Features.LiveOps.Services.Scheduler
             try
             {
                 var delay = eventState.StartTime - ServerTime;
+                
+                _logger.Debug($@"Scheduling event {eventState.Type} to start in {delay:hh\:mm\:ss}", LoggerTag.LiveOps);
                 await UniTask.Delay(delay, cancellationToken: token);
 
                 _featureService.StopFeature(eventState.Type);
