@@ -15,6 +15,11 @@ MonoBehaviour:
   m_GroupName: UI Generic
   m_GUID: 219390ff9f86a4ab1b40313e1af83bb1
   m_SerializeEntries:
+  - m_GUID: 052faaac586de48259a63d0c4782560b
+    m_Address: InputSystem_Actions
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 221afe60aa25c49deaa294e7514b27df
     m_Address: JungleAdventurer SDF
     m_ReadOnly: 0
