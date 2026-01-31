@@ -1,4 +1,4 @@
-# LiveOps System - Unity Test Assignment
+# Unity Clean LiveOps Implementation
 
 A Unity-based Live Operations (LiveOps) system demonstrating event scheduling, asset management, and modular feature architecture.
 

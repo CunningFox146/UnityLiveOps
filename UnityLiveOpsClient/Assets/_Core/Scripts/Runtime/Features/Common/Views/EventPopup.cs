@@ -19,7 +19,7 @@ namespace App.Runtime.Features.Common.Views
         [SerializeField] private TextMeshProUGUI _title;
         [SerializeField] private TextMeshProUGUI _ctaText;
         [SerializeField] protected Button _ctaButton;
-        
+
         public UniTask WaitForCtaClick(CancellationToken token) =>
             _ctaButton.OnClickAsync(token);
 
